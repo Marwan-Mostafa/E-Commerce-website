@@ -1,0 +1,8 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+
+/* small custom utilities */
+.btn { @apply inline-flex items-center px-4 py-2 rounded-md font-medium; }
+.btn-primary { @apply btn bg-brand-500 text-white hover:bg-brand-700; }
