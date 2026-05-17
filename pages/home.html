@@ -9,19 +9,42 @@
         <title>Document</title>
     </head>
     <body class="bg-amber-200 w-full h-screen">
-        <header class="bg-white w-full h-[100px] flex items-center">
+        <header class="bg-white w-full h-[100px] flex items-center shadow-sm cursor-pointer transition duration-300">
             <div class="mx-auto px-4 max-w-[1286px] w-full flex justify-between items-center">
                 
-                <div class="flex items-center gap-2">
+                <div class="flex items-center gap-2 hover:scale-105 transition duration-600">
                     <img src="/assets/images/logo.svg" alt="logo_image">
-                    <p class="font-bold md:text-[34px]">Furniro</p>
+                    <p class="font-bold md:text-[34px] transition duration-300">Furniro</p>
                 </div>
                 
                 <div class="hidden md:flex items-center gap-13 list-none font-medium text-[16px] capitalize">
-                        <li><a href="#Home" class="hover:text-gray-500 transition">home</a></li>
-                        <li><a href="#Shop" class="hover:text-gray-500 transition">shop</a></li>
-                        <li><a href="#About" class="hover:text-gray-500 transition">about</a></li>
-                        <li><a href="#Contact" class="hover:text-gray-500 transition">contact</a></li>
+                        <li>
+                            <a href="#Home" class="relative group text-gray-700 transition duration-300 hover:text-black">
+                                home
+                                <span class="absolute left-0 -bottom-1 w-0 h-0.5 bg-black transition-all duration-300 group-hover:w-full"></span>
+                            </a>
+                        </li>
+
+                        <li>
+                            <a href="#Shop" class="relative group text-gray-700 transition duration-300 hover:text-black">
+                                shop
+                                <span class="absolute left-0 -bottom-1 w-0 h-0.5 bg-black transition-all duration-300 group-hover:w-full"></span>
+                            </a>
+                        </li>
+
+                        <li>
+                            <a href="#About" class="relative group text-gray-700 transition duration-300 hover:text-black">
+                                about
+                                <span class="absolute left-0 -bottom-1 w-0 h-0.5 bg-black transition-all duration-300 group-hover:w-full"></span>
+                            </a>
+                        </li>
+
+                        <li>
+                            <a href="#contact" class="relative group text-gray-700 transition duration-300 hover:text-black">
+                                contact
+                                <span class="absolute left-0 -bottom-1 w-0 h-0.5 bg-black transition-all duration-300 group-hover:w-full"></span>
+                            </a>
+                        </li>
                 </div>
 
                 <ul class="flex list-none items-center gap-8 text-xl">
