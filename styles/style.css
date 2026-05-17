@@ -3,7 +3,8 @@
 
 
 :root {
-    --main-font: "Montserrat Alternates", sans-serif;   
+    --main-font: "Montserrat Alternates", sans-serif;
+    --primary: #caa852;
   }
 
 body {
