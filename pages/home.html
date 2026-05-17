@@ -88,25 +88,31 @@
         </div>
     </header>
     
-    <main class="bannar flex">
-        <img src="/assets/images/banner.png" alt="banner logo" class="relative">
-        <div class="absolute w-[643px] h-[443px] bg-[#FFF3E3] right-25 bottom-3 rounded-[10px] flex items-center justify-center">
-            <div class="w-[561px] h-[344px] flex flex-col justify-between">
-                <p class="text-[16px] font-semibold tracking-[3px]">New Arrival</p>
-                
-                <p class="font-bold text-[52px] leading-[65px] text-(--primary)">
-                    Discover Our New Collection
-                </p>
-                
-                <p class="text-[18px] font-medium leading-6">
-                    Lorem ipsum dolor sit amet, consectetur adipiscing elit. Ut elit tellus, luctus nec ullamcorper mattis.
-                </p>
+    <main class="relative w-full">
 
-                <button class="group relative capitalize text-white text-[16px] font-bold w-[222px] h-[74px] bg-(--primary) cursor-pointer overflow-hidden 
-                transition-all duration-300 ease-out hover:shadow-lg hover:shadow-black/20
-                hover:-translate-y-1 active:scale-95">
-                    buy now
-                </button>
+        <img src="/assets/images/banner.png" alt="banner logo" class="w-full h-[500px] md:h-[700px] object-cover">
+
+        <div class="absolute inset-0 flex items-center justify-center md:justify-end px-20 -bottom-25">
+            <div class="bg-[#FFF3E3]/95 backdrop-blur-sm w-full sm:w-[90%] md:w-[550px] lg:w-[643px] 
+                    p-6 md:p-10 rounded-[10px]">
+                    
+                    <div class="flex flex-col gap-6">
+                        <p class="text-[12px] md:text-[14px] lg:text-[16px] font-semibold tracking-[3px]">New Arrival</p>
+                        
+                        <h1 class="font-bold text-[28px] leading-tight md:text-[40px] lg:text-[52px] text-(--primary)">
+                            Discover Our New Collection
+                        </h1>
+                        
+                        <p class="text-[14px] md:text-[16px] lg:text-[18px] font-medium leading-6 text-black/80">
+                            Lorem ipsum dolor sit amet, consectetur adipiscing elit. Ut elit tellus, luctus nec ullamcorper mattis.
+                        </p>
+
+                        <button class="relative capitalize text-white text-[16px] font-bold w-full sm:w-[220px] h-[55px] md:h-[65px] lg:h-[74px]  bg-(--primary) cursor-pointer overflow-hidden 
+                        transition-all duration-300 hover:shadow-lg hover:shadow-black/20
+                        hover:-translate-y-1 active:scale-95">
+                            buy now
+                        </button>
+                </div>
             </div>
         </div>
     </main>
