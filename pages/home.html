@@ -4,19 +4,32 @@
         <meta charset="UTF-8">
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
         <script src="https://cdn.jsdelivr.net/npm/@tailwindcss/browser@4"></script>
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/7.0.1/css/all.min.css" integrity="sha512-2SwdPD6INVrV/lHTZbO2nodKhrnDdJK9/kg2XD1r9uGqPo1cUbujc+IYdlYdEErWNu69gVcYgdxlmVmzTWnetw==" crossorigin="anonymous" referrerpolicy="no-referrer" />
         <link rel="stylesheet" href="/styles/style.css">
         <title>Document</title>
     </head>
     <body class="bg-amber-200 w-full h-screen">
-        <header class="bg-red-300 w-full h-[100px] flex justify-center items-center">
-            <div class="container max-w-[1286px] h-[41px] bg-amber-700 flex justify-between items-center">
+        <header class="bg-white w-full h-[100px] flex justify-center items-center">
+            <div class="container max-w-[1286px] h-[41px] flex justify-between items-center">
+                
                 <div class="flex justify-center items-center gap-[5px]">
-                    <!-- test comment -->
                     <img src="/assets/images/logo.svg" alt="logo_image">
                     <p class="font-bold text-[34px]">Furniro</p>
                 </div>
-                <div>links</div>
-                <div>icons</div>
+                
+                <div class="min-w-[430px] h-6 flex justify-between items-center list-none font-medium text-[16px] capitalize">
+                        <li><a href="#Home">home</a></li>
+                        <li><a href="#Shop">shop</a></li>
+                        <li><a href="#About">about</a></li>
+                        <li><a href="#Contact">contact</a></li>
+                </div>
+
+                <div class="flex justify-between list-none min-w-[250px] text-2xl">
+                    <li><a href="#user"><i class="fa-solid fa-user"></i></a></li>
+                    <li><a href="#search"><i class="fa-brands fa-sistrix"></i></a></li>
+                    <li><a href="#heart"><i class="fa-regular fa-heart"></i></a></li>
+                    <li><a href="#cart"><i class="fa-solid fa-cart-shopping"></i></a></li>
+                </div>
             </div>
         </header>
     </body>
