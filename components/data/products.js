@@ -1,4 +1,4 @@
-const product = [{
+export const products = [{
     id: 1,
     name: 'Syltherine',
     category: "Stylish cafe chair",
