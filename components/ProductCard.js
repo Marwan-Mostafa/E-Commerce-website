@@ -51,8 +51,8 @@ export function ProductCard(product) {
       </div>
 
       <div class="p-4 bg-gray-50">
-        <h3 class="font-semibold">${product.name}</h3>
-        <p class="text-sm text-gray-500">${product.category}</p>
+        <h3 class="font-semibold text-lg">${product.name}</h3>
+        <p class="text-sm text-gray-500 font-semibold">${product.category}</p>
 
         <div class="mt-2 font-bold">
           ${formatPrice(product.price)}
