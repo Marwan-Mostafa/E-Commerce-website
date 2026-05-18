@@ -1,3 +1,3 @@
 export function formatPrice(price){
-    return "Rp" + price.toLocalString("id-ID")
+    return "Rp" + price.toLocaleString("id-ID")
 }

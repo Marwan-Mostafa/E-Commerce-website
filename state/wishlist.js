@@ -1,6 +1,6 @@
 let wishlist = []
 
-export function toggleWishList(product){
+export function toggleWishlist(product){
     const exists = wishlist.find(p => p.id === product.id)
 
     if(exists){
