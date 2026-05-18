@@ -14,7 +14,7 @@ export function ProductCard(product) {
         <div class="absolute inset-0 bg-black/0 group-hover:bg-black/40 transition"></div>
 
         ${product.discount ? `
-          <div class="absolute top-3 right-3 bg-red-500 text-white text-md w-[48px] px-1 p-3 font-semibold rounded-full">
+          <div class="absolute top-3 right-3 bg-red-400 text-white text-md w-[48px] px-1 p-3 font-semibold rounded-full">
             ${product.discount}
           </div>
         ` : ""}
