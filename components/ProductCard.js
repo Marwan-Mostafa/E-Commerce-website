@@ -21,19 +21,19 @@ export function ProductCard(product) {
 
         <div class="absolute inset-0 flex flex-col items-center justify-center opacity-0 group-hover:opacity-100 transition">
 
-          <button class="add-to-card-btn bg-white px-10 py-2 text-sm font-semibold text-(--primary) cursor-pointer
+          <button class="add-to-cart-btn bg-white px-10 py-2 text-sm font-semibold text-(--primary) cursor-pointer
           duration-300 transition-all hover:shadow-black/20 hover:-translate-y-1 active:scale-90" data-id=${product.id}>
             Add to cart
           </button>
 
           <div class="flex gap-4 mt-4 text-white text-sm font-semibold">
            
-            <button class="add-to-card-btn cursor-pointer hover:text-gray-700 duration-300 
+            <button class="add-to-cart-btn cursor-pointer hover:text-gray-700 duration-300 
                         transition-all hover:shadow-black/20 hover:-translate-y-1 active:scale-90" data-id=${product.id}>
               <i class="fa-solid fa-share-nodes"></i> Share
             </button>
 
-            <button class="add-to-card-btn cursor-pointer hover:text-gray-700 duration-300
+            <button class="add-to-cart-btn cursor-pointer hover:text-gray-700 duration-300
                         transition-all hover:shadow-black/20 hover:-translate-y-1 active:scale-90"data-id=${product.id}>
               <i class="fa-solid fa-arrow-right-arrow-left"></i> Compare
             </button>
@@ -59,7 +59,7 @@ export function ProductCard(product) {
             ${formatPrice(product.price)}
           </span>
 
-          ${product.oldPrice? `
+          ${product.oldPrice ? `
             <span class="text-gray-400 line-through text-sm">
               ${formatPrice(product.oldPrice)}
             </span>`: ""}
