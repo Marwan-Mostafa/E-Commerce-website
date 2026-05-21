@@ -34,28 +34,39 @@ function render() {
 }
 
 function setupEvent(){
-  const showMoreBtn = document.getElementById("show-more-btn")
-  
-  if (!showMoreBtn) return
+  app.addEventListener("click", (e)=>{
+    const showMoreBtn = document.getElementById("show-more-btn")
+    if (showMoreBtn){
+      visibleProducts = Math.min(
+        visibleProducts + 4,
+        products.length
+      )
+      render()
+      return
+    }
 
-  showMoreBtn.addEventListener("click", ()=>{
-    visibleProducts += 4
+    const addCartBtn = e.target.closest(".add-to-cart-btn")
 
-    render()
-    setupEvent()
+  if(addCartBtn){
+      const productId = Number(addCartBtn.dataset.id)
+      const product = products.find(p=> p.id === productId)
+      
+      if(!product) return
+      addToCart(product)
+      return
+    }
+    const wishlistBtn = e.target.closest(".wishlist-btn");
+
+    if (wishlistBtn) {
+      const productId = Number(wishlistBtn.dataset.id);
+      const product = products.find((p) => p.id === productId);
+
+      if (!product) return;
+
+      toggleWishlist(product);
+    }
   })
 }
 
-render();
-setupEvent();
-
-window.addToCartHandler = (id) => {
-    const product = products.find(p => p.id === id);
-    addToCart(product);
-};
-
-window.wishlistHandler = (id) => {
-    const product = products.find(p => p.id === id);
-    toggleWishlist(product);
-};
-
+render()
+setupEvent()
