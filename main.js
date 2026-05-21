@@ -18,15 +18,15 @@ function render() {
 
         ${ProductGrid(products.slice(0, visibleProducts))}
 
-        <div class="flex justify-center mt-10">
+        ${visibleProducts < products.length?
+        `<div class="flex justify-center mt-10">
           
         <button id="show-more-btn" class="border border-yellow-700 text-yellow-700 px-10 py-3 
           font-semibold hover:bg-yellow-700 hover:text-white transition duration-300 cursor-pointer">
             Show more    
-        
         </button>
         
-        </div>
+        </div>`:""}
 
       </div>
     </section>
