@@ -49,6 +49,7 @@ export const products = [{
     name: "Pingky",
     category: "Cute bed set",
     price: 7000000,
+    oldPrice: 14000000,
     image: "/assets/images/productSeven.svg",
     discount: "-50%",
 },

@@ -54,8 +54,17 @@ export function ProductCard(product) {
         <h3 class="font-semibold text-lg">${product.name}</h3>
         <p class="text-sm text-gray-500 font-semibold">${product.category}</p>
 
-        <div class="mt-2 font-bold">
-          ${formatPrice(product.price)}
+        <div class="mt-3 flex items-center gap-3">
+          
+          <span class="font-bold text-lg text-gray-900">
+            ${formatPrice(product.price)}
+          </span>
+
+          ${product.oldPrice? `
+            <span class="text-gray-400 line-through text-sm">
+              ${formatPrice(product.oldPrice)}
+            </span>`: ""}
+
         </div>
       </div>
 
