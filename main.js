@@ -37,7 +37,7 @@ function render() {
 
 function setupEvent() {
   app.addEventListener("click", (e) => {
-    const showMoreBtn = document.getElementById("show-more-btn")
+    const showMoreBtn = document.getElementById("#show-more-btn")
     if (showMoreBtn) {
       visibleProducts = Math.min(
         visibleProducts + 4,
