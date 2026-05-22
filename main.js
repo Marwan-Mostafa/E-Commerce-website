@@ -1,4 +1,4 @@
-import { products } from "./components/data/products.js";
+import { products } from "./data/products.js"
 import { ProductGrid } from "./components/ProductGrid.js";
 import { addToCart } from "./state/cart.js";
 import { toggleWishlist } from "./state/wishlist.js";
@@ -37,12 +37,9 @@ function render() {
 
 function setupEvent() {
   app.addEventListener("click", (e) => {
-    const showMoreBtn = document.getElementById("#show-more-btn")
+    const showMoreBtn = document.getElementById("show-more-btn")
     if (showMoreBtn) {
-      visibleProducts = Math.min(
-        visibleProducts + 4,
-        products.length
-      )
+      visibleProducts = Math.min(visibleProducts + 4, products.length)
       render()
       return
     }
