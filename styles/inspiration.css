@@ -1,0 +1,8 @@
+.active img{
+    height: 580px;
+}
+
+.preview img{
+    height: 480px;
+    margin-top: 40px;
+}

@@ -5,23 +5,24 @@ export function InspirationSlider(inspirations) {
 
     const outerDiv = document.createElement("div")
     outerDiv.style.cssText = "flex: 1; min-width: 0;"
-    // ↑ min-width: 0 مهمة جداً مع flex عشان ماتتمددش
 
     const wrapper = document.createElement("div")
-    wrapper.style.cssText = "position: relative; overflow: hidden; width: 100%;"
+    wrapper.style.cssText = "position: relative; overflow: hidden; width: 850px;"
 
     const track = document.createElement("div")
     track.id = "slider-track"
     track.style.cssText = `
         display: flex;
-        width: ${inspirations.length * 100}%;
-        transition: transform 0.5s ease-in-out;
+        gap: 24px;
+        transition: transform 0.5s ease;
     `
 
-    inspirations.forEach((room) => {
+    inspirations.forEach((room, index) => {
         const card = InspirationCard(room)
-        card.style.width = `${100 / inspirations.length}%`
-        // ↑ كل card = جزء من الـ track الكلي
+        if(index !== 0){
+            card.style.height = "420px"
+            card.style.marginTop = "40px"
+        }
         track.appendChild(card)
     })
 
@@ -70,9 +71,10 @@ function goToNext(total) {
 
 function updateTrackPosition(index) {
     const track = document.getElementById("slider-track")
-    // ✅ العرض الفعلي للـ wrapper (مش الـ track كله)
-    const wrapperWidth = track.parentElement.offsetWidth
-    track.style.transform = `translateX(-${index * wrapperWidth}px)`
+    const CARD_WIDTH = 404
+    const GAP = 24
+
+    track.style.transform = `translateX(-${index * (CARD_WIDTH + GAP)}px)`
 }
 
 function renderDots(container, total) {
@@ -81,7 +83,7 @@ function renderDots(container, total) {
     for (let i = 0; i < total; i++) {
         const dot = document.createElement("button")
         dot.style.cssText = `
-            width: ${i === currentIndex ? "24px" : "8px"};
+            width: ${i === currentIndex ? "15px" : "8px"};
             height: 8px;
             border-radius: 4px;
             border: none;
@@ -99,5 +101,20 @@ function updateDots(activeIndex) {
     dots.forEach((dot, i) => {
         dot.style.width = i === activeIndex ? "24px" : "8px"
         dot.style.background = i === activeIndex ? "#B88E2F" : "#D9D9D9"
+    })
+}
+
+function updateActiveCard(index) {
+    const cards = document.querySelectorAll(".inspiration-card")
+
+    cards.forEach((card, i) => {
+
+        if(i === index){
+            card.classList.add("active")
+            card.classList.remove("preview")
+        } else {
+            card.classList.add("preview")
+            card.classList.remove("active")
+        }
     })
 }

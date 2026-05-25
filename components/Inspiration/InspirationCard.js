@@ -1,7 +1,7 @@
 export function InspirationCard(room) {
   const card = document.createElement("div")
 
-  card.className = "flex-shrink-0 relative"
+  card.className = "flex-shrink-0 relative w-[404px]"
 
   card.innerHTML = `
   <img 
