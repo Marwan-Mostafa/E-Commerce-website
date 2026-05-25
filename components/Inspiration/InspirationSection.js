@@ -1,9 +1,9 @@
-import { initSliderState } from "../../state/sliderState";
+import { initSliderState } from "../../state/sliderState.js";
 import { inspirations } from "../../data/inspirations.js";
 import { InspirationContent } from "./InspirationContent.js";
-// import { InspirationSlider } from "./InspirationSlider.js";
+import { InspirationSlider } from "./InspirationSlider.js";
 
-function InspirationSection(){
+export function InspirationSection(){
     initSliderState(inspirations.length)
 
     const section = document.createElement("section")

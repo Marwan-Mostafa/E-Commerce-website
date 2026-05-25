@@ -3,6 +3,7 @@ import { ProductGrid } from "./components/ProductGrid.js";
 import { addToCart } from "./state/cart.js";
 import { toggleWishlist } from "./state/wishlist.js";
 import { renderInspiration } from "./components/Inspiration/InspirationCard.js";
+import { InspirationSection } from "./components/Inspiration/InspirationSection.js";
 
 
 let visibleProducts = 4
@@ -77,3 +78,8 @@ document.addEventListener("DOMContentLoaded", () => {
   renderInspiration("inspiration-section");
 
 });
+
+document.addEventListener("DOMContentLoaded", ()=> {
+  const app = document.getElementById("app")
+  app.appendChild(InspirationSection())
+})
