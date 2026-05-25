@@ -1,6 +1,6 @@
 import { initSliderState } from "../../state/sliderState";
 import { inspirations } from "../../data/inspirations.js";
-// import { InspirationContent } from "./InspirationContent.js";
+import { InspirationContent } from "./InspirationContent.js";
 // import { InspirationSlider } from "./InspirationSlider.js";
 
 function InspirationSection(){
