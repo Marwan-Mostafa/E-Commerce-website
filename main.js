@@ -7,7 +7,6 @@ import { InspirationSection } from "./components/Inspiration/InspirationSection.
 
 let visibleProducts = 4
 
-
 // Render UI
 const app = document.getElementById("app");
   
@@ -64,16 +63,15 @@ function setupEvent() {
       const product = products.find((p) => p.id === productId);
 
       if (!product) return;
-
       toggleWishlist(product);
     }
   })
 }
 
-render()
-setupEvent()
-
 document.addEventListener("DOMContentLoaded", ()=> {
-  const app = document.getElementById("app")
-  app.appendChild(InspirationSection())
+  render()
+  setupEvent()
+
+  const inspirationDiv = document.getElementById("inspiration")
+  inspirationDiv.appendChild(InspirationSection())
 })
