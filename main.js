@@ -2,7 +2,6 @@ import { products } from "./data/products.js"
 import { ProductGrid } from "./components/ProductGrid.js";
 import { addToCart } from "./state/cart.js";
 import { toggleWishlist } from "./state/wishlist.js";
-import { InspirationSection } from "./components/Inspiration/InspirationSection.js";
 
 
 let visibleProducts = 4
@@ -55,7 +54,7 @@ function setupEvent() {
       if (!product) return
       addToCart(product)
       return
-    }
+    } 
     const wishlistBtn = e.target.closest(".wishlist-btn");
 
     if (wishlistBtn) {
@@ -68,10 +67,5 @@ function setupEvent() {
   })
 }
 
-document.addEventListener("DOMContentLoaded", ()=> {
-  render()
-  setupEvent()
-
-  const inspirationDiv = document.getElementById("inspiration")
-  inspirationDiv.appendChild(InspirationSection())
-})
+render()
+setupEvent()
