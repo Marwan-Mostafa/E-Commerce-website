@@ -65,9 +65,9 @@ export const products = [{
     name: "Syltherine",
     subtitle: "Stylish cafe chair",
     price: 2500000,
-    originalPrice: 3500000,   // null = no discount
-    badge: "sale",            // "sale" | "new" | null
-    badgeValue: "-30%",       // shown inside sale badge
+    originalPrice: 3500000,
+    badge: "sale",
+    badgeValue: "-30%",
     image: "/assets/images/products/syltherine.png",
     category: "chair",
     rating: 4.5,

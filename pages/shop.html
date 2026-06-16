@@ -103,15 +103,25 @@
             </div>
         </section>
 
-        <section class="shop-toolbar">
-            <div class="toolbar-left">
-                <button>Filter</button>
-                <div>View toggles</div>
+        <section class="shop-toolbar w-full h-[100px] bg-[#F9F1E7] flex justify-evenly items-center">
+            <div class="toolbar-left flex justify-center items-center bg-red-200 gap-5">
+                <button class="w-[85px] h-[30px]">
+                    <i class="fa-solid fa-sliders"></i>
+                    Filter
+                </button>
+                <div class="flex justify-between w-[70px]">
+                    <i class="fa-solid fa-grip"></i>
+                    <i class="fa-solid fa-tv"></i>
+                </div>
+                <p class="result-count border-l border-l-[2px] border-l-gray-500 w-[237px] h-[37px]">Showing 1-16 of 32 results</p>
             </div>
-            <p class="result-count">Showing 1-16 of 32 results</p>
-            <div class="toolbar-right">
+            <div class="w-[126px] h-[55px] flex items-center justify-between bg-orange-200">
                 <label for="">Show</label>
+                <input type="text" class=" w-[55px] h-[55px] bg-white" placeholder="16">
+            </div>
+            <div class="w-[288px] h-[55px] flex items-center justify-between bg-orange-200">   
                 <label for="">Sort by</label>
+                <input type="text" class="w-[188px] h-[55px] bg-white placeholder:text-center"placeholder="Default">
             </div>
         </section>
 
