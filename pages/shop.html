@@ -103,25 +103,59 @@
             </div>
         </section>
 
-        <section class="shop-toolbar w-full h-[100px] bg-[#F9F1E7] flex justify-evenly items-center">
-            <div class="toolbar-left flex justify-center items-center bg-red-200 gap-5">
-                <button class="w-[85px] h-[30px]">
-                    <i class="fa-solid fa-sliders"></i>
-                    Filter
-                </button>
-                <div class="flex justify-between w-[70px]">
-                    <i class="fa-solid fa-grip"></i>
-                    <i class="fa-solid fa-tv"></i>
+        <section class="shop-toolbar bg-[#F9F1E7] px-8 py-6">
+            
+            <div class="container mx-auto flex items-center justify-between flex-wrap gap-6">    
+
+                <div class="flex items-center gap-6">
+                    <button id="filterBtn" class="flex items-center gap-2 text-sm font-medium hover:opacity-70 transition">
+                        <i class="fa-solid fa-sliders"></i>
+                        <span>Filter</span>
+                    </button>
+
+                    <div class="flex items-center gap-4 text-lg">
+                        <button id="gridView" class="hover:opacity-70 transition">
+                            <i class="fa-solid fa-grip"></i>
+                        </button>
+                        <button id="listView" class="hover:opacity-70 transition">
+                            <i class="fa-solid fa-bars"></i>
+                        </button>
+                    </div>
+
+                    <div class="pl-6 border-l border-gray-400">
+                        <p class="text-sm text-gray-700">
+                            Showing 1-16 of 32 results
+                        </p>
+                    </div>
+                
                 </div>
-                <p class="result-count border-l border-l-[2px] border-l-gray-500 w-[237px] h-[37px]">Showing 1-16 of 32 results</p>
-            </div>
-            <div class="w-[126px] h-[55px] flex items-center justify-between bg-orange-200">
-                <label for="">Show</label>
-                <input type="text" class=" w-[55px] h-[55px] bg-white" placeholder="16">
-            </div>
-            <div class="w-[288px] h-[55px] flex items-center justify-between bg-orange-200">   
-                <label for="">Sort by</label>
-                <input type="text" class="w-[188px] h-[55px] bg-white placeholder:text-center"placeholder="Default">
+
+                <div class="flex items-center gap-8">
+                    <div class="flex items-center gap-4">
+                        <label for="showItems" class="text-sm font-medium">Show</label>
+                        
+                        <select id="showItems"
+                            class="w-16 h-12 bg-white px-3 outline-none border border-gray-200">
+                            <option>16</option>
+                            <option>32</option>
+                            <option>48</option>
+                        </select>
+                    </div>
+
+
+                    <div class="flex items-center gap-4">   
+                        <label for="sortItems" class="text-sm font-medium">Sort by</label>
+
+                        <select id="sortItems"
+                            class="w-44 h-12 bg-white px-3 outline-none border border-gray-200">
+                            <option>Default</option>
+                            <option>Price</option>
+                            <option>Name</option>
+                            <option>Newest</option>
+                        </select>
+                    </div>
+
+                </div>
             </div>
         </section>
 
