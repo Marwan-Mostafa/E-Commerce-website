@@ -10,3 +10,4 @@ listView.addEventListener("click", () => {
     productsContainer.classList.remove("grid-layout");
     productsContainer.classList.add("list-layout");
 });
+
