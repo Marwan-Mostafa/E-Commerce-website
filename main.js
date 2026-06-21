@@ -40,9 +40,8 @@ function setupEvent() {
     const showMoreBtn = e.target.closest("#show-more-btn")
 
     if (showMoreBtn) {
-      visibleProducts = Math.min(visibleProducts + 4, products.length)
-      render()
-      return
+      window.location.href = "./pages/shop.html";
+      return;
     }
 
     const addCartBtn = e.target.closest(".add-to-cart-btn")
