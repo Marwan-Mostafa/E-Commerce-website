@@ -1,13 +1,9 @@
-const gridView = document.getElementById("gridView")
-const listView = document.getElementById("listView")
+import { ProductCard } from "./ProductCard.js";
 
-gridView.addEventListener("click", () => {
-    productsContainer.classList.remove("list-layout");
-    productsContainer.classList.add("grid-layout");
-});
-
-listView.addEventListener("click", () => {
-    productsContainer.classList.remove("grid-layout");
-    productsContainer.classList.add("list-layout");
-});
-
+export function ProductGrid(products) {
+  return `
+    <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
+      ${products.map(ProductCard).join("")}
+    </div>
+  `;
+}
