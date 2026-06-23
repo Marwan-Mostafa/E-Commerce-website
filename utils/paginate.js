@@ -5,6 +5,6 @@ export function paginate(items, page, perPage) {
   return items.slice(start, end);
 }
 
-export function hasMore(items, perPage) {
+export function getTotalPages(items, perPage) {
   return Math.ceil(items.length / perPage);
 }
