@@ -40,8 +40,7 @@ function setupEvent() {
     const showMoreBtn = e.target.closest("#show-more-btn")
 
     if (showMoreBtn) {
-      visibleProducts = Math.min(visibleProducts + 4, products.length)
-      render()
+      window.location.href = "./pages/shop.html"
       return
     }
 

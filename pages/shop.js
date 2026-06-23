@@ -21,6 +21,12 @@ function renderShop() {
     `
 
     attachPaginationEvents(totalPages);
+    console.log({
+  totalProducts: products.length,
+  perPage: state.perPage,
+  totalPages,
+  currentPage: state.currentPage
+});
 }
 
 function attachPaginationEvents(totalPages) {
