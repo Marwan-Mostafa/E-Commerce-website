@@ -15,7 +15,7 @@ function render() {
       <div class="w-full max-w-6xl">
 
         <h2 class="text-center text-3xl font-bold mb-10">
-          Our Products
+          Related Products
         </h2>
 
         ${ProductGrid(products.slice(0, visibleProducts))}
