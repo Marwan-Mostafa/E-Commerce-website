@@ -6,8 +6,6 @@ export const products = [{
     oldPrice: 3500000,
     image: "/assets/images/productOne.svg",
     discount: "-30%",
-    colors: ["black", "brown", "purple"],
-    sizes: ["XS", "L", "XL"]
 },
 {
     id: 2,
@@ -24,35 +22,27 @@ export const products = [{
     oldPrice: 14000000,
     image: "/assets/images/productThree.svg",
     discount: "-50%",
-    colors: ["black", "brown", "purple"],
-    sizes: ["XS", "L", "XL"]
 },
 {
     id: 4,
     name: "Respira",
     category: "Outdoor bar table and stool",
     price: 500000,
-    image: "/assets/images/productFour.svg",
-    colors: ["black", "brown", "purple"],
-    sizes: ["XS", "L", "XL"]
+    image: "/assets/images/productFour.svg"
 },
 {
     id: 5,
     name: "Grifo",
     category: "Night lamp",
     price:  1500000,
-    image: "/assets/images/productFive.svg",
-    colors: ["black", "brown", "purple"],
-    sizes: ["XS", "L", "XL"]
+    image: "/assets/images/productFive.svg"
 },
 {
     id: 6,
     name: "Muggo",
     category: "Small mug",
     price: 150000,
-    image: "/assets/images/productSix.svg",
-    colors: ["black", "brown", "purple"],
-    sizes: ["XS", "L", "XL"]
+    image: "/assets/images/productSix.svg"
 },
 {
     id: 7,
@@ -62,17 +52,13 @@ export const products = [{
     oldPrice: 14000000,
     image: "/assets/images/productSeven.svg",
     discount: "-50%",
-    colors: ["black", "brown", "purple"],
-    sizes: ["XS", "L", "XL"]
 },
 {
     id: 8,
     name: "Potty",
     category: "Minimalist flower pot",
     price: 500000,
-    image: "/assets/images/productEight.svg",
-    colors: ["black", "brown", "purple"],
-    sizes: ["XS", "L", "XL"]
+    image: "/assets/images/productEight.svg"
 },
 {
     id: 9,
@@ -82,8 +68,6 @@ export const products = [{
     oldPrice: 3500000,
     image: "/assets/images/productOne.svg",
     discount: "-30%",
-    colors: ["black", "brown", "purple"],
-    sizes: ["XS", "L", "XL"]
 },
 {
     id: 10,
@@ -91,8 +75,6 @@ export const products = [{
     category: "Stylish cafe chair",
     price: 2500000,
     image: "/assets/images/productTwo.svg",
-    colors: ["black", "brown", "purple"],
-    sizes: ["XS", "L", "XL"]
 },
 {
     id: 11,
@@ -102,35 +84,27 @@ export const products = [{
     oldPrice: 14000000,
     image: "/assets/images/productThree.svg",
     discount: "-50%",
-    colors: ["black", "brown", "purple"],
-    sizes: ["XS", "L", "XL"]
 },
 {
     id: 12,
     name: "Respira",
     category: "Outdoor bar table and stool",
     price: 500000,
-    image: "/assets/images/productFour.svg",
-    colors: ["black", "white"],
-    sizes: ["S", "M"]
+    image: "/assets/images/productFour.svg"
 },
 {
     id: 13,
     name: "Grifo",
     category: "Night lamp",
     price:  1500000,
-    image: "/assets/images/productFive.svg",
-    colors: ["black", "white"],
-    sizes: ["S", "M"]
+    image: "/assets/images/productFive.svg"
 },
 {
     id: 14,
     name: "Muggo",
     category: "Small mug",
     price: 150000,
-    image: "/assets/images/productSix.svg",
-    colors: ["black", "white"],
-    sizes: ["S", "M"]
+    image: "/assets/images/productSix.svg"
 },
 {
     id: 14,
@@ -140,17 +114,13 @@ export const products = [{
     oldPrice: 14000000,
     image: "/assets/images/productSeven.svg",
     discount: "-50%",
-    colors: ["black", "white"],
-    sizes: ["S", "M"]
 },
 {
     id: 16,
     name: "Potty",
     category: "Minimalist flower pot",
     price: 500000,
-    image: "/assets/images/productEight.svg",
-    colors: ["black", "white"],
-    sizes: ["S", "M"]
+    image: "/assets/images/productEight.svg"
 },
 {
     id: 17,
@@ -160,8 +130,6 @@ export const products = [{
     oldPrice: 3500000,
     image: "/assets/images/productOne.svg",
     discount: "-30%",
-    colors: ["black", "white"],
-    sizes: ["S", "M"]
 },
 {
     id: 18,
@@ -169,8 +137,6 @@ export const products = [{
     category: "Stylish cafe chair",
     price: 2500000,
     image: "/assets/images/productTwo.svg",
-    colors: ["black", "white"],
-    sizes: ["S", "M"]
 },
 {
     id: 19,
@@ -180,17 +146,13 @@ export const products = [{
     oldPrice: 14000000,
     image: "/assets/images/productThree.svg",
     discount: "-50%",
-    colors: ["black", "white"],
-    sizes: ["S", "M"]
 },
 {
     id: 20,
     name: "Respira",
     category: "Outdoor bar table and stool",
     price: 500000,
-    image: "/assets/images/productFour.svg",
-    colors: ["black", "white"],
-    sizes: ["S", "M"]
+    image: "/assets/images/productFour.svg"
 },
 {
     id: 21,
