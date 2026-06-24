@@ -225,48 +225,48 @@
 
 
 <section class="mx-auto flex flex-col items-center">
-  <hr class="border-border mb-10"/>
-
-  <div class="flex gap-10 mb-8">
-    <button class="tab-btn active" onclick="switchTab(this, 'description')">Description</button>
-    <button class="tab-btn" onclick="switchTab(this, 'additional')">Additional Information</button>
-    <button class="tab-btn" onclick="switchTab(this, 'reviews')">Reviews [5]</button>
-  </div>
-
-  <div id="tab-description" class="tab-content text-dark/70 text-sm leading-relaxed max-w-3xl space-y-4">
-    <p>Embodying the raw, wayward spirit of rock 'n' roll, the Kilburn portable active stereo speaker takes the unmistakable look and sound of Marshall, unplugs the chords, and takes the show on the road.</p>
-    <p>Weighing in under 7 pounds, the Kilburn is a lightweight piece of vintage styled engineering. Setting the bar as one of the loudest speakers in its class, the Kilburn is a compact, stout-hearted hero with a well-balanced audio which boasts a clear midrange and extended highs for a balanced sound.</p>
-    <div class="flex justify-center items-center gap-5">
-        <img src="../assets/images/descriptionImg.svg" alt="">
-        <img src="../assets/images/descriptionImg.svg" alt="">
+    <hr class="border-border mb-10"/>
+    
+    <div id="tabs" class="flex gap-10 mb-8">
+        <button class="tab-btn active" data-tab="description">Description</button>
+        <button class="tab-btn" data-tab="additional">Additional Information</button>
+        <button class="tab-btn" data-tab="reviews">Reviews [5]</button>
     </div>
-  </div>
-
-  <div id="tab-additional" class="tab-content hidden text-sm leading-relaxed max-w-2xl">
-    <table class="w-full border-collapse">
-      <thead><tr class="bg-light"><th class="text-left py-3 px-4 font-medium text-dark">Attribute</th><th class="text-left py-3 px-4 font-medium text-dark">Details</th></tr></thead>
-      <tbody class="text-dark/70">
-
-        <tr class="border-t border-border">
-            <td class="py-3 px-4">Dimensions</td>
-            <td class="py-3 px-4">W 220 x D 95 x H 85 cm</td>
-        </tr>
-
-        <tr class="border-t border-border">
-            <td class="py-3 px-4">Weight</td>
-            <td class="py-3 px-4">48 kg</td>
-        </tr>
-
-        <tr class="border-t border-border">
-            <td class="py-3 px-4">Frame Material</td>
-            <td class="py-3 px-4">Solid Acacia Wood</td>
-        </tr>
-
-        <tr class="border-t border-border">
-            <td class="py-3 px-4">Upholstery</td>
-            <td class="py-3 px-4">Premium Fabric / Genuine Leather</td>
-        </tr>
-
+    
+    <div id="tab-description" class="tab-content text-dark/70 text-sm leading-relaxed max-w-3xl space-y-4">
+        <p>Embodying the raw, wayward spirit of rock 'n' roll, the Kilburn portable active stereo speaker takes the unmistakable look and sound of Marshall, unplugs the chords, and takes the show on the road.</p>
+        <p>Weighing in under 7 pounds, the Kilburn is a lightweight piece of vintage styled engineering. Setting the bar as one of the loudest speakers in its class, the Kilburn is a compact, stout-hearted hero with a well-balanced audio which boasts a clear midrange and extended highs for a balanced sound.</p>
+        <div class="flex justify-center items-center gap-5">
+            <img src="../assets/images/descriptionImg.svg" alt="">
+            <img src="../assets/images/descriptionImg.svg" alt="">
+        </div>
+    </div>
+    
+    <div id="tab-additional" class="tab-content hidden text-sm leading-relaxed max-w-2xl">
+        <table class="w-full border-collapse">
+            <thead><tr class="bg-light"><th class="text-left py-3 px-4 font-medium text-dark">Attribute</th><th class="text-left py-3 px-4 font-medium text-dark">Details</th></tr></thead>
+            <tbody class="text-dark/70">
+                
+                <tr class="border-t border-border">
+                    <td class="py-3 px-4">Dimensions</td>
+                    <td class="py-3 px-4">W 220 x D 95 x H 85 cm</td>
+                </tr>
+                
+                <tr class="border-t border-border">
+                    <td class="py-3 px-4">Weight</td>
+                    <td class="py-3 px-4">48 kg</td>
+                </tr>
+                
+                <tr class="border-t border-border">
+                    <td class="py-3 px-4">Frame Material</td>
+                    <td class="py-3 px-4">Solid Acacia Wood</td>
+                </tr>
+                
+                <tr class="border-t border-border">
+                    <td class="py-3 px-4">Upholstery</td>
+                    <td class="py-3 px-4">Premium Fabric / Genuine Leather</td>
+                </tr>
+                
         <tr class="border-t border-border">
             <td class="py-3 px-4">Colors</td>
             <td class="py-3 px-4">Slate Blue, Charcoal, Walnut Gold</td>
@@ -275,53 +275,283 @@
             <td class="py-3 px-4">Warranty</td>
             <td class="py-3 px-4">2 Years</td>
         </tr>
-      </tbody>
-    </table>
-  </div>
+    </tbody>
+</table>
+</div>
 
-  <div id="tab-reviews" class="tab-content hidden space-y-6 max-w-2xl">
+<div id="tab-reviews" class="tab-content hidden space-y-6 max-w-2xl">
     <div class="flex flex-col gap-5">
-
-      <div class="flex gap-4 p-5 bg-light rounded-xl" id="reviews-list">
-
-        <img src="https://i.pravatar.cc/44?img=47" class="w-11 h-11 rounded-full object-cover flex-shrink-0" alt="Reviewer" />
-        <div>
-          <div class="flex items-center gap-2 mb-1">
-            <span class="font-medium text-sm text-dark">Sarah M.</span>
-            <span class="text-[11px] text-mid">· Verified</span>
+        
+        <div class="flex gap-4 p-5 bg-light rounded-xl" id="reviews-list">
+            
+            <img src="https://i.pravatar.cc/44?img=47" class="w-11 h-11 rounded-full object-cover flex-shrink-0" alt="Reviewer" />
+            <div>
+                <div class="flex items-center gap-2 mb-1">
+                    <span class="font-medium text-sm text-dark">Sarah M.</span>
+                    <span class="text-[11px] text-mid">· Verified</span>
+                </div>
+                
+                <div class="flex gap-0.5 mb-2">
+                    <span class="star text-sm">★★★★★</span>
+                </div>
+                <p class="text-dark/70 text-sm leading-relaxed">"Absolutely love this sofa. Quality is exceptional and delivery was flawless."</p>
+            </div>
+            
         </div>
-
-        <div class="flex gap-0.5 mb-2">
-            <span class="star text-sm">★★★★★</span>
+        
+        <div class="p-5 border border-border rounded-xl">
+            <p class="font-medium text-dark mb-3 text-sm">Leave a Review</p>
+            <textarea rows="3" placeholder="Share your experience..." class="w-full border border-border rounded-lg px-4 py-3 text-sm text-dark outline-none focus:border-gold resize-none"></textarea>
+            <button class="mt-3 px-6 py-2 bg-gold text-white text-sm font-semibold rounded-lg hover:bg-goldhov transition-colors">Submit Review</button>
         </div>
-          <p class="text-dark/70 text-sm leading-relaxed">"Absolutely love this sofa. Quality is exceptional and delivery was flawless."</p>
-        </div>
-
-      </div>
-
-      <div class="p-5 border border-border rounded-xl">
-        <p class="font-medium text-dark mb-3 text-sm">Leave a Review</p>
-        <textarea rows="3" placeholder="Share your experience..." class="w-full border border-border rounded-lg px-4 py-3 text-sm text-dark outline-none focus:border-gold resize-none"></textarea>
-        <button class="mt-3 px-6 py-2 bg-gold text-white text-sm font-semibold rounded-lg hover:bg-goldhov transition-colors">Submit Review</button>
-      </div>
     </div>
-  </div>
+</div>
 </section>
 
+<div id="app"></div>
 
 
+<footer class="w-full bg-white border-t border-gray-200 mt-20">
+        <div class="max-w-[1286px] mx-auto px-6 sm:px-8 lg:px-12 py-16">
+            <div class="grid gap-12 lg:grid-cols-[1.2fr_2fr] lg:gap-20">
+                <div class="flex flex-col gap-6">
+
+                    <a href="/home.html"
+                        class="text-[26px] font-bold text-gray-900 w-fit hover:text-[#B88E2F] transition-colors duration-300"
+                        aria-label="Furniro — go to homepage">
+                        Funiro.
+                    </a>
+                    <address class="not-italic text-sm text-gray-400 leading-loose">
+                        400 University Drive Suite 200<br />
+                        Coral Gables,<br />
+                        FL 33134 USA
+                    </address>
+                </div>
+
+                <div class="flex flex-col sm:flex-row flex-wrap gap-10 sm:gap-12 justify-between">
+                    <nav aria-label="site links">
+                        <h3 class="text-sm font-semibold tracking-wide text-gray-400 mb-7">
+                            Links
+                        </h3>
+                        <ul class="flex flex-col gap-5 list-none p-0 m-0" role="list">
+                            <li>
+                                <a href="/home.html" class="
+                                    group
+                                    relative
+                                    inline-block
+                                    text-[15px]
+                                    text-gray-700
+                                    transition-colors
+                                    hover:text-gray-900
+                                    duration-300">Home
+
+                                    <span class="absolute
+                                        left-0
+                                        -bottom-1
+                                        h-[1.5px]
+                                        w-0
+                                        bg-gray-900
+                                        transition-all
+                                        duration-300
+                                        group-hover:w-full"></span>
+                                </a>
+                            </li>
+
+                            <li>
+                                <a href="/pages/shop.html" class="
+                                    group
+                                    relative
+                                    inline-block
+                                    text-gray-700
+                                    text-[15px]
+                                    hover:text-gray-900
+                                    transition-colors
+                                    hover:text-black
+                                    duration-300">Shop
+
+                                    <span class="absolute
+                                        left-0
+                                        -bottom-1
+                                        h-[1.5px]
+                                        w-0
+                                        bg-gray-900
+                                        transition-all
+                                        duration-300
+                                        group-hover:w-full"></span>
+                                </a>
+                            </li>
+
+                            <li>
+                                <a href="/pages/about.html" class="
+                                    group
+                                    relative
+                                    inline-block
+                                    text-gray-700
+                                    text-[15px]
+                                    hover:
+                                    transition-colors
+                                    hover:text-black
+                                    duration-300">About
+
+                                    <span class="absolute
+                                        left-0
+                                        -bottom-1
+                                        h-[1.5px]
+                                        w-0
+                                        bg-black
+                                        transition-all
+                                        duration-300
+                                        group-hover:w-full"></span>
+                                </a>
+                            </li>
+
+                            <li>
+                                <a href="/pages/contact.html" class="
+                                    group
+                                    relative
+                                    inline-block
+                                    text-gray-700
+                                    hover:text-gray-900
+                                    transition-colors
+                                    hover:text-black
+                                    duration-300">Contact
+
+                                    <span class="absolute
+                                        left-0
+                                        -bottom-1
+                                        h-[1.5px]
+                                        w-0
+                                        bg-black
+                                        transition-all
+                                        duration-300
+                                        group-hover:w-full"></span>
+                                </a>
+                            </li>
+                        </ul>
+                    </nav>
+
+                    <div>
+                        <h3 class="text-sm font-semibold tracking-wide text-gray-400 mb-7">
+                            Help
+                        </h3>
+                        <ul class="flex flex-col gap-5 list-none p-0 m-0" role="list">
+                            <li>
+                                <a href="#" class="group relative inline-block text-[15px] text-gray-700
+                                            hover:text-gray-900 transition-colors duration-300">
+                                    Payment Options
+                                    <span class="absolute left-0 -bottom-1 h-[1.5px] w-0 bg-gray-900
+                                                    transition-all duration-300 group-hover:w-full"></span>
+                                </a>
+                            </li>
+
+                            <li>
+                                <a href="#" class="group relative inline-block text-[15px] text-gray-700
+                                            hover:text-gray-900 transition-colors duration-300">
+                                    Returns
+                                    <span class="absolute left-0 -bottom-1 h-[1.5px] w-0 bg-gray-900
+                                                    transition-all duration-300 group-hover:w-full"></span>
+                                </a>
+                            </li>
+
+                            <li>
+                                <a href="#" class="group relative inline-block text-[15px] text-gray-700
+                                            hover:text-gray-900 transition-colors duration-300">
+                                    Privacy Policies
+                                    <span class="absolute left-0 -bottom-1 h-[1.5px] w-0 bg-gray-900
+                                                    transition-all duration-300 group-hover:w-full"></span>
+                                </a>
+                            </li>
+                        </ul>
+
+                    </div>
+                    <div class="min-w-[240px]">
+
+                        <h3 class="text-sm font-semibold text-gray-400 tracking-wide mb-7">
+                            Newsletter
+                        </h3>
+                        <form id="newsletter-form" novalidate class="
+                            flex
+                            flex-col
+                            gap-3">
+
+                            <div class="
+                            flex items-center
+                            border-b border-gray-800 pb-2
+                            focus-within:border-[#B88E2F]
+                            transition-colors duration-300">
 
 
+                                <label for="newsletter-email" class="sr-only">
+                                    Email address
+                                </label>
 
+                                <input type="email" id="newsletter-email" name="email"
+                                    placeholder="Enter Your Email Address" required class="
+                                    flex-1 min-w-0
+                                    bg-transparent border-none outline-none
+                                    text-sm text-gray-800
+                                    placeholder:text-gray-400 placeholder:text-[13px]
+                                    py-1
+                                " />
 
-<script>
-  function switchTab(btn, tabId) {
-    document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
-    document.querySelectorAll('.tab-content').forEach(c => c.classList.add('hidden'));
-    btn.classList.add('active');
-    document.getElementById('tab-' + tabId).classList.remove('hidden');
-  }
+                                <button type="submit" class="
+                                    ml-4 shrink-0
+                                    text-[12px] font-bold tracking-[0.12em] uppercase
+                                    text-gray-900 bg-transparent border-none
+                                    whitespace-nowrap cursor-pointer
+                                    hover:text-[#B88E2F] transition-colors duration-300
+                                    focus-visible:outline-none focus-visible:text-[#B88E2F]">
+                                    Subscribe
+                                </button>
 
-</script>
+                            </div>
+                            <p id="newsletter-msg" class="text-[12px] min-h-[1rem]" aria-live="polite"></p>
+
+                        </form>
+
+                    </div>
+
+                </div>
+
+            </div>
+
+            <div class="border-t border-gray-200 mt-10">
+
+                <div class="
+            max-w-[1286px] mx-auto
+            px-6 sm:px-8 lg:px-12 py-6
+            flex flex-col md:flex-row
+            items-center justify-between
+            gap-4
+            ">
+                    <p class="text-sm text-gray-500" id="footer-copyright">
+                        2025 Funiro. All rights reserved.
+                    </p>
+
+                    <div class="flex items-center gap-6">
+
+                        <a href="" aria-label="Furniro on Facebook"
+                            class="text-sm text-gray-400 hover:text-gray-900 transition-colors duration-300">
+                            Facebook
+                        </a>
+
+                        <a href="" aria-label="Furniro on Instagram"
+                            class="text-sm text-gray-400 hover:text-gray-900 transition-colors duration-300">
+                            Instagram
+                        </a>
+
+                        <a href="" aria-label="Furniro on Twitter / X"
+                            class="text-sm text-gray-400 hover:text-gray-900 transition-colors duration-300">
+                            Twitter
+                        </a>
+
+                    </div>
+
+                </div>
+            </div>
+
+        </footer>
+        
+<script type="module" src="singleProduct.js"></script>
 </body>
 </html>

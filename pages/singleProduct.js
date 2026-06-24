@@ -8,7 +8,7 @@ let visibleProducts = 4
 
 // Render UI
 const app = document.getElementById("app");
-  
+
 function render() {
   app.innerHTML = `
     <section class="w-full flex justify-center py-16 px-4">
@@ -53,7 +53,7 @@ function setupEvent() {
       if (!product) return
       addToCart(product)
       return
-    } 
+    }
     const wishlistBtn = e.target.closest(".wishlist-btn");
 
     if (wishlistBtn) {
@@ -68,3 +68,34 @@ function setupEvent() {
 
 render()
 setupEvent()
+
+
+// Switch Tabs Part
+
+const tabsContainer = document.querySelector(".flex.gap-10.mb-8");
+
+const tabs = document.querySelectorAll(".tab-btn");
+
+const contents = document.querySelectorAll(".tab-content");
+
+tabsContainer.addEventListener("click", (e) => {
+  const button = e.target.closest(".tab-btn");
+
+  if (!button) return;
+
+  const targetTab = button.dataset.tab;
+
+  tabs.forEach((tab) => {
+    tab.classList.remove("active");
+  });
+
+  button.classList.add("active");
+
+  contents.forEach((content) => {
+    content.classList.add("hidden");
+  });
+
+  document
+    .getElementById(`tab-${targetTab}`)
+    .classList.remove("hidden");
+});
