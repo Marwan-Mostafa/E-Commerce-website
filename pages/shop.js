@@ -4,6 +4,7 @@ import { state } from "../state/shopState.js"
 import { sortProducts } from "../utils/sortProducts.js";
 import { setupFilters } from "../components/ FilterBar.js";
 import { ProductGrid } from "../components/ProductGrid.js"
+import { ProductCard } from "../components/ProductCard.js"
 import { Pagination } from "../components/ Pagination.js"
 
 
@@ -49,3 +50,11 @@ function attachPaginationEvents(totalPages) {
 }
 setupFilters(renderShop, products)
 renderShop()
+
+const addToCartButtons = document.getElementsByClassName("add-to-cart-btn");
+
+Array.from(addToCartButtons).forEach(button => {
+    button.addEventListener("click", () => {
+        window.location.href = "./singleProduct.html";
+    });
+});
