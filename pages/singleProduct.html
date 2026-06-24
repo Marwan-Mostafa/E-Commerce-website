@@ -87,7 +87,7 @@
   </div>
 </div>
 
-<!-- <section class="max-w-[1440px] mx-auto px-8 lg:px-16 py-12 lg:py-16">
+<section class="max-w-[1440px] mx-auto px-8 lg:px-16 py-12 lg:py-16">
   <div class="grid lg:grid-cols-2 gap-12 xl:gap-20 items-start">
 
     <div class="flex gap-4">
@@ -144,44 +144,79 @@
       </p>
 
       <div>
-        <p class="text-sm font-medium text-mid mb-2.5">Size</p>
-        <div class="flex gap-2" id="size-group">
-          <button class="size-btn active" onclick="selectSize(this)">L</button>
-          <button class="size-btn" onclick="selectSize(this)">XL</button>
-          <button class="size-btn" onclick="selectSize(this)">XS</button>
+        <p class="text-sm font-medium text-mid mb-2.5">
+            Size
+        </p>
+
+        <div id="size-group" class="flex gap-2">
+            <button class="size-btn active" data-size="L">L</button>
+            <button class="size-btn" data-size="XL">XL</button>
+            <button class="size-btn" data-size="XS">XS</button>
         </div>
-      </div>
+    </div>
 
       <div>
-        <p class="text-sm font-medium text-mid mb-2.5">Color</p>
-        <div class="flex gap-3" id="color-group">
-          <button class="color-swatch active" style="background:#6B7EAF;" onclick="selectColor(this, 'Slate Blue')" title="Slate Blue"></button>
-          <button class="color-swatch" style="background:#2C2C2C;" onclick="selectColor(this, 'Charcoal')" title="Charcoal"></button>
-          <button class="color-swatch" style="background:#B88E2F;" onclick="selectColor(this, 'Walnut Gold')" title="Walnut Gold"></button>
+        <p class="text-sm font-medium text-mid mb-2.5">
+            Color
+        </p>
+
+        <div id="color-group" class="flex gap-3">
+
+            <button
+            class="color-swatch active"
+            data-color="Slate Blue"
+            title="Slate Blue"
+            style="background:#6B7EAF;"
+            ></button>
+
+            <button
+            class="color-swatch"
+            data-color="Charcoal"
+            title="Charcoal"
+            style="background:#2C2C2C;"
+            ></button>
+
+            <button
+            class="color-swatch"
+            data-color="Walnut Gold"
+            title="Walnut Gold"
+            style="background:#B88E2F;"
+            ></button>
+
         </div>
-      </div>
+    </div>
 
       <div class="flex flex-wrap items-center gap-3 pt-2">
 
         <div class="flex items-center border border-border rounded-lg overflow-hidden">
-          <button class="qty-btn" onclick="changeQty(-1)" aria-label="Decrease">−</button>
-          <input id="qty-input" type="number" value="1" min="1" max="99"
-            class="w-12 text-center text-sm font-medium border-none outline-none py-2" readonly />
-          <button class="qty-btn" onclick="changeQty(1)" aria-label="Increase">+</button>
+
+            <button id="decrease-qty" class="qty-btn" aria-label="Decrease quantity">−</button>
+
+            <input id="qty-input" type="number" value="1" min="1"
+            readonly class="w-12 text-center text-sm font-medium border-none outline-none py-2"/>
+
+            <button
+            id="increase-qty"
+            class="qty-btn"
+            aria-label="Increase quantity">
+            +
+            </button>
+
         </div>
 
-        
-        <button id="add-to-cart-btn"
-          onclick="addToCart()"
-          class="flex-1 sm:flex-none px-8 py-3 bg-dark text-white text-sm font-semibold rounded-lg hover:bg-gold transition-colors duration-200 min-w-[160px]">
-          Add To Cart
+        <button
+            id="add-to-cart-btn"
+            class="flex-1 sm:flex-none px-8 py-3 bg-dark text-white text-sm font-semibold rounded-lg hover:bg-gold transition-colors duration-200 min-w-[160px]">
+            Add To Cart
         </button>
 
-
-        <button class="flex-1 sm:flex-none px-6 py-3 border border-dark text-dark text-sm font-semibold rounded-lg hover:border-gold hover:text-gold transition-colors min-w-[140px]">
-          + Compare
+        <button
+            id="compare-btn"
+            class="flex-1 sm:flex-none px-6 py-3 border border-dark text-dark text-sm font-semibold rounded-lg hover:border-gold hover:text-gold transition-colors min-w-[140px]">
+            + Compare
         </button>
-      </div>
+
+        </div>
 
       
       <hr class="border-border" />
@@ -221,7 +256,7 @@
       </div>
     </div>
   </div>
-</section>  -->
+</section> 
 
 
 <section class="mx-auto flex flex-col items-center">
@@ -551,7 +586,7 @@
             </div>
 
         </footer>
-        
+
 <script type="module" src="singleProduct.js"></script>
 </body>
 </html>
