@@ -24,13 +24,9 @@ overlay.addEventListener(
 
 export function renderCartDrawer() {
 
-    const cartItems =
-        document.getElementById(
-            "cart-items"
-        );
+    const cartItems =document.getElementById("cart-items");
 
-    const cart =
-        getCart();
+    const cart = getCart();
 
     cartItems.innerHTML = cart
         .map(item => `
@@ -70,6 +66,7 @@ export function renderCartDrawer() {
   `).join("");
 
     renderSubtotal();
+    updateCartBadge();
 }
 
 
@@ -114,3 +111,24 @@ document.addEventListener(
         renderCartDrawer();
     }
 );
+
+
+export function updateCartBadge() {
+
+    const badge = document.getElementById("cart-badge");
+
+    const cart = getCart();
+    const totalItems = cart.reduce(
+        (sum, item) =>
+            sum + item.quantity,
+        0
+    );
+
+    badge.textContent = totalItems;
+
+    if (totalItems > 0) {
+        badge.classList.remove("hidden");
+    } else {
+        badge.classList.add("hidden");
+    }
+}

@@ -8,10 +8,20 @@ import { setupColorSelector } from "./modules/colorSelector.js";
 import { setupQuantity } from "./modules/quantity.js";
 import { setupAddToCart } from "./modules/addToCartHandler.js";
 import { formatPrice } from "../utils/formatPrice.js";
+import { openCartDrawer, renderCartDrawer } from "../components/cartDrawer.js";
+
+const openCartBtn = document.getElementById("open-cart-btn");
+
+openCartBtn.addEventListener("click", () => {
+  renderCartDrawer();
+  openCartDrawer();
+});
 
 const params = new URLSearchParams(window.location.search);
 const productId = Number(params.get("id"));
 const product = products.find(p => p.id === productId);
+
+
 console.log(product);
 
 renderProduct(product);
@@ -137,7 +147,7 @@ function renderProduct(product) {
   document.getElementById("meta-sku").textContent = `SKU-${product.id}`
 
   document.getElementById("product-tags").textContent = product.category;
-  
+
   document.getElementById("main-image").src = product.image;
 }
 
