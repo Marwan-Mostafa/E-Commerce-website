@@ -76,3 +76,17 @@ Array.from(addToCartButtons).forEach(button => {
         window.location.href = "../singleProduct/singleProduct.html";
     });
 });
+
+document.addEventListener("click", (e) => {
+
+  const productCard =
+    e.target.closest(".product-card");
+
+  if (!productCard) return;
+
+  const productId =
+    productCard.dataset.id;
+
+  window.location.href =
+    `./singleProduct/singleProduct.html?id=${productId}`;
+});
