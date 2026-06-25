@@ -22,11 +22,7 @@ export function addToCart(product) {
         item.id === product.id && item.size === product.size && item.color === product.color
     })
 
-    if (existingItem) {
-        existingItem.quantity += product.quantity
-    } else {
-        cart.push(print)
-    }
+        (existingItem) ? (existingItem.quantity += product.quantity) : cart.push(print)
 
     saveCart()
     console.log("Cart:", cart)
