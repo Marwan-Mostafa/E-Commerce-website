@@ -7,6 +7,7 @@ import { setupSizeSelector } from "./modules/sizeSelector.js";
 import { setupColorSelector } from "./modules/colorSelector.js";
 import { setupQuantity } from "./modules/quantity.js";
 import { setupAddToCart } from "./modules/addToCartHandler.js";
+import { formatPrice } from "../utils/formatPrice.js";
 
 
 let visibleProducts = 4
@@ -45,7 +46,7 @@ function setupEvent() {
     const showMoreBtn = e.target.closest("#show-more-btn")
 
     if (showMoreBtn) {
-      window.location.href = "./shop.html"
+      window.location.href = "../../pages/shop.html"
       return
     }
 
@@ -110,3 +111,78 @@ tabsContainer.addEventListener("click", (e) => {
 });
 
 
+const params = new URLSearchParams(
+  window.location.search
+);
+
+const productId = Number(
+  params.get("id")
+);
+
+const product = products.find(
+  p => p.id === productId
+);
+
+console.log(product);
+
+if (!product) {
+
+  window.location.href = "./shop.html";
+
+  throw new Error(
+    "Product Not Found"
+  );
+}
+
+function renderProduct(product) {
+
+  document.getElementById(
+    "breadcrumb-product-name"
+  ).textContent = product.name;
+
+  document.getElementById(
+    "product-name"
+  ).textContent = product.name;
+
+  document.getElementById(
+    "product-price"
+  ).textContent =
+    formatPrice(product.price);
+
+  document.getElementById(
+    "product-category"
+  ).textContent =
+    product.category;
+
+  document.getElementById(
+    "meta-sku"
+  ).textContent =
+    `SKU-${product.id}`;
+
+  document.getElementById(
+    "product-tags"
+  ).textContent =
+    product.category;
+}
+
+document.getElementById(
+  "main-image"
+).src = product.image;
+
+const thumbnails =
+document.getElementById("thumbnails");
+
+thumbnails.innerHTML = `
+  <div
+    class="thumb active"
+    data-image="${product.image}">
+
+    <img
+      src="${product.image}"
+      class="w-full h-16 object-cover"
+      alt="${product.name}" />
+
+  </div>
+`;
+
+renderProduct(product);

@@ -86,9 +86,9 @@
     <div class="max-w-[1440px] mx-auto px-8 lg:px-16 py-3.5 flex items-center gap-2 text-md text-mid">
       <a href="../home.html" class="hover:text-dark transition-colors">Home</a>
       <i class="fa-solid fa-chevron-right"></i>
-      <a href="./shop.html" class="hover:text-dark transition-colors">Shop</a>
+      <a href="../pages/shop.html" class="hover:text-dark transition-colors">Shop</a>
       <span class="mx-1 text-dark/30">|</span>
-      <span class="text-dark font-medium"></span>
+      <span id="breadcrumb-product-name" class="text-dark font-medium"></span>
     </div>
   </div>
 
@@ -96,37 +96,11 @@
     <div class="grid lg:grid-cols-2 gap-12 xl:gap-20 items-start">
 
       <div class="flex gap-4">
-        <div id="thumbnails" class="flex flex-col gap-3 w-20 flex-shrink-0">
-
-          <div class="thumb active"
-            data-image="https://images.unsplash.com/photo-1555041469-a586c61ea9bc?w=800&q=85&fit=crop">
-            <img src="https://images.unsplash.com/photo-1555041469-a586c61ea9bc?w=160&q=80&fit=crop"
-              class="w-full h-16 object-cover" alt="View 1" />
-          </div>
-
-          <div class="thumb"
-            data-image="https://images.unsplash.com/photo-1493663284031-b7e3aefcae8e?w=800&q=85&fit=crop">
-            <img src="https://images.unsplash.com/photo-1493663284031-b7e3aefcae8e?w=160&q=80&fit=crop"
-              class="w-full h-16 object-cover" alt="View 2" />
-          </div>
-
-          <div class="thumb"
-            data-image="https://images.unsplash.com/photo-1567767292278-a4f21aa2d36e?w=800&q=85&fit=crop">
-            <img src="https://images.unsplash.com/photo-1567767292278-a4f21aa2d36e?w=160&q=80&fit=crop"
-              class="w-full h-16 object-cover" alt="View 3" />
-          </div>
-
-          <div class="thumb"
-            data-image="https://images.unsplash.com/photo-1540518614846-7eded433c457?w=800&q=85&fit=crop">
-            <img src="https://images.unsplash.com/photo-1540518614846-7eded433c457?w=160&q=80&fit=crop"
-              class="w-full h-16 object-cover" alt="View 4" />
-          </div>
-
-        </div>
+        <div id="thumbnails" class="flex flex-col gap-3 w-20 flex-shrink-0"></div>
 
         <div class="flex-1 rounded-xl overflow-hidden bg-light aspect-square">
-          <img id="main-image" src="https://images.unsplash.com/photo-1555041469-a586c61ea9bc?w=800&q=85&fit=crop"
-            alt="Asgaard Sofa" class="w-full h-full object-cover transition-opacity duration-300" />
+          <img id="main-image" src=""
+            alt="" class="w-full h-full object-cover transition-opacity duration-300" />
         </div>
       </div>
 
@@ -134,8 +108,8 @@
       <div class="flex flex-col gap-5">
 
         <div>
-          <h1 class="font-montserrat text-3xl lg:text-4xl font-semibold text-dark leading-tight"></h1>
-          <p class="text-mid text-xl font-medium mt-2"></p>
+          <h1 id="product-name" class="font-montserrat text-3xl lg:text-4xl font-semibold text-dark leading-tight"></h1>
+          <p  id="product-price" class="text-mid text-xl font-medium mt-2"></p>
         </div>
 
         <div class="flex items-center gap-3">
@@ -220,17 +194,17 @@
           <div class="flex gap-3">
             <span class="min-w-[72px]">SKU</span>
             <span class="text-dark/50">:</span>
-            <span id="meta-sku" class="text-dark/70">SS001</span>
+            <span id="meta-sku" class="text-dark/70"></span>
           </div>
           <div class="flex gap-3">
             <span class="min-w-[72px]">Category</span>
             <span class="text-dark/50">:</span>
-            <span class="text-dark/70">Sofas</span>
+            <span  id="product-category" class="text-dark/70"></span>
           </div>
           <div class="flex gap-3">
             <span class="min-w-[72px]">Tags</span>
             <span class="text-dark/50">:</span>
-            <span class="text-dark/70">Sofa, Chair, Home, Shop</span>
+            <span id="product-tags" class="text-dark/70"></span>
           </div>
           <div class="flex gap-3 items-center">
             <span class="min-w-[72px]">Share</span>
