@@ -1,22 +1,27 @@
 import { productState } from "../state/productState.js";
 import { addToCart } from "../../state/cart.js";
 import { products } from "../../data/products.js";
-
-export function setupAddToCart(products) {
-
+import { openCartDrawer } from "../../components/cartDrawer.js";
+import { renderCartDrawer } from "../../components/cartDrawer.js";
+export function setupAddToCart(product) {
+console.log("Handler Product:", product);
     const addToCartBtn = document.getElementById("add-to-cart-btn")
     addToCartBtn.addEventListener("click", () => {
-
         const cartItem = {
-            ...products,
-            image: productState.selectedImage,
-            size: productState.selectedSize,
-            color: productState.selectedColor,
+            id: product.id,
+            name: product.name,
+            image: productState.selectedImage || product.image,
+            price: product.price,
             quantity: productState.quantity,
+            size: productState.selectedSize,
+            color: productState.selectedColor
         };
-
-        addToCart(cartItem);
         console.log(cartItem);
+        addToCart(cartItem);
+        renderCartDrawer();
+        openCartDrawer();
+        console.log("Added");
+        console.log("Added: ", cartItem);
     }
     );
 }

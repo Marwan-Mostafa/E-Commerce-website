@@ -9,6 +9,19 @@ import { setupQuantity } from "./modules/quantity.js";
 import { setupAddToCart } from "./modules/addToCartHandler.js";
 import { formatPrice } from "../utils/formatPrice.js";
 
+const params = new URLSearchParams(window.location.search);
+const productId = Number(params.get("id"));
+const product = products.find(p => p.id === productId);
+console.log(product);
+
+renderProduct(product);
+
+
+setupGallery();
+setupSizeSelector();
+setupColorSelector();
+setupQuantity();
+setupAddToCart(product);
 
 let visibleProducts = 4
 
@@ -74,11 +87,7 @@ function setupEvent() {
 
 render()
 setupEvent()
-setupGallery();
-setupSizeSelector();
-setupColorSelector();
-setupQuantity();
-setupAddToCart()
+
 
 // Switch Tabs Part
 
@@ -105,84 +114,40 @@ tabsContainer.addEventListener("click", (e) => {
     content.classList.add("hidden");
   });
 
-  document
-    .getElementById(`tab-${targetTab}`)
-    .classList.remove("hidden");
+  document.getElementById(`tab-${targetTab}`).classList.remove("hidden");
 });
 
 
-const params = new URLSearchParams(
-  window.location.search
-);
-
-const productId = Number(
-  params.get("id")
-);
-
-const product = products.find(
-  p => p.id === productId
-);
-
-console.log(product);
-
 if (!product) {
+  window.location.href = "./shop.html"
 
-  window.location.href = "./shop.html";
-
-  throw new Error(
-    "Product Not Found"
-  );
+  throw new Error("Product Not Found")
 }
 
 function renderProduct(product) {
 
-  document.getElementById(
-    "breadcrumb-product-name"
-  ).textContent = product.name;
+  document.getElementById("breadcrumb-product-name").textContent = product.name;
 
-  document.getElementById(
-    "product-name"
-  ).textContent = product.name;
+  document.getElementById("product-name").textContent = product.name;
 
-  document.getElementById(
-    "product-price"
-  ).textContent =
-    formatPrice(product.price);
+  document.getElementById("product-price").textContent = formatPrice(product.price);
 
-  document.getElementById(
-    "product-category"
-  ).textContent =
-    product.category;
+  document.getElementById("product-category").textContent = product.category;
 
-  document.getElementById(
-    "meta-sku"
-  ).textContent =
-    `SKU-${product.id}`;
+  document.getElementById("meta-sku").textContent = `SKU-${product.id}`
 
-  document.getElementById(
-    "product-tags"
-  ).textContent =
-    product.category;
+  document.getElementById("product-tags").textContent = product.category;
+  
+  document.getElementById("main-image").src = product.image;
 }
 
-document.getElementById(
-  "main-image"
-).src = product.image;
 
-const thumbnails =
-document.getElementById("thumbnails");
+
+const thumbnails = document.getElementById("thumbnails");
 
 thumbnails.innerHTML = `
-  <div
-    class="thumb active"
-    data-image="${product.image}">
-
-    <img
-      src="${product.image}"
-      class="w-full h-16 object-cover"
-      alt="${product.name}" />
-
+  <div class="thumb active" data-image="${product.image}">
+    <img src="${product.image}" class="w-full h-16 object-cover" alt="${product.name}" />
   </div>
 `;
 
-renderProduct(product);

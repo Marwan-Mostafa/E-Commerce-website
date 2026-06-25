@@ -8,7 +8,7 @@ let visibleProducts = 4
 
 // Render UI
 const app = document.getElementById("app");
-  
+
 function render() {
   app.innerHTML = `
     <section class="w-full flex justify-center py-16 px-4">
@@ -53,7 +53,7 @@ function setupEvent() {
       if (!product) return
       addToCart(product)
       return
-    } 
+    }
     const wishlistBtn = e.target.closest(".wishlist-btn");
 
     if (wishlistBtn) {
@@ -72,9 +72,9 @@ setupEvent()
 const addToCartButtons = document.getElementsByClassName("add-to-cart-btn");
 
 Array.from(addToCartButtons).forEach(button => {
-    button.addEventListener("click", () => {
-        window.location.href = "../singleProduct/singleProduct.html";
-    });
+  button.addEventListener("click", () => {
+    window.location.href = "../singleProduct/singleProduct.html";
+  });
 });
 
 document.addEventListener("click", (e) => {
@@ -84,9 +84,8 @@ document.addEventListener("click", (e) => {
 
   if (!productCard) return;
 
-  const productId =
-    productCard.dataset.id;
+  const productId = Number(productCard.dataset.id)
 
   window.location.href =
-    `./singleProduct/singleProduct.html?id=${productId}`;
+    `./singleProduct/singleProduct.html?id=${productId}`
 });

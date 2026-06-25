@@ -23,11 +23,11 @@ function renderShop() {
 
     attachPaginationEvents(totalPages);
     console.log({
-  totalProducts: products.length,
-  perPage: state.perPage,
-  totalPages,
-  currentPage: state.currentPage
-});
+        totalProducts: products.length,
+        perPage: state.perPage,
+        totalPages,
+        currentPage: state.currentPage
+    });
 }
 
 function attachPaginationEvents(totalPages) {
@@ -61,14 +61,11 @@ Array.from(addToCartButtons).forEach(button => {
 
 document.addEventListener("click", (e) => {
 
-  const productCard =
-    e.target.closest(".product-card");
+    const productCard =e.target.closest(".product-card")
 
-  if (!productCard) return;
+    if (!productCard) return
 
-  const productId =
-    productCard.dataset.id;
+    const productId = Number(productCard.dataset.id)
 
-  window.location.href =
-    `../singleProduct/singleProduct.html?id=${productId}`;
+    window.location.href = `../singleProduct/singleProduct.html?id=${productId}`
 });
