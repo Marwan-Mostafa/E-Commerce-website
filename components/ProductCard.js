@@ -2,7 +2,7 @@ import { formatPrice } from "../utils/formatPrice.js"
 
 export function ProductCard(product) {
   return `
-    <div class="group bg-white shadow-sm hover:shadow-xl transition duration-500 overflow-hidden">
+    <div class="group product-card bg-white shadow-sm hover:shadow-xl transition duration-500 overflow-hidden cursor-pointer" data-id="${product.id}">
 
       <div class="relative overflow-hidden">
 

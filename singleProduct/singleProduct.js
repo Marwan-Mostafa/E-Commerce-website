@@ -2,6 +2,11 @@ import { products } from "../data/products.js"
 import { ProductGrid } from "../components/ProductGrid.js";
 import { addToCart } from "../state/cart.js";
 import { toggleWishlist } from "../state/wishlist.js";
+import { setupGallery } from "./modules/gallery.js";
+import { setupSizeSelector } from "./modules/sizeSelector.js";
+import { setupColorSelector } from "./modules/colorSelector.js";
+import { setupQuantity } from "./modules/quantity.js";
+import { setupAddToCart } from "./modules/addToCartHandler.js";
 
 
 let visibleProducts = 4
@@ -68,7 +73,11 @@ function setupEvent() {
 
 render()
 setupEvent()
-
+setupGallery();
+setupSizeSelector();
+setupColorSelector();
+setupQuantity();
+setupAddToCart()
 
 // Switch Tabs Part
 
@@ -99,3 +108,5 @@ tabsContainer.addEventListener("click", (e) => {
     .getElementById(`tab-${targetTab}`)
     .classList.remove("hidden");
 });
+
+

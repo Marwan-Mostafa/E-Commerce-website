@@ -68,3 +68,11 @@ function setupEvent() {
 
 render()
 setupEvent()
+
+const addToCartButtons = document.getElementsByClassName("add-to-cart-btn");
+
+Array.from(addToCartButtons).forEach(button => {
+    button.addEventListener("click", () => {
+        window.location.href = "../singleProduct/singleProduct.html";
+    });
+});
