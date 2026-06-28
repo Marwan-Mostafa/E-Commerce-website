@@ -9,7 +9,7 @@ import { setupQuantity } from "./modules/quantity.js";
 import { setupAddToCart } from "./modules/addToCartHandler.js";
 import { formatPrice } from "../utils/formatPrice.js";
 import { openCartDrawer, renderCartDrawer } from "../components/cartDrawer.js";
-import { renderCompareBtn } from "../components/CompareButton.js";
+import { renderCompareButton } from "../components/CompareButton.js";
 
 const openCartBtn = document.getElementById("open-cart-btn");
 
@@ -163,4 +163,4 @@ thumbnails.innerHTML = `
 `;
 
 
-renderCompareBtn(product)
+renderCompareButton(product);
