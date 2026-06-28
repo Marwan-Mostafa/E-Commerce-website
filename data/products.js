@@ -1,4 +1,4 @@
-const baseProduct = [
+const baseProducts = [
     {
   id: 1,
   name: "Syltherine",
