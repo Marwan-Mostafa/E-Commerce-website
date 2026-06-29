@@ -23,15 +23,15 @@ const renderPromoColumn = () => {
     if (!container) return
 
     container.innerHTML = `
-    <div class="flex flex-col gap-3 max-w-[180px]">
-      <p class="font-semibold text-[16px] text-gray-900 leading-snug">
+    <div class="flex flex-col gap-3 max-w-[280px]">
+      <p class="font-semibold text-[30px] text-gray-900 leading-snug">
         Go to Product page for more Products
       </p>
       
-        href="/pages/shop.html"
+        <a href="/pages/shop.html"
         class="
           inline-block
-          text-sm font-medium
+          text-lg font-medium
           text-gray-700
           underline
           underline-offset-4
@@ -63,8 +63,10 @@ const renderSelector = (compareProducts) => {
 
     if (compareProducts.length >= 2) {
         container.innerHTML = ''
+        container.style.display = 'none'
         return
     }
+    container.style.display = ''
 
     container.innerHTML = ProductSelector({
         allProducts: products,
@@ -78,6 +80,8 @@ const renderSelector = (compareProducts) => {
         }
     })
 }
+
+
 
 const renderTable = (compareProducts) => {
     const container = getTableContainer()
