@@ -121,15 +121,15 @@ const renderCartRow = (products) => {
 
 
 export const ComparisonTable = ({ products }) => {
-    
+
     if (!products || products.length === 0) return ''
 
     const primaryProduct = products[0]
 
     const groupsHTML = SPEC_GROUPS.map((group) => {
-        
+
         const specGroup = primaryProduct?.specs?.[group.key]
-        
+
         if (!specGroup) return ''
 
         const fieldKeys = Object.keys(specGroup)

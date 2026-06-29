@@ -3,7 +3,7 @@ import { getCompareIds, addCompareId, removeCompareId } from '../../state/compar
 import { ComparisonCard } from '../components/ComparisonCard.js';
 import { ComparisonTable } from '../components/ComparisonTable.js';
 import { ProductSelector, initProductSelector } from '../components/ProductSelector.js';
-
+import { addToCart } from "../../state/cart.js";
 
 
 const findProductsByIds = (ids) => {
@@ -111,13 +111,14 @@ const attachCartListeners = (compareProducts) => {
 
         const productId = +button.dataset.productId
         const product = compareProducts.find((p) => p.id === productId)
-        if (!product) return
 
+        if (!product) return
+        addToCart(product);
 
         button.textContent = 'Added!'
         button.classList.add('bg-green-600')
         button.classList.remove('bg-[#B88E2F]', 'hover:bg-[#a07828]')
-        button.disabled = true;
+        button.disabled = true
 
         setTimeout(() => {
             button.textContent = 'Add To Cart'

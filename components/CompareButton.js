@@ -13,11 +13,29 @@ export function renderCompareButton(product) {
       return;
     }
 
-    const success = addCompareId(product.id);
+    // Already comparing this product
 
-    if (!success) {
-      alert("You can compare only two products.");
-      return;
+    if (isCompared(product.id)) {
+      window.location.href = "../comparisonPage/productComparison.html"
+      return
+    }
+
+    // Already have two products
+    if (getCount() >= 2) {
+      window.location.href = "../comparisonPage/productComparison.html"
+      return
+    }
+
+    const success = addCompareId(product.id)
+
+    if (!success) return
+
+    updateButton(button, product.id)
+
+    if (getCount() === 2) {
+      window.location.href = "../comparisonPage/productComparison.html";
+    } else {
+      alert("Product added. Select another product.");
     }
 
     updateButton(button, product.id);

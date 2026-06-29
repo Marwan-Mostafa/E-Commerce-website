@@ -7,7 +7,7 @@ import { toggleWishlist } from "./state/wishlist.js";
 let visibleProducts = 4
 
 // Render UI
-const app = document.getElementById("app");
+const app = document.getElementById("app")
 
 function render() {
   app.innerHTML = `
