@@ -4,7 +4,11 @@ import { addToCart } from "./state/cartState.js";
 import { toggleWishlist } from "./state/wishlistState.js";
 import { addProductToCompare } from "./state/compareState.js";
 import { copyProductLink, handleProductCardAction } from "./handlers/productCardActions.js";
+import { renderNavbar } from '/components/Navbar.js';
+import { initMobileMenu } from '/modules/navbar/mobileMenu.js';
 
+document.getElementById('navbar-root').innerHTML = renderNavbar('home');
+initMobileMenu();
 
 let visibleProducts = 4
 
