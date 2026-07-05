@@ -1,7 +1,7 @@
 export function renderCategoryCard({ id, label, image }) {
   return `
     
-      href="/pages/shop.html?category=${id}"
+      <a href="/pages/shop/shop.html?category=${id}"
       class="group relative overflow-hidden flex flex-col rounded-xl shadow-sm hover:shadow-2xl
              transition-all duration-500
              focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-(--primary) focus-visible:ring-offset-2"

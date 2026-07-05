@@ -1,6 +1,11 @@
 const WISHLIST_KEY = "wishlist"
 
-let wishlist = JSON.parse(localStorage.getItem(WISHLIST_KEY)) || []
+let wishlist = []
+try {
+    wishlist = JSON.parse(localStorage.getItem(WISHLIST_KEY)) || []
+} catch {
+    wishlist = []
+}
 
 function saveWishlist() {
     localStorage.setItem(WISHLIST_KEY, JSON.stringify(wishlist))
@@ -18,5 +23,5 @@ export function toggleWishlist(product) {
 }
 
 export function getWishlist() {
-    return wishlist
+    return [...wishlist]
 }

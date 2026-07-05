@@ -1,30 +1,31 @@
 export function renderNavbar(activePage = 'home') {
-    const navLinks = [
-        { id: 'home', label: 'Home', href: '/home.html' },
-        { id: 'shop', label: 'Shop', href: '/pages/shop/shop.html' },
-        { id: 'about', label: 'About', href: '/pages/about.html' },
-        { id: 'contact', label: 'Contact', href: '/pages/contact.html' },
-    ];
+  const navLinks = [
+    { id: 'home', label: 'Home', href: '/home.html' },
+    { id: 'shop', label: 'Shop', href: '/pages/shop/shop.html' },
+    { id: 'about', label: 'About', href: '/pages/about.html' },
+    { id: 'contact', label: 'Contact', href: '/pages/contact.html' },
+  ];
 
-    const iconLinks = [
-        { id: 'account', label: 'Account', icon: 'fa-solid fa-user', href: '/pages/account.html' },
-        { id: 'search', label: 'Search', icon: 'fa-solid fa-magnifying-glass', href: '#' },
-        { id: 'wishlist', label: 'Wishlist', icon: 'fa-regular fa-heart', href: '/pages/wishlist.html' },
-        { id: 'cart', label: 'Cart', icon: 'fa-solid fa-cart-shopping', href: '/pages/cart/cart.html' },
-    ];
+  const iconLinks = [
+    { id: 'account', label: 'Account', icon: 'fa-solid fa-user', href: '/pages/account.html' },
+    { id: 'wishlist', label: 'Wishlist', icon: 'fa-regular fa-heart', href: '/pages/wishlist.html' },
+    { id: 'cart', label: 'Cart', icon: 'fa-solid fa-cart-shopping', href: '/pages/cart/cart.html' },
+  ];
 
-    const navLinkClass = (isActive) => `
+  const activeTextClass = (isActive) =>
+    isActive ? 'text-(--primary)' : 'text-gray-700 hover:text-black';
+
+  const navLinkClass = (isActive) => `
     relative group text-[16px] font-medium capitalize transition duration-300
-    focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-(--primary) focus-visible:rounded-sm
-    ${isActive ? 'text-(--primary)' : 'text-gray-700 hover:text-black'}
+    focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-(--primary) focus-visible:rounded-sm
+    ${activeTextClass(isActive)}
   `;
 
-    const renderDesktopLink = ({ id, label, href }) => {
-        const isActive = id === activePage;
-        return `
+  const renderDesktopLink = ({ id, label, href }) => {
+    const isActive = id === activePage;
+    return `
       <li>
-        
-          href="${href}"
+        <a href="${href}"
           class="${navLinkClass(isActive)}"
           ${isActive ? 'aria-current="page"' : ''}
         >
@@ -37,39 +38,51 @@ export function renderNavbar(activePage = 'home') {
         </a>
       </li>
     `;
-    };
+  };
 
-    const renderMobileLink = ({ id, label, href }) => {
-        const isActive = id === activePage;
-        return `
+  const renderMobileLink = ({ id, label, href }) => {
+    const isActive = id === activePage;
+    return `
       <li>
-        
-          href="${href}"
+        <a href="${href}"
           class="block py-3 text-lg font-medium capitalize transition
                  focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-(--primary) focus-visible:rounded-sm
-                 ${isActive ? 'text-(--primary)' : 'text-gray-700 hover:text-black'}"
+                 ${activeTextClass(isActive)}"
           ${isActive ? 'aria-current="page"' : ''}
         >
           ${label}
         </a>
       </li>
     `;
-    };
+  };
 
-    const renderIconLink = ({ label, icon, href }) => `
+  const iconLinkClasses = `
+    p-2 rounded-full transition duration-300 hover:bg-gray-200 hover:scale-110
+    focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-(--primary)
+  `;
+
+  const renderIconLink = ({ id, label, icon, href, action }) => `
     <li>
-      
-        href="${href}"
-        aria-label="${label}"
-        class="p-2 rounded-full transition duration-300 hover:bg-gray-200 hover:scale-110
-               focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-(--primary)"
-      >
-        <i class="${icon}" aria-hidden="true"></i>
-      </a>
+      ${action
+      ? `<button
+             type="button"
+             id="${id}-trigger"
+             aria-label="${label}"
+             class="${iconLinkClasses}"
+           >
+             <i class="${icon}" aria-hidden="true"></i>
+           </button>`
+      : `<a href="${href}"
+             aria-label="${label}"
+             class="${iconLinkClasses}"
+           >
+             <i class="${icon}" aria-hidden="true"></i>
+           </a>`
+    }
     </li>
   `;
 
-    return `
+  return `
     <header class="bg-white w-full h-[100px] flex items-center shadow-sm transition duration-300">
       <div class="mx-auto px-4 max-w-[1286px] w-full flex justify-between items-center">
 
@@ -108,6 +121,7 @@ export function renderNavbar(activePage = 'home') {
         id="mobile-menu-panel"
         class="md:hidden fixed inset-0 top-[100px] bg-white z-40
                transform -translate-x-full transition-transform duration-300 ease-out"
+        inert
       >
         <nav aria-label="Mobile navigation" class="px-6 py-6">
           <ul class="list-none divide-y divide-gray-100">

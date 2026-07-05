@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <script src="https://cdn.jsdelivr.net/npm/@tailwindcss/browser@4"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/7.0.1/css/all.min.css"
+        integrity="sha512-2SwdPD6INVrV/lHTZbO2nodKhrnDdJK9/kg2XD1r9uGqPo1cUbujc+IYdlYdEErWNu69gVcYgdxlmVmzTWnetw=="
+        crossorigin="anonymous" referrerpolicy="no-referrer" />
+    <link rel="stylesheet" href="/styles/style.css">
+    <link rel="stylesheet" href="/styles/inspiration.css">
+    <title>Furnio Website</title>
+</head>
+
+<body class="w-full min-h-screen">
+
+    <a href="#main-content"
+        class="sr-only focus:not-sr-only focus:fixed focus:top-2 focus:left-2 focus:z-50 focus:bg-white focus:px-4 focus:py-2 focus:rounded-md focus:shadow-lg">
+        Skip to content
+    </a>
+
+    <div id="navbar-root"></div>
+
+    <main id="main-content">
+        <div id="hero-root"></div>
+
+        <section aria-labelledby="browse-heading" class="w-full flex justify-center mt-16 px-4">
+            <div class="w-full max-w-6xl flex flex-col items-center gap-15 py-10">
+                <div class="text-center space-y-3">
+                    <h2 id="browse-heading" class="font-bold text-2xl md:text-3xl text-gray-800">Browse The Range</h2>
+                    <p class="text-gray-500 max-w-xl">Lorem ipsum dolor sit amet, consectetur adipiscing elit.</p>
+                </div>
+                <div id="categories-root" class="w-full grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6"></div>
+            </div>
+        </section>
+
+        <section id="products-root" aria-label="Our Products"></section>
+
+        <div id="inspiration-root"></div>
+
+        <section aria-labelledby="instagram-heading" class="w-full flex flex-col items-center mt-25 px-4">
+            <div class="text-center mb-8">
+                <p class="text-gray-500">Share your setup with</p>
+                <h2 id="instagram-heading" class="font-bold text-3xl text-gray-700">#FuniroFurniture</h2>
+            </div>
+            <img src="/assets/images/imagesGrid.svg"
+                alt="Grid of customer living rooms, bedrooms, and workspaces styled with Furniro furniture"
+                loading="lazy" />
+        </section>
+    </main>
+
+    <div id="footer-root"></div>
+
+
+    <script type="module" src="./home.js"></script>
+
+</body>
+
+</html>
