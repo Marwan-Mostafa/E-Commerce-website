@@ -1,33 +1,37 @@
-export function Pagination(totalPages, currentPage){
-  let buttons = ""
+export function renderPagination(currentPage, totalPages) {
+  if (totalPages <= 1) return ''
 
-  for(let page = 1; page <= totalPages; page++){
+  let buttons = ''
+
+  for (let page = 1; page <= totalPages; page++) {
+    const isActive = currentPage === page
     buttons += `
-    <li>
-      <button data-page="${page}" class = "w-14 h-14 rounded-lg transition
-        ${(currentPage === page)? "bg-[#B88E2F] text-white": "bg-[#F9F1E7] text-black hover:bg-[#B88E2F] hover:text-white"}">
-          ${page}
-      </button>  
-    </li>`
+            <li>
+                <button type="button" data-page="${page}"
+                    ${isActive ? 'aria-current="page"' : ''}
+                    class="page-btn w-14 h-14 rounded-lg font-medium transition-colors
+                        ${isActive
+        ? 'bg-gold text-white'
+        : 'bg-[#F9F1E7] text-dark hover:bg-gold hover:text-white'}">
+                    ${page}
+                </button>
+            </li>`
   }
-  buttons += `
-    <li>
-      <button
-        data-next
-        class="
-          px-8 h-14 rounded-lg
-          bg-[#F9F1E7]
-          hover:bg-[#B88E2F]
-          hover:text-white
-          transition
-        "
-      >
-        Next
-      </button>
-    </li>
-  `
 
-  return `<nav class="mt-10" aria-label="Pagination">
-    <ul class="flex items-center justify-center gap-4">${buttons}</ul>  
-  </nav>`
+  const isLastPage = currentPage === totalPages
+
+  buttons += `
+        <li>
+            <button type="button" data-page="${currentPage + 1}" ${isLastPage ? 'disabled' : ''}
+                class="page-btn px-8 h-14 rounded-lg font-medium transition-colors
+                    bg-[#F9F1E7] text-dark hover:bg-gold hover:text-white
+                    disabled:opacity-50 disabled:cursor-not-allowed disabled:hover:bg-[#F9F1E7] disabled:hover:text-dark">
+                Next
+            </button>
+        </li>`
+
+  return `
+        <nav aria-label="Pagination" class="mt-10">
+            <ul class="flex items-center justify-center gap-4">${buttons}</ul>
+        </nav>`
 }

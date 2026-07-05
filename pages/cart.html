@@ -14,45 +14,144 @@
 </head>
 
 <body>
-    <header class="sticky top-0 z-50 bg-white border-b border-border">
-        <div class="max-w-[1440px] mx-auto px-8 lg:px-16 flex items-center justify-between h-16">
+    <header class="bg-white w-full h-[100px] flex items-center shadow-sm cursor-pointer transition duration-300">
+        <div class="mx-auto px-4 max-w-[1286px] w-full flex justify-between items-center">
 
-
-            <a href="/home.html" class="flex items-center gap-2">
+            <div class="flex items-center gap-2 hover:scale-105 transition duration-600">
                 <img src="/assets/images/logo.svg" alt="logo_image">
-                <span class="font-montserrat font-bold text-2xl tracking-wide text-dark">Furniro</span>
-            </a>
-
-
-            <nav class="hidden md:flex items-center gap-10 text-md font-medium text-dark">
-                <a href="../home.html" class="hover:text-gold transition-colors">Home</a>
-                <a href="../pages/shop.html" class="hover:text-gold transition-colors">Shop</a>
-                <a href="../pages/about.html" class="hover:text-gold transition-colors">About</a>
-                <a href="../pages/shop.html" class="hover:text-gold transition-colors">Contact</a>
-            </nav>
-
-
-            <div class="flex items-center gap-5 text-dark">
-                <button class="hover:text-gold transition-colors" aria-label="Account">
-                    <i class="fa-solid fa-user"></i>
-                </button>
-
-                <button class="hover:text-gold transition-colors" aria-label="Search">
-                    <i class="fa-solid fa-magnifying-glass"></i>
-                </button>
-
-                <button class="hover:text-gold transition-colors" aria-label="Wishlist">
-                    <i class="fa-regular fa-heart"></i>
-                </button>
-
-                <button id="open-cart-btn" class="relative hover:text-gold transition-colors" aria-label="Cart">
-                    <i class="fa-solid fa-cart-shopping"></i>
-                    <span id="cart-badge"
-                        class="absolute -top-2 -right-2 bg-gold text-white text-[10px] font-bold w-4 h-4 rounded-full items-center justify-center hidden">0</span>
-                </button>
+                <p class="font-bold md:text-[34px] transition duration-300">Furniro</p>
             </div>
+
+            <ul class="hidden md:flex items-center gap-13 list-none font-medium text-[16px] capitalize">
+                <li>
+                    <a href="/home.html" class="relative group text-gray-700 transition duration-300 hover:text-black">
+                        home
+                        <span
+                            class="absolute left-0 -bottom-1 w-0 h-0.5 bg-black transition-all duration-300 group-hover:w-full"></span>
+                    </a>
+                </li>
+
+                <li>
+                    <a href="/pages/shop.html"
+                        class="relative group text-gray-700 transition duration-300 hover:text-black">
+                        shop
+                        <span
+                            class="absolute left-0 -bottom-1 w-0 h-0.5 bg-black transition-all duration-300 group-hover:w-full"></span>
+                    </a>
+                </li>
+
+                <li>
+                    <a href="#About" class="relative group text-gray-700 transition duration-300 hover:text-black">
+                        about
+                        <span
+                            class="absolute left-0 -bottom-1 w-0 h-0.5 bg-black transition-all duration-300 group-hover:w-full"></span>
+                    </a>
+                </li>
+
+                <li>
+                    <a href="#contact" class="relative group text-gray-700 transition duration-300 hover:text-black">
+                        contact
+                        <span
+                            class="absolute left-0 -bottom-1 w-0 h-0.5 bg-black transition-all duration-300 group-hover:w-full"></span>
+                    </a>
+                </li>
+            </ul>
+
+            <ul class="flex list-none items-center gap-8 text-xl">
+                <li>
+                    <a href="#" aria-label="user"
+                        class="p-2 rounded-full transition duration-300 hover:bg-gray-200 hover:scale-110">
+                        <i class="fa-solid fa-user"></i>
+                    </a>
+                </li>
+
+                <li>
+                    <a href="#" aria-label="search"
+                        class="p-2 rounded-full transition duration-300 hover:bg-gray-200 hover:scale-110">
+                        <i class="fa-solid fa-magnifying-glass"></i>
+                    </a>
+                </li>
+
+                <li>
+                    <a href="#" aria-label="favourite"
+                        class="p-2 rounded-full transition duration-300 hover:bg-gray-200 hover:scale-110">
+                        <i class="fa-regular fa-heart"></i>
+                    </a>
+                </li>
+
+                <li>
+                    <a href="#" aria-label="cart"
+                        class="p-2 rounded-full transition duration-300 hover:bg-gray-200 hover:scale-110">
+                        <i class="fa-solid fa-cart-shopping"></i>
+                    </a>
+                </li>
+
+            </ul>
         </div>
     </header>
+
+    <section class="relative h-[300px] flex flex-col items-center justify-center bg-cover bg-center"
+        style="background-image: url('/assets/images/shop.svg');">
+        <div class="absolute inset-0"></div>
+        <div class="relative z-10 flex flex-col items-center gap-2">
+            <img src="/assets/images/logo.svg" alt="" class="w-10 h-10">
+            <h1 class="text-5xl font-semibold text-dark">Cart</h1>
+            <nav aria-label="breadcrumb" class="flex items-center gap-2 text-sm text-gray-600">
+                <a href="/home.html" class="hover:text-gold transition-colors">Home</a>
+                <i class="fa-solid fa-chevron-right text-xs"></i>
+                <span class="text-gray-800">Cart</span>
+            </nav>
+        </div>
+    </section>
+
+    <!-- Main Cart Content -->
+    <main class="max-w-[1440px] mx-auto px-8 lg:px-16 py-16">
+        <div id="cart-empty-state" class="hidden flex-col items-center justify-center gap-4 py-24 text-center">
+            <i class="fa-solid fa-cart-shopping text-5xl text-gray-300"></i>
+            <p class="text-gray-500">Your cart is empty.</p>
+            <a href="/pages/shop.html"
+                class="border border-dark rounded-md px-8 py-3 font-semibold text-dark hover:bg-gold hover:border-gold hover:text-white transition-colors">
+                Continue Shopping
+            </a>
+        </div>
+
+        <div id="cart-content" class="grid lg:grid-cols-3 gap-8">
+
+            <!-- Cart Table -->
+            <section aria-label="Cart items" class="lg:col-span-2">
+                <div
+                    class="grid grid-cols-[100px_1fr_1fr_1fr_40px] items-center gap-4 bg-[#FAF3EA] rounded-md px-6 py-4 font-semibold text-dark text-sm">
+                    <span class="sr-only">Image</span>
+                    <span>Product</span>
+                    <span>Price</span>
+                    <span>Quantity</span>
+                    <span>Subtotal</span>
+                </div>
+
+                <ul id="cart-rows" class="flex flex-col divide-y divide-gray-100"></ul>
+            </section>
+
+            <!-- Cart Totals -->
+            <aside aria-labelledby="cart-totals-heading" class="bg-[#FAF3EA] rounded-md p-8 h-fit">
+                <h2 id="cart-totals-heading" class="text-2xl font-semibold text-dark mb-6">Cart Totals</h2>
+
+                <div class="flex justify-between border-b border-gray-300 pb-4 mb-4">
+                    <span class="font-medium text-dark">Subtotal</span>
+                    <span id="cart-subtotal" class="text-gray-500">Rs. 0.00</span>
+                </div>
+                <div class="flex justify-between pb-6">
+                    <span class="font-medium text-dark">Total</span>
+                    <span id="cart-total" class="text-gold text-xl font-semibold">Rs. 0.00</span>
+                </div>
+
+                <a href="/pages/checkout.html" id="checkout-btn" class="block text-center border border-dark rounded-md py-4 font-semibold text-dark
+                       hover:bg-gold hover:border-gold hover:text-white transition-colors
+                       aria-disabled:opacity-50 aria-disabled:cursor-not-allowed aria-disabled:pointer-events-none">
+                    Check Out
+                </a>
+            </aside>
+        </div>
+    </main>
 
     <section class="trust-strip">
         <div class="trust-grid flex justify-around items-center bg-[#FAF3EA] h-[270px]">

@@ -8,8 +8,6 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/7.0.1/css/all.min.css"
         integrity="sha512-2SwdPD6INVrV/lHTZbO2nodKhrnDdJK9/kg2XD1r9uGqPo1cUbujc+IYdlYdEErWNu69gVcYgdxlmVmzTWnetw=="
         crossorigin="anonymous" referrerpolicy="no-referrer" />
-    <link rel="stylesheet" href="../styles/style.css">
-    <link rel="stylesheet" href="/styles/inspiration.css">
     <title>Blog Page</title>
 </head>
 
@@ -89,6 +87,57 @@
             </ul>
         </div>
     </header>
+
+    <section class="relative h-[300px] flex flex-col items-center justify-center bg-cover bg-center"
+        style="background-image: url('/assets/images/shop.svg');">
+        <div class="absolute inset-0"></div>
+        <div class="relative z-10 flex flex-col items-center gap-2">
+            <img src="/assets/images/logo.svg" alt="" class="w-10 h-10">
+            <h1 class="text-5xl font-semibold text-dark">Blog</h1>
+            <nav aria-label="breadcrumb" class="flex items-center gap-2 text-sm text-gray-600">
+                <a href="/home.html" class="hover:text-gold transition-colors">Home</a>
+                <i class="fa-solid fa-chevron-right text-xs"></i>
+                <span class="text-gray-800">Blog</span>
+            </nav>
+        </div>
+    </section>
+
+    <main class="max-w-[1440px] mx-auto px-8 lg:px-16 py-16">
+        <div class="grid lg:grid-cols-[2fr_1fr] gap-16">
+
+            <!-- Post List -->
+            <section aria-label="Blog posts">
+                <ul id="post-list" class="flex flex-col gap-16"></ul>
+
+                <nav id="pagination" aria-label="Blog pagination" class="flex gap-3 mt-16"></nav>
+            </section>
+
+            <!-- Sidebar -->
+            <aside aria-label="Blog sidebar" class="flex flex-col gap-10">
+                <form id="search-form" role="search" class="relative">
+                    <label for="blog-search" class="sr-only">Search posts</label>
+                    <input type="search" id="blog-search" placeholder="Search" class="w-full border border-gray-300 rounded-md pl-4 pr-12 py-3 text-sm
+                           hover:border-gray-400
+                           focus:outline-none focus:ring-2 focus:ring-gold/40 focus:border-gold
+                           transition-colors" />
+                    <button type="submit" aria-label="Search"
+                        class="absolute right-0 top-0 h-full px-4 text-gray-500 hover:text-gold transition-colors">
+                        <i class="fa-solid fa-magnifying-glass"></i>
+                    </button>
+                </form>
+
+                <div>
+                    <h3 class="text-2xl font-semibold text-dark mb-6">Categories</h3>
+                    <ul id="category-list" class="flex flex-col gap-4"></ul>
+                </div>
+
+                <div>
+                    <h3 class="text-2xl font-semibold text-dark mb-6">Recent Posts</h3>
+                    <ul id="recent-posts" class="flex flex-col gap-5"></ul>
+                </div>
+            </aside>
+        </div>
+    </main>
 
     <section class="trust-strip">
         <div class="trust-grid flex justify-around items-center bg-[#FAF3EA] h-[270px]">
