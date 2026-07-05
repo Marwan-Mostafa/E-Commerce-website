@@ -1,4 +1,4 @@
-import { getCart, getSubtotal, getTotal, formatCurrency, clearCart } from '../../state/cart.js';
+import { getCart, getSubtotal, getTotal, formatCurrency, clearCart } from '../../state/cartState.js';
 
 const orderItemsList = document.getElementById('order-items');
 const subtotalEl = document.getElementById('order-subtotal');

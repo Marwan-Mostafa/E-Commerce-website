@@ -1,9 +1,9 @@
 import { products } from "./data/products.js"
 import { ProductGrid } from "./components/ProductGrid.js";
-import { addToCart } from "./state/cart.js";
-import { toggleWishlist } from "./state/wishlist.js";
-import { addCompareId, getCount, isCompared } from "./state/compareState.js";
-import { copyProductLink, getProductCardAction } from "./utils/productCardActions.js";
+import { addToCart } from "./state/cartState.js";
+import { toggleWishlist } from "./state/wishlistState.js";
+import { addProductToCompare } from "./state/compareState.js";
+import { copyProductLink, handleProductCardAction } from "./handlers/productCardActions.js";
 
 
 let visibleProducts = 4
@@ -46,37 +46,21 @@ function setupEvent() {
       return
     }
 
-    const cardAction = getProductCardAction(e, products)
+    const handled = handleProductCardAction(e, products, {
+      onAddToCart: (product) => addToCart(product),
+      onWishlist: (product) => toggleWishlist(product),
+      onCompare: (product) => {
+        const result = addProductToCompare(product.id)
 
-    if (cardAction) {
-      const { action, product } = cardAction
-
-      if (action === "add-to-cart") {
-        addToCart(product)
-        return
-      }
-
-      if (action === "wishlist") {
-        toggleWishlist(product)
-        return
-      }
-
-      if (action === "compare") {
-        if (!isCompared(product.id)) {
-          addCompareId(product.id)
-        }
-
-        if (getCount() >= 2) {
+        if (result.status === "open" || result.status === "ready") {
           window.location.href = "./comparisonPage/productComparison.html"
         }
+      },
+      onShare: (product) => void copyProductLink(product),
+    })
 
-        return
-      }
-
-      if (action === "share") {
-        void copyProductLink(product)
-        return
-      }
+    if (handled) {
+      return
     }
 
     const productCard = e.target.closest(".product-card");
