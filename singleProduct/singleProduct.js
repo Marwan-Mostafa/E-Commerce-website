@@ -10,6 +10,8 @@ import { setupAddToCart } from "./modules/addToCartHandler.js";
 import { formatPrice } from "../utils/formatPrice.js";
 import { openCartDrawer, renderCartDrawer } from "../components/cartDrawer.js";
 import { renderCompareButton } from "../components/CompareButton.js";
+import { addProductToCompare } from "../state/compareState.js";
+import { copyProductLink, handleProductCardAction } from "../utils/productCardActions.js";
 
 const openCartBtn = document.getElementById("open-cart-btn");
 
@@ -77,24 +79,21 @@ function setupEvent() {
       return
     }
 
-    const addCartBtn = e.target.closest(".add-to-cart-btn")
+    const handled = handleProductCardAction(e, products, {
+      onAddToCart: (product) => addToCart(product),
+      onWishlist: (product) => toggleWishlist(product),
+      onCompare: (product) => {
+        const result = addProductToCompare(product.id)
 
-    if (addCartBtn) {
-      const productId = Number(addCartBtn.dataset.id)
-      const product = products.find(p => p.id === productId)
+        if (result.status === "open" || result.status === "ready") {
+          window.location.href = "../comparisonPage/productComparison.html"
+        }
+      },
+      onShare: (product) => void copyProductLink(product),
+    })
 
-      if (!product) return
-      addToCart(product)
+    if (handled) {
       return
-    }
-    const wishlistBtn = e.target.closest(".wishlist-btn");
-
-    if (wishlistBtn) {
-      const productId = Number(wishlistBtn.dataset.id);
-      const product = products.find((p) => p.id === productId);
-
-      if (!product) return;
-      toggleWishlist(product);
     }
   })
 }

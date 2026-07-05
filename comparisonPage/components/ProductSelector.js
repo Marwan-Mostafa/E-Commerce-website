@@ -157,6 +157,6 @@ export const initProductSelector = (onProductSelect) => {
     }
 };
 
-export const ProductSelector = ({ allProducts, compareIds, onProductSelect }) => {
+export const ProductSelector = ({ allProducts, compareIds }) => {
     return ProductSelectorHTML({ allProducts, compareIds });
 };

@@ -15,7 +15,6 @@ export function toggleWishlist(product) {
         wishlist.push(product)
     }
     saveWishlist()
-    console.log("Wishlist:", wishlist)
 }
 
 export function getWishlist() {

@@ -7,10 +7,12 @@ export function setupFilters(renderShop, products) {
     const gridView = document.getElementById("gridView");
     const listView = document.getElementById("listView");
 
+    if (!filterBtn || !showItems || !sortItems || !gridView || !listView) {
+        return;
+    }
 
-    filterBtn.addEventListener("click", () => {
-        console.log("Open filter panel");
-    });
+
+    filterBtn.addEventListener("click", () => { });
 
     showItems.addEventListener("change", (e) => {
         const value = e.target.value;

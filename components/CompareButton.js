@@ -1,4 +1,4 @@
-import { addCompareId, getCount, isCompared } from "../state/compareState.js";
+import { addProductToCompare, isCompared } from "../state/compareState.js";
 
 export function renderCompareButton(product) {
   const button = document.getElementById("compare-btn");
@@ -8,43 +8,21 @@ export function renderCompareButton(product) {
   updateButton(button, product.id);
 
   button.addEventListener("click", () => {
-    if (isCompared(product.id)) {
+    const result = addProductToCompare(product.id)
+
+    if (result.status === "open") {
       window.location.href = "../comparisonPage/productComparison.html";
-      return;
-    }
-
-    // Already comparing this product
-
-    if (isCompared(product.id)) {
-      window.location.href = "../comparisonPage/productComparison.html"
       return
     }
-
-    // Already have two products
-    if (getCount() >= 2) {
-      window.location.href = "../comparisonPage/productComparison.html"
-      return
-    }
-
-    const success = addCompareId(product.id)
-
-    if (!success) return
 
     updateButton(button, product.id)
 
-    if (getCount() === 2) {
+    if (result.status === "ready") {
       window.location.href = "../comparisonPage/productComparison.html";
-    } else {
-      alert("Product added. Select another product.");
+      return
     }
 
-    updateButton(button, product.id);
-
-    if (getCount() === 2) {
-      window.location.href = "../comparisonPage/productComparison.html";
-    } else {
-      alert("Product added to compare. Select another product.");
-    }
+    alert("Product added. Select another product.");
   });
 }
 

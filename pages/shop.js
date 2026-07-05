@@ -5,6 +5,10 @@ import { sortProducts } from "../utils/sortProducts.js";
 import { setupFilters } from "../components/FilterBar.js";
 import { ProductGrid } from "../components/ProductGrid.js"
 import { renderPagination } from "../components/Pagination.js"
+import { addProductToCompare } from "../state/compareState.js"
+import { addToCart } from "../state/cart.js"
+import { toggleWishlist } from "../state/wishlist.js"
+import { copyProductLink, handleProductCardAction } from "../utils/productCardActions.js"
 
 const shopContainer = document.getElementById("shopContainer")
 
@@ -29,13 +33,21 @@ shopContainer.addEventListener("click", (e) => {
         return;
     }
 
-    const addToCartBtn = e.target.closest(".add-to-cart-btn");
-    if (addToCartBtn) {
-        e.stopPropagation()
-        const card = addToCartBtn.closest(".product-card");
-        const productId = Number(card.dataset.id);
-        window.location.href = `../singleProduct/singleProduct.html?id=${productId}`;
-        return;
+    const handled = handleProductCardAction(e, products, {
+        onAddToCart: (product) => addToCart(product),
+        onWishlist: (product) => toggleWishlist(product),
+        onCompare: (product) => {
+            const result = addProductToCompare(product.id)
+
+            if (result.status === "open" || result.status === "ready") {
+                window.location.href = "../comparisonPage/productComparison.html"
+            }
+        },
+        onShare: (product) => void copyProductLink(product),
+    })
+
+    if (handled) {
+        return
     }
 
     const productCard = e.target.closest(".product-card");

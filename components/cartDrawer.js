@@ -6,25 +6,30 @@ const drawer = document.getElementById("cart-drawer");
 const overlay = document.getElementById("cart-overlay");
 
 export function openCartDrawer() {
+    if (!drawer || !overlay) return;
     drawer.style.right = "0";
     overlay.classList.remove("hidden");
 }
 
 export function closeCartDrawer() {
+    if (!drawer || !overlay) return;
     drawer.style.right = "-420px";
     overlay.classList.add("hidden");
 }
 
-document.getElementById("close-cart").addEventListener("click", closeCartDrawer);
+const closeCartBtn = document.getElementById("close-cart");
 
-overlay.addEventListener(
-    "click",
-    closeCartDrawer
-);
+if (closeCartBtn) {
+    closeCartBtn.addEventListener("click", closeCartDrawer);
+}
+
+if (overlay) {
+    overlay.addEventListener("click", closeCartDrawer);
+}
 
 export function renderCartDrawer() {
 
-    const cartItems =document.getElementById("cart-items");
+    const cartItems = document.getElementById("cart-items");
 
     const cart = getCart();
 
@@ -34,10 +39,11 @@ export function renderCartDrawer() {
         class="flex gap-4 mb-6 items-center"
       >
 
-        <img
-          src="${item.image}"
-          class="w-20 h-20 object-cover rounded-lg"
-        />
+                <img
+                    src="${item.image}"
+                    alt="${item.name}"
+                    class="w-20 h-20 object-cover rounded-lg"
+                />
 
         <div class="flex-1">
 
@@ -55,7 +61,8 @@ export function renderCartDrawer() {
 
         </div>
 
-        <button
+                <button
+                    type="button"
           class="remove-cart-item"
           data-id="${item.id}"
         >
@@ -84,10 +91,11 @@ function renderSubtotal() {
             0
         );
 
-    document.getElementById(
-        "cart-subtotal"
-    ).textContent =
-        formatPrice(total);
+    const subtotalEl = document.getElementById("cart-subtotal");
+
+    if (subtotalEl) {
+        subtotalEl.textContent = formatPrice(total);
+    }
 }
 
 
@@ -116,6 +124,8 @@ document.addEventListener(
 export function updateCartBadge() {
 
     const badge = document.getElementById("cart-badge");
+
+    if (!badge) return;
 
     const cart = getCart();
     const totalItems = cart.reduce(

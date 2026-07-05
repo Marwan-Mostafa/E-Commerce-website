@@ -13,8 +13,6 @@ export function setupSizeSelector() {
             })
 
             button.classList.add("active")
-
-            console.log("Selected Size:", productState.selectedSize)
         })
     })
 }

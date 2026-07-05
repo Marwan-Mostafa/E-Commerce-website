@@ -97,12 +97,6 @@ function handleSubmit(e) {
 
     const paymentMethod = form.querySelector('input[name="paymentMethod"]:checked').value;
 
-    console.log('Order placed:', {
-        billing: Object.fromEntries(new FormData(form)),
-        paymentMethod,
-        total: getTotal(),
-    });
-
     clearCart();
     alert('Order placed! (placeholder — no backend wired up yet)')
 }

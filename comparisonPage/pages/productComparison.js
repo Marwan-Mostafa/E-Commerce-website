@@ -1,5 +1,5 @@
 import { products } from '../../data/products.js';
-import { getCompareIds, addCompareId, removeCompareId } from '../../state/compareState.js';
+import { getCompareIds, addProductToCompare, removeCompareId } from '../../state/compareState.js';
 import { ComparisonCard } from '../components/ComparisonCard.js';
 import { ComparisonTable } from '../components/ComparisonTable.js';
 import { ProductSelector, initProductSelector } from '../components/ProductSelector.js';
@@ -77,8 +77,8 @@ const renderSelector = (compareProducts) => {
     })
 
     initProductSelector((selectedId) => {
-        const added = addCompareId(selectedId)
-        if (added) {
+        const result = addProductToCompare(selectedId)
+        if (result.status !== 'open') {
             renderAll()
         }
     })

@@ -2,6 +2,8 @@ import { products } from "./data/products.js"
 import { ProductGrid } from "./components/ProductGrid.js";
 import { addToCart } from "./state/cart.js";
 import { toggleWishlist } from "./state/wishlist.js";
+import { addProductToCompare } from "./state/compareState.js";
+import { copyProductLink, handleProductCardAction } from "./utils/productCardActions.js";
 
 
 let visibleProducts = 4
@@ -44,48 +46,32 @@ function setupEvent() {
       return
     }
 
-    const addCartBtn = e.target.closest(".add-to-cart-btn")
+    const handled = handleProductCardAction(e, products, {
+      onAddToCart: (product) => addToCart(product),
+      onWishlist: (product) => toggleWishlist(product),
+      onCompare: (product) => {
+        const result = addProductToCompare(product.id)
 
-    if (addCartBtn) {
-      const productId = Number(addCartBtn.dataset.id)
-      const product = products.find(p => p.id === productId)
+        if (result.status === "open" || result.status === "ready") {
+          window.location.href = "./comparisonPage/productComparison.html"
+        }
+      },
+      onShare: (product) => void copyProductLink(product),
+    })
 
-      if (!product) return
-      addToCart(product)
+    if (handled) {
       return
     }
-    const wishlistBtn = e.target.closest(".wishlist-btn");
 
-    if (wishlistBtn) {
-      const productId = Number(wishlistBtn.dataset.id);
-      const product = products.find((p) => p.id === productId);
+    const productCard = e.target.closest(".product-card");
 
-      if (!product) return;
-      toggleWishlist(product);
+    if (productCard) {
+      const productId = Number(productCard.dataset.id)
+
+      window.location.href = `./singleProduct/singleProduct.html?id=${productId}`
     }
   })
 }
 
 render()
 setupEvent()
-
-const addToCartButtons = document.getElementsByClassName("add-to-cart-btn");
-
-Array.from(addToCartButtons).forEach(button => {
-  button.addEventListener("click", () => {
-    window.location.href = "../singleProduct/singleProduct.html";
-  });
-});
-
-document.addEventListener("click", (e) => {
-
-  const productCard =
-    e.target.closest(".product-card");
-
-  if (!productCard) return;
-
-  const productId = Number(productCard.dataset.id)
-
-  window.location.href =
-    `./singleProduct/singleProduct.html?id=${productId}`
-});

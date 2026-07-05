@@ -12,8 +12,6 @@ export function setupColorSelector() {
       })
 
       color.classList.add("active")
-
-      console.log("Selected Color:", productState.selectedColor);
     })
   })
 }

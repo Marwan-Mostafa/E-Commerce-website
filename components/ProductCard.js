@@ -7,9 +7,12 @@ export function ProductCard(product) {
       <div class="relative overflow-hidden">
 
         <img src="${product.image}"
+             alt="${product.name}"
+             loading="lazy"
+             decoding="async"
              class="w-full h-72 object-cover group-hover:scale-110 transition duration-700" />
 
-        <div class="absolute inset-0 bg-black/0 group-hover:bg-black/40 transition"></div>
+        <div class="absolute inset-0 bg-black/0 group-hover:bg-black/40 group-focus-within:bg-black/40 transition"></div>
 
         ${product.discount ? `
           <div class="absolute top-3 right-3 bg-red-400 text-white text-md w-[48px] px-1 p-3 font-semibold rounded-full">
@@ -17,27 +20,27 @@ export function ProductCard(product) {
           </div>
         ` : ""}
 
-        <div class="absolute inset-0 flex flex-col items-center justify-center opacity-0 group-hover:opacity-100 transition">
+        <div class="absolute inset-0 flex flex-col items-center justify-center opacity-0 group-hover:opacity-100 group-focus-within:opacity-100 transition">
 
-          <button class="add-to-cart-btn bg-white px-10 py-2 text-sm font-semibold text-(--primary) cursor-pointer
+          <button type="button" aria-label="Add ${product.name} to cart" data-action="add-to-cart" class="add-to-cart-btn bg-white px-10 py-2 text-sm font-semibold text-(--primary) cursor-pointer
           duration-300 transition-all hover:shadow-black/20 hover:-translate-y-1 active:scale-90" data-id=${product.id}>
             Add to cart
           </button>
 
           <div class="flex gap-4 mt-4 text-white text-sm font-semibold">
            
-            <button class="share-btn cursor-pointer hover:text-gray-700 duration-300 
+            <button type="button" aria-label="Share ${product.name}" data-action="share" class="share-btn cursor-pointer hover:text-gray-700 duration-300 
                         transition-all hover:shadow-black/20 hover:-translate-y-1 active:scale-90" data-id=${product.id}>
               <i class="fa-solid fa-share-nodes"></i> Share
             </button>
 
-            <button class="compare-btn cursor-pointer hover:text-gray-700 duration-300
-                        transition-all hover:shadow-black/20 hover:-translate-y-1 active:scale-90"data-id=${product.id}>
+            <button type="button" aria-label="Compare ${product.name}" data-action="compare" class="compare-btn cursor-pointer hover:text-gray-700 duration-300
+                        transition-all hover:shadow-black/20 hover:-translate-y-1 active:scale-90" data-id=${product.id}>
               <i class="fa-solid fa-arrow-right-arrow-left"></i> Compare
             </button>
 
-            <button class="wishlist-btn cursor-pointer hover:text-gray-700 duration-300
-                        transition-all hover:shadow-black/20 hover:-translate-y-1 active:scale-90"data-id=${product.id}>
+            <button type="button" aria-label="Add ${product.name} to wishlist" data-action="wishlist" class="wishlist-btn cursor-pointer hover:text-gray-700 duration-300
+                        transition-all hover:shadow-black/20 hover:-translate-y-1 active:scale-90" data-id=${product.id}>
               <i class="fa-regular fa-heart"></i> Like
             </button>
 
