@@ -5,6 +5,9 @@ import { ComparisonTable } from '../components/ComparisonTable.js';
 import { ProductSelector, initProductSelector } from '../components/ProductSelector.js';
 import { addToCart } from "../../state/cart.js";
 
+let currentCompareProducts = []
+let cartListenerAttached = false
+
 
 const findProductsByIds = (ids) => {
     return ids
@@ -86,6 +89,7 @@ const renderSelector = (compareProducts) => {
 const renderTable = (compareProducts) => {
     const container = getTableContainer()
     if (!container) return
+    currentCompareProducts = compareProducts
     if (compareProducts.length === 0) {
         container.innerHTML = `
       <div class="text-center py-20 text-gray-400 text-sm">
@@ -105,12 +109,14 @@ const attachCartListeners = (compareProducts) => {
     const container = getTableContainer()
     if (!container) return
 
+    if (cartListenerAttached) return
+
     container.addEventListener('click', (e) => {
         const button = e.target.closest('.add-to-cart-btn')
         if (!button) return
 
         const productId = +button.dataset.productId
-        const product = compareProducts.find((p) => p.id === productId)
+        const product = currentCompareProducts.find((p) => p.id === productId)
 
         if (!product) return
         addToCart(product);
@@ -127,6 +133,8 @@ const attachCartListeners = (compareProducts) => {
             button.disabled = false
         }, 2000)
     })
+
+    cartListenerAttached = true
 }
 
 

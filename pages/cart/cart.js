@@ -36,6 +36,7 @@ function render() {
     const items = getCart();
 
     if (items.length === 0) {
+        checkoutBtn.setAttribute('aria-disabled', 'true');
         cartContent.classList.add('hidden');
         emptyState.classList.remove('hidden');
         emptyState.classList.add('flex');
@@ -61,7 +62,7 @@ function wireRowEvents() {
         if (!e.target.classList.contains('quantity-input')) return;
 
         const row = e.target.closest('li');
-        const id = row.dataset.id;
+        const id = Number(row.dataset.id);
         const quantity = Math.max(1, parseInt(e.target.value, 10) || 1);
 
         updateQuantity(id, quantity);
@@ -72,7 +73,7 @@ function wireRowEvents() {
         if (!btn) return;
 
         const row = btn.closest('li');
-        removeFromCart(row.dataset.id);
+        removeFromCart(Number(row.dataset.id));
     });
 }
 

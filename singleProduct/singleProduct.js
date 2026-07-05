@@ -22,8 +22,11 @@ const params = new URLSearchParams(window.location.search);
 const productId = Number(params.get("id"));
 const product = products.find(p => p.id === productId);
 
+if (!product) {
+  window.location.href = "./shop.html"
 
-console.log(product);
+  throw new Error("Product Not Found")
+}
 
 renderProduct(product);
 
@@ -102,37 +105,32 @@ setupEvent()
 
 // Switch Tabs Part
 
-const tabsContainer = document.querySelector(".flex.gap-10.mb-8");
+const tabsContainer = document.getElementById("tabs");
 
 const tabs = document.querySelectorAll(".tab-btn");
 
 const contents = document.querySelectorAll(".tab-content");
 
-tabsContainer.addEventListener("click", (e) => {
-  const button = e.target.closest(".tab-btn");
+if (tabsContainer) {
+  tabsContainer.addEventListener("click", (e) => {
+    const button = e.target.closest(".tab-btn");
 
-  if (!button) return;
+    if (!button) return;
 
-  const targetTab = button.dataset.tab;
+    const targetTab = button.dataset.tab;
 
-  tabs.forEach((tab) => {
-    tab.classList.remove("active");
+    tabs.forEach((tab) => {
+      tab.classList.remove("active");
+    });
+
+    button.classList.add("active");
+
+    contents.forEach((content) => {
+      content.classList.add("hidden");
+    });
+
+    document.getElementById(`tab-${targetTab}`).classList.remove("hidden");
   });
-
-  button.classList.add("active");
-
-  contents.forEach((content) => {
-    content.classList.add("hidden");
-  });
-
-  document.getElementById(`tab-${targetTab}`).classList.remove("hidden");
-});
-
-
-if (!product) {
-  window.location.href = "./shop.html"
-
-  throw new Error("Product Not Found")
 }
 
 function renderProduct(product) {

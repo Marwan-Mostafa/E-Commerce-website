@@ -73,21 +73,50 @@ const ProductSelectorHTML = ({ allProducts, compareIds }) => {
   `;
 };
 
+let detachProductSelectorListeners = () => { }
+
 
 export const initProductSelector = (onProductSelect) => {
+    detachProductSelectorListeners()
 
     const container = document.getElementById('product-selector');
     const trigger = document.getElementById('product-selector__trigger');
     const dropdown = document.getElementById('product-selector__dropdown');
     const chevron = document.getElementById('product-selector__chevron');
 
-    
+
     if (!container || !trigger || !dropdown) {
         console.warn('ProductSelector: Required elements not found in DOM.');
         return;
     }
 
     let isOpen = false;
+
+    const onTriggerClick = (e) => {
+        e.stopPropagation();
+        toggleDropdown();
+    }
+
+    const onDocumentClick = (e) => {
+        if (!container.contains(e.target)) {
+            closeDropdown();
+        }
+    }
+
+    const onDocumentKeydown = (e) => {
+        if (e.key === 'Escape' && isOpen) {
+            closeDropdown();
+            trigger.focus();
+        }
+    }
+
+    const onDropdownClick = (e) => {
+        const option = e.target.closest('.product-selector__option');
+        if (!option) return;
+        const productId = +option.dataset.productId;
+        closeDropdown();
+        onProductSelect(productId);
+    }
 
     const openDropdown = () => {
         isOpen = true;
@@ -111,34 +140,21 @@ export const initProductSelector = (onProductSelect) => {
         isOpen ? closeDropdown() : openDropdown();
     };
 
-    trigger.addEventListener('click', (e) => {
-        e.stopPropagation();
-        toggleDropdown();
-    });
+    trigger.addEventListener('click', onTriggerClick);
 
-    document.addEventListener('click', (e) => {
-        if (!container.contains(e.target)) {
-            closeDropdown();
-        }
-    });
+    document.addEventListener('click', onDocumentClick);
 
+    document.addEventListener('keydown', onDocumentKeydown);
 
-    document.addEventListener('keydown', (e) => {
-        if (e.key === 'Escape' && isOpen) {
-            closeDropdown();
-            trigger.focus();
-        }
-    });
+    dropdown.addEventListener('click', onDropdownClick);
 
-
-    dropdown.addEventListener('click', (e) => {
-
-        const option = e.target.closest('.product-selector__option');
-        if (!option) return;
-        const productId = +option.dataset.productId;
-        closeDropdown();
-        onProductSelect(productId);
-    });
+    detachProductSelectorListeners = () => {
+        trigger.removeEventListener('click', onTriggerClick);
+        document.removeEventListener('click', onDocumentClick);
+        document.removeEventListener('keydown', onDocumentKeydown);
+        dropdown.removeEventListener('click', onDropdownClick);
+        detachProductSelectorListeners = () => { }
+    }
 };
 
 export const ProductSelector = ({ allProducts, compareIds, onProductSelect }) => {
