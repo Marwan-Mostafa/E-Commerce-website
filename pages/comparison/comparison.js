@@ -1,8 +1,8 @@
 import { products } from '../../data/products.js';
 import { getCompareIds, addProductToCompare, removeCompareId } from '../../state/compareState.js';
-import { ComparisonCard } from '../components/ComparisonCard.js';
-import { ComparisonTable } from '../components/ComparisonTable.js';
-import { ProductSelector, initProductSelector } from '../components/ProductSelector.js';
+import { ComparisonCard } from '../../components/ComparisonCard.js';
+import { ComparisonTable } from '../../components/ComparisonTable.js';
+import { ProductSelector, initProductSelector } from '../../components/ProductSelector.js';
 import { addToCart } from "../../state/cart.js";
 
 let currentCompareProducts = []

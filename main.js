@@ -1,9 +1,9 @@
 import { products } from "./data/products.js"
 import { ProductGrid } from "./components/ProductGrid.js";
-import { addToCart } from "./state/cart.js";
-import { toggleWishlist } from "./state/wishlist.js";
+import { addToCart } from "./state/cartState.js";
+import { toggleWishlist } from "./state/wishlistState.js";
 import { addProductToCompare } from "./state/compareState.js";
-import { copyProductLink, handleProductCardAction } from "./utils/productCardActions.js";
+import { copyProductLink, handleProductCardAction } from "./handlers/productCardActions.js";
 
 
 let visibleProducts = 4

@@ -1,17 +1,17 @@
-import { products } from "../data/products.js"
-import { ProductGrid } from "../components/ProductGrid.js";
-import { addToCart } from "../state/cart.js";
-import { toggleWishlist } from "../state/wishlist.js";
+import { products } from "../../data/products.js"
+import { ProductGrid } from "../../components/ProductGrid.js";
+import { addToCart } from "../../state/cart.js";
+import { toggleWishlist } from "../../state/wishlist.js";
 import { setupGallery } from "./modules/gallery.js";
-import { setupSizeSelector } from "./modules/sizeSelector.js";
-import { setupColorSelector } from "./modules/colorSelector.js";
+import { setupSizeSelector } from "../../modules/product/sizeSelector.js";
+import { setupColorSelector } from "../../modules/product/colorSelector.js";
 import { setupQuantity } from "./modules/quantity.js";
-import { setupAddToCart } from "./modules/addToCartHandler.js";
-import { formatPrice } from "../utils/formatPrice.js";
-import { openCartDrawer, renderCartDrawer } from "../components/cartDrawer.js";
-import { renderCompareButton } from "../components/CompareButton.js";
-import { addProductToCompare } from "../state/compareState.js";
-import { copyProductLink, handleProductCardAction } from "../utils/productCardActions.js";
+import { setupAddToCart } from "../../modules/product/addToCartHandler.js";
+import { formatPrice } from "../../utils/formatPrice.js";
+import { openCartDrawer, renderCartDrawer } from "../../components/CartDrawer.js";
+import { renderCompareButton } from "../../components/CompareButton.js";
+import { addProductToCompare } from "../../state/compareState.js";
+import { copyProductLink, handleProductCardAction } from "../../utils/productCardActions.js";
 
 const openCartBtn = document.getElementById("open-cart-btn");
 

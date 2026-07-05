@@ -1,14 +1,14 @@
-import { paginate, getTotalPages } from "../utils/paginate.js"
-import { products } from "../data/products.js"
-import { state } from "../state/shopState.js"
-import { sortProducts } from "../utils/sortProducts.js";
-import { setupFilters } from "../components/FilterBar.js";
-import { ProductGrid } from "../components/ProductGrid.js"
-import { renderPagination } from "../components/Pagination.js"
-import { addProductToCompare } from "../state/compareState.js"
-import { addToCart } from "../state/cart.js"
-import { toggleWishlist } from "../state/wishlist.js"
-import { copyProductLink, handleProductCardAction } from "../utils/productCardActions.js"
+import { paginate, getTotalPages } from "../../utils/paginate.js"
+import { products } from "../../data/products.js"
+import { state } from "../../state/shopState.js"
+import { sortProducts } from "../../utils/sortProducts.js";
+import { setupFilters } from "../../components/FilterBar.js";
+import { ProductGrid } from "../../components/ProductGrid.js"
+import { renderPagination } from "../../components/Pagination.js"
+import { addProductToCompare } from "../../state/compareState.js"
+import { addToCart } from "../../state/cart.js"
+import { toggleWishlist } from "../../state/wishlist.js"
+import { copyProductLink, handleProductCardAction } from "../../utils/productCardActions.js"
 
 const shopContainer = document.getElementById("shopContainer")
 
