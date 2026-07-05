@@ -1,14 +1,10 @@
 import { products } from "./data/products.js"
 import { ProductGrid } from "./components/ProductGrid.js";
-import { addToCart } from "./state/cartState.js";
-import { toggleWishlist } from "./state/wishlistState.js";
-import { addProductToCompare } from "./state/compareState.js";
-import { copyProductLink, handleProductCardAction } from "./handlers/productCardActions.js";
-import { renderNavbar } from '/components/Navbar.js';
-import { initMobileMenu } from '/modules/navbar/mobileMenu.js';
+import { addToCart } from "./state/cart.js";
+import { toggleWishlist } from "./state/wishlist.js";
+import { addCompareId, getCount, isCompared } from "./state/compareState.js";
+import { copyProductLink, getProductCardAction } from "./utils/productCardActions.js";
 
-document.getElementById('navbar-root').innerHTML = renderNavbar('home');
-initMobileMenu();
 
 let visibleProducts = 4
 
@@ -50,21 +46,37 @@ function setupEvent() {
       return
     }
 
-    const handled = handleProductCardAction(e, products, {
-      onAddToCart: (product) => addToCart(product),
-      onWishlist: (product) => toggleWishlist(product),
-      onCompare: (product) => {
-        const result = addProductToCompare(product.id)
+    const cardAction = getProductCardAction(e, products)
 
-        if (result.status === "open" || result.status === "ready") {
+    if (cardAction) {
+      const { action, product } = cardAction
+
+      if (action === "add-to-cart") {
+        addToCart(product)
+        return
+      }
+
+      if (action === "wishlist") {
+        toggleWishlist(product)
+        return
+      }
+
+      if (action === "compare") {
+        if (!isCompared(product.id)) {
+          addCompareId(product.id)
+        }
+
+        if (getCount() >= 2) {
           window.location.href = "./comparisonPage/productComparison.html"
         }
-      },
-      onShare: (product) => void copyProductLink(product),
-    })
 
-    if (handled) {
-      return
+        return
+      }
+
+      if (action === "share") {
+        void copyProductLink(product)
+        return
+      }
     }
 
     const productCard = e.target.closest(".product-card");
