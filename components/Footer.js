@@ -1,8 +1,8 @@
 const footerLinks = [
-    { label: 'Home', href: '/home.html' },
-    { label: 'Shop', href: '/pages/shop.html' },
-    { label: 'About', href: '/pages/about.html' },
-    { label: 'Contact', href: '/pages/contact.html' },
+    { label: 'Home', href: '/pages/home/home.html' },
+    { label: 'Shop', href: '/pages/shop/shop.html' },
+    { label: 'About', href: '/pages/about/about.html' },
+    { label: 'Contact', href: '/pages/contact/contact.html' },
 ];
 
 const helpLinks = ['Payment Options', 'Returns', 'Privacy Policies'];

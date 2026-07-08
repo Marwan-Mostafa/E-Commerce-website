@@ -17,11 +17,10 @@ export function initProductGrid(rootId = 'products-root') {
     root.addEventListener('click', (event) => {
         handleProductCardAction(event, products, {
             onAddToCart: (product) => {
-                // Catalog `quantity` is stock count, not cart quantity — must override to 1.
                 addToCart({ ...product, quantity: 1 });
             },
             onWishlist: (product) => {
-                toggleWishlist(product);
+                setupFilters(() => { }, products);
             },
             onCompare: (product) => {
                 addProductToCompare(product.id);
