@@ -7,7 +7,6 @@ import { renderProductGrid } from "../../components/ProductGrid.js"
 import { renderPagination } from "../../components/Pagination.js"
 import { addProductToCompare } from "../../state/compareState.js"
 import { addToCart } from "../../state/cartState.js"
-import { toggleWishlist } from "../../state/wishlistState.js"
 import { copyProductLink, handleProductCardAction } from "../../handlers/productCardActions.js"
 
 const shopContainer = document.getElementById("shopContainer")
@@ -35,7 +34,7 @@ shopContainer.addEventListener("click", (e) => {
 
     const handled = handleProductCardAction(e, products, {
         onAddToCart: (product) => addToCart(product),
-        onWishlist: (product) => toggleWishlist(product),
+        onWishlist: (product) => setupFilters(product),
         onCompare: (product) => {
             const result = addProductToCompare(product.id)
 

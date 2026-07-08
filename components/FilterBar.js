@@ -1,43 +1,79 @@
 import { state } from "../state/shopState.js"
 
 export function setupFilters(renderShop, products) {
-    const filterBtn = document.getElementById("filterBtn");
-    const showItems = document.getElementById("showItems");
-    const sortItems = document.getElementById("sortItems");
-    const gridView = document.getElementById("gridView");
-    const listView = document.getElementById("listView");
+    const elements = {
+        filterBtn: document.getElementById("filterBtn"),
+        showItems: document.getElementById("showItems"),
+        sortItems: document.getElementById("sortItems"),
+        gridView: document.getElementById("gridView"),
+        listView: document.getElementById("listView"),
+    }
 
-    if (!filterBtn || !showItems || !sortItems || !gridView || !listView) {
-        return;
+    const {
+        filterBtn,
+        showItems,
+        sortItems,
+        gridView,
+        listView,
+    } = elements
+
+    const requiredElements = [
+        filterBtn,
+        showItems,
+        sortItems,
+        gridView,
+        listView,
+    ]
+
+    if (requiredElements.some(element => !element)) {
+        console.warn("FilterBar: Missing required DOM elements.");
+        return
+    }
+    const rerenderShop = (resetPage = false) => {
+        if (resetPage) {
+            state.currentPage = 1;
+        }
+
+        renderShop();
+    };
+
+    const setViewMode = (mode) => {
+        if (state.viewMode === mode) return;
+
+        state.viewMode = mode;
+        rerenderShop();
+    };
+
+    const updateItemsPerPage = (value) => {
+        state.perPage =
+            value === "All"
+                ? products.length
+                : Number(value);
+
+        rerenderShop(true);
+    };
+
+    const updateSorting = (value) => {
+        state.sortBy = value.toLowerCase();
+        rerenderShop();
     }
 
 
     filterBtn.addEventListener("click", () => { });
 
-    showItems.addEventListener("change", (e) => {
-        const value = e.target.value;
+    showItems.addEventListener("change", ({ target }) => {
+        updateItemsPerPage(target.value);
+    })
 
-        state.perPage =
-            value === "All" ? products.length : Number(value);
-
-        state.currentPage = 1;
-
-        renderShop();
-    });
-
-    sortItems.addEventListener("change", (e) => {
-        state.sortBy = e.target.value.toLowerCase();
-
-        renderShop();
+    sortItems.addEventListener("change", (target) => {
+        updateItemsPerPage(target.value);
     });
 
     gridView.addEventListener("click", () => {
-        state.viewMode = "grid";
-        renderShop();
+        state.viewMode = "grid"
     });
 
     listView.addEventListener("click", () => {
-        state.viewMode = "list";
-        renderShop();
+        setViewMode("list")
     });
 }
