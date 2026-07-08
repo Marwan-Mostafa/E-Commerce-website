@@ -1,21 +1,58 @@
 const CART_KEY = 'furniro_cart';
 
-let cart = JSON.parse(localStorage.getItem(CART_KEY)) || [];
+function loadCart() {
+    const raw = localStorage.getItem(CART_KEY);
+    if (!raw) return [];
+
+    try {
+        const parsed = JSON.parse(raw);
+        return Array.isArray(parsed) ? parsed : [];
+    } catch (error) {
+        console.warn('[cartState] Corrupted cart data in localStorage, resetting cart.', error);
+        return [];
+    }
+}
+
+let cart = loadCart();
 
 function saveCart() {
-    localStorage.setItem(CART_KEY, JSON.stringify(cart));
+    try {
+        localStorage.setItem(CART_KEY, JSON.stringify(cart));
+    } catch (error) {
+        console.warn('[cartState] Failed to persist cart to localStorage.', error);
+    }
+
     window.dispatchEvent(new CustomEvent('cart:updated', { detail: { cart: [...cart] } }));
 }
 
-export function addToCart(product) {
-    const existingItem = cart.find(
-        item => item.id === product.id && item.size === product.size && item.color === product.color
+function isSameCartLine(a, b) {
+    return (
+        a.id === b.id &&
+        (a.size ?? null) === (b.size ?? null) &&
+        (a.color ?? null) === (b.color ?? null)
     );
+}
+
+function toPositiveInteger(value, fallback) {
+    const number = Number(value);
+    return Number.isFinite(number) && number > 0 ? Math.floor(number) : fallback;
+}
+
+export function addToCart(product) {
+    if (!product || product.id == null) {
+        console.warn('[cartState] addToCart called without a valid product id.', product);
+        return;
+    }
+
+    const quantity = toPositiveInteger(product.quantity, 1);
+    const item = { ...product, quantity };
+
+    const existingItem = cart.find((cartItem) => isSameCartLine(cartItem, item));
 
     if (existingItem) {
-        existingItem.quantity += product.quantity;
+        existingItem.quantity += quantity;
     } else {
-        cart.push(product);
+        cart.push(item);
     }
 
     saveCart();
@@ -26,20 +63,22 @@ export function getCart() {
 }
 
 export function removeFromCart(productId) {
-    cart = cart.filter(item => item.id !== productId);
+    cart = cart.filter((item) => item.id !== productId);
     saveCart();
 }
 
 export function updateQuantity(productId, quantity) {
-    const item = cart.find(item => item.id === productId);
+    const item = cart.find((cartItem) => cartItem.id === productId);
     if (!item) return;
 
-    if (quantity <= 0) {
+    const safeQuantity = toPositiveInteger(quantity, 0);
+
+    if (safeQuantity <= 0) {
         removeFromCart(productId);
         return;
     }
 
-    item.quantity = quantity;
+    item.quantity = safeQuantity;
     saveCart();
 }
 

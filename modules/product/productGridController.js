@@ -2,7 +2,7 @@ import { products } from '../../data/products.js';
 import { ProductCard } from '../../components/ProductCard.js';
 import { handleProductCardAction, copyProductLink } from '../../handlers/productCardActions.js';
 import { addToCart } from '../../state/cartState.js';
-import { toggleWishlist } from '../../state/wishlistState.js';
+import { setupFilters } from '../../state/wishlistState.js';
 import { addProductToCompare } from '../../state/compareState.js';
 
 const PAGE_SIZE = 8;

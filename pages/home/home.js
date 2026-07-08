@@ -2,7 +2,7 @@ import { INSPIRATION_CAROUSEL_ID, renderInspirationSlider } from '../../componen
 import { renderNavbar } from '../../components/Navbar.js';
 import { products } from '../../data/products.js';
 import { addToCart } from '../../state/cartState.js';
-import { toggleWishlist } from '../../state/wishlistState.js';
+import { setupFilters } from '../../state/wishlistState.js';
 import { addProductToCompare } from '../../state/compareState.js';
 import { copyProductLink, handleProductCardAction } from '../../handlers/productCardActions.js';
 import { renderFooter } from '../../components/Footer.js';

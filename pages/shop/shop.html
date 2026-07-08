@@ -1,205 +1,209 @@
 <!DOCTYPE html>
 <html lang="en">
-    <head>
-        <meta charset="UTF-8">
-        <meta name="viewport" content="width=device-width, initial-scale=1.0">
-        <script src="https://cdn.jsdelivr.net/npm/@tailwindcss/browser@4"></script>
-        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/7.0.1/css/all.min.css"
-            integrity="sha512-2SwdPD6INVrV/lHTZbO2nodKhrnDdJK9/kg2XD1r9uGqPo1cUbujc+IYdlYdEErWNu69gVcYgdxlmVmzTWnetw=="
-            crossorigin="anonymous" referrerpolicy="no-referrer" />
-        <link rel="stylesheet" href="../styles/style.css">
-        <title>Shop</title>
-    </head>
-    <body class="w-full h-screen">
-        <header class="bg-white w-full h-[100px] flex items-center shadow-sm cursor-pointer transition duration-300">
-            <div class="mx-auto px-4 max-w-[1286px] w-full flex justify-between items-center">
 
-                <div class="flex items-center gap-2 hover:scale-105 transition duration-600">
-                    <img src="/assets/images/logo.svg" alt="logo_image">
-                    <p class="font-bold md:text-[34px] transition duration-300">Furniro</p>
-                </div>
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <script src="https://cdn.jsdelivr.net/npm/@tailwindcss/browser@4"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/7.0.1/css/all.min.css"
+        integrity="sha512-2SwdPD6INVrV/lHTZbO2nodKhrnDdJK9/kg2XD1r9uGqPo1cUbujc+IYdlYdEErWNu69gVcYgdxlmVmzTWnetw=="
+        crossorigin="anonymous" referrerpolicy="no-referrer" />
+    <link rel="stylesheet" href="../../styles/style.css">
+    <title>Shop</title>
+</head>
 
-                <ul class="hidden md:flex items-center gap-13 list-none font-medium text-[16px] capitalize">
-                    <li>
-                        <a href="/home.html" class="relative group text-gray-700 transition duration-300 hover:text-black">
-                            home
-                            <span
-                                class="absolute left-0 -bottom-1 w-0 h-0.5 bg-black transition-all duration-300 group-hover:w-full"></span>
-                        </a>
-                    </li>
+<body class="w-full h-screen">
+    <header class="bg-white w-full h-[100px] flex items-center shadow-sm cursor-pointer transition duration-300">
+        <div class="mx-auto px-4 max-w-[1286px] w-full flex justify-between items-center">
 
-                    <li>
-                        <a href="/pages/shop.html" class="relative group text-gray-700 transition duration-300 hover:text-black">
-                            shop
-                            <span
-                                class="absolute left-0 -bottom-1 w-0 h-0.5 bg-black transition-all duration-300 group-hover:w-full"></span>
-                        </a>
-                    </li>
-
-                    <li>
-                        <a href="#About" class="relative group text-gray-700 transition duration-300 hover:text-black">
-                            about
-                            <span
-                                class="absolute left-0 -bottom-1 w-0 h-0.5 bg-black transition-all duration-300 group-hover:w-full"></span>
-                        </a>
-                    </li>
-
-                    <li>
-                        <a href="#contact" class="relative group text-gray-700 transition duration-300 hover:text-black">
-                            contact
-                            <span
-                                class="absolute left-0 -bottom-1 w-0 h-0.5 bg-black transition-all duration-300 group-hover:w-full"></span>
-                        </a>
-                    </li>
-                </ul>
-
-                <ul class="flex list-none items-center gap-8 text-xl">
-                    <li>
-                        <a href="#" aria-label="user"
-                            class="p-2 rounded-full transition duration-300 hover:bg-gray-200 hover:scale-110">
-                            <i class="fa-solid fa-user"></i>
-                        </a>
-                    </li>
-
-                    <li>
-                        <a href="#" aria-label="search"
-                            class="p-2 rounded-full transition duration-300 hover:bg-gray-200 hover:scale-110">
-                            <i class="fa-solid fa-magnifying-glass"></i>
-                        </a>
-                    </li>
-
-                    <li>
-                        <a href="#" aria-label="favourite"
-                            class="p-2 rounded-full transition duration-300 hover:bg-gray-200 hover:scale-110">
-                            <i class="fa-regular fa-heart"></i>
-                        </a>
-                    </li>
-
-                    <li>
-                        <a href="#" aria-label="cart"
-                            class="p-2 rounded-full transition duration-300 hover:bg-gray-200 hover:scale-110">
-                            <i class="fa-solid fa-cart-shopping"></i>
-                        </a>
-                    </li>
-
-                </ul>
+            <div class="flex items-center gap-2 hover:scale-105 transition duration-600">
+                <img src="/assets/images/logo.svg" alt="logo_image">
+                <p class="font-bold md:text-[34px] transition duration-300">Furniro</p>
             </div>
-        </header>
 
-        <section class="page-hero flex justify-center items-center">
-            <div class="hero-bg-image relative">
-                <img src="/assets/images/shop.svg" alt="shop-image">
-            </div>
-            <div class="hero-content absolute">
-                <h1 class="text-[48px] font-medium">Shop</h1>
-                <nav aria-label="breadcrumb" class="">
-                    <ol class="flex justify-between">
-                        <li class="font-medium">Home</li>
-                        <li><i class="fa-solid fa-angle-right"></i></li>
-                        <li>Shop</li>
-                    </ol>
-                </nav>
-            </div>
-        </section>
+            <ul class="hidden md:flex items-center gap-13 list-none font-medium text-[16px] capitalize">
+                <li>
+                    <a href="/home.html" class="relative group text-gray-700 transition duration-300 hover:text-black">
+                        home
+                        <span
+                            class="absolute left-0 -bottom-1 w-0 h-0.5 bg-black transition-all duration-300 group-hover:w-full"></span>
+                    </a>
+                </li>
 
-        <section class="shop-toolbar bg-[#F9F1E7] px-8 py-6">
-            
-            <div class="container mx-auto flex items-center justify-between flex-wrap gap-6">    
+                <li>
+                    <a href="/pages/shop.html"
+                        class="relative group text-gray-700 transition duration-300 hover:text-black">
+                        shop
+                        <span
+                            class="absolute left-0 -bottom-1 w-0 h-0.5 bg-black transition-all duration-300 group-hover:w-full"></span>
+                    </a>
+                </li>
 
-                <div class="flex items-center gap-6">
-                    <button id="filterBtn" class="flex items-center gap-2 text-sm font-medium hover:opacity-70 transition cursor-pointer">
-                        <i class="fa-solid fa-sliders"></i>
-                        <span>Filter</span>
+                <li>
+                    <a href="#About" class="relative group text-gray-700 transition duration-300 hover:text-black">
+                        about
+                        <span
+                            class="absolute left-0 -bottom-1 w-0 h-0.5 bg-black transition-all duration-300 group-hover:w-full"></span>
+                    </a>
+                </li>
+
+                <li>
+                    <a href="#contact" class="relative group text-gray-700 transition duration-300 hover:text-black">
+                        contact
+                        <span
+                            class="absolute left-0 -bottom-1 w-0 h-0.5 bg-black transition-all duration-300 group-hover:w-full"></span>
+                    </a>
+                </li>
+            </ul>
+
+            <ul class="flex list-none items-center gap-8 text-xl">
+                <li>
+                    <a href="#" aria-label="user"
+                        class="p-2 rounded-full transition duration-300 hover:bg-gray-200 hover:scale-110">
+                        <i class="fa-solid fa-user"></i>
+                    </a>
+                </li>
+
+                <li>
+                    <a href="#" aria-label="search"
+                        class="p-2 rounded-full transition duration-300 hover:bg-gray-200 hover:scale-110">
+                        <i class="fa-solid fa-magnifying-glass"></i>
+                    </a>
+                </li>
+
+                <li>
+                    <a href="#" aria-label="favourite"
+                        class="p-2 rounded-full transition duration-300 hover:bg-gray-200 hover:scale-110">
+                        <i class="fa-regular fa-heart"></i>
+                    </a>
+                </li>
+
+                <li>
+                    <a href="#" aria-label="cart"
+                        class="p-2 rounded-full transition duration-300 hover:bg-gray-200 hover:scale-110">
+                        <i class="fa-solid fa-cart-shopping"></i>
+                    </a>
+                </li>
+
+            </ul>
+        </div>
+    </header>
+
+    <section class="page-hero flex justify-center items-center">
+        <div class="hero-bg-image relative">
+            <img src="/assets/images/shop.svg" alt="shop-image">
+        </div>
+        <div class="hero-content absolute">
+            <h1 class="text-[48px] font-medium">Shop</h1>
+            <nav aria-label="breadcrumb" class="">
+                <ol class="flex justify-between">
+                    <li class="font-medium">Home</li>
+                    <li><i class="fa-solid fa-angle-right"></i></li>
+                    <li>Shop</li>
+                </ol>
+            </nav>
+        </div>
+    </section>
+
+    <section class="shop-toolbar bg-[#F9F1E7] px-8 py-6">
+
+        <div class="container mx-auto flex items-center justify-between flex-wrap gap-6">
+
+            <div class="flex items-center gap-6">
+                <button id="filterBtn"
+                    class="flex items-center gap-2 text-sm font-medium hover:opacity-70 transition cursor-pointer">
+                    <i class="fa-solid fa-sliders"></i>
+                    <span>Filter</span>
+                </button>
+
+                <div class="flex items-center gap-4 text-lg">
+                    <button id="gridView" class="hover:opacity-70 transition cursor-pointer">
+                        <i class="fa-solid fa-grip"></i>
                     </button>
-
-                    <div class="flex items-center gap-4 text-lg">
-                        <button id="gridView" class="hover:opacity-70 transition cursor-pointer">
-                            <i class="fa-solid fa-grip"></i>
-                        </button>
-                        <button id="listView" class="hover:opacity-70 transition cursor-pointer">
-                            <i class="fa-solid fa-bars"></i>
-                        </button>
-                    </div>
-
-                    <div class="pl-6 border-l border-gray-400">
-                        <p class="text-sm text-gray-700">
-                            Showing 1-16 of 32 results
-                        </p>
-                    </div>
-                
+                    <button id="listView" class="hover:opacity-70 transition cursor-pointer">
+                        <i class="fa-solid fa-bars"></i>
+                    </button>
                 </div>
 
-                <div class="flex items-center gap-8">
-                    <div class="flex items-center gap-4">
-                        <label for="showItems" class="text-sm font-medium">Show</label>
-                        
-                        <select id="showItems"
-                            class="w-16 h-12 bg-white text-center outline-none border border-gray-200 appearance-none">
-                            <option>16</option>
-                            <option>32</option>
-                            <option>All</option>
-                        </select>
-                    </div>
+                <div class="pl-6 border-l border-gray-400">
+                    <p class="text-sm text-gray-700">
+                        Showing 1-16 of 32 results
+                    </p>
+                </div>
+
+            </div>
+
+            <div class="flex items-center gap-8">
+                <div class="flex items-center gap-4">
+                    <label for="showItems" class="text-sm font-medium">Show</label>
+
+                    <select id="showItems"
+                        class="w-16 h-12 bg-white text-center outline-none border border-gray-200 appearance-none">
+                        <option>16</option>
+                        <option>32</option>
+                        <option>All</option>
+                    </select>
+                </div>
 
 
-                    <div class="flex items-center gap-4">   
-                        <label for="sortItems" class="text-sm font-medium">Sort by</label>
+                <div class="flex items-center gap-4">
+                    <label for="sortItems" class="text-sm font-medium">Sort by</label>
 
-                        <select id="sortItems"
-                            class="w-44 h-12 bg-white px-3 outline-none border border-gray-200 appearance-none">
-                            <option>Default</option>
-                            <option>Price</option>
-                            <option>Name</option>
-                            <option>Newest</option>
-                        </select>
-                    </div>
+                    <select id="sortItems"
+                        class="w-44 h-12 bg-white px-3 outline-none border border-gray-200 appearance-none">
+                        <option>Default</option>
+                        <option>Price</option>
+                        <option>Name</option>
+                        <option>Newest</option>
+                    </select>
+                </div>
 
+            </div>
+        </div>
+    </section>
+
+    <section class="container mx-auto py-16">
+        <div id="shopContainer"></div>
+    </section>
+
+    <nav class="pagination mt-16" aria-label="Shop pages">
+        <ul id="paginationList" class="flex items-center gap-6"></ul>
+    </nav>
+
+    <section class="trust-strip">
+        <div class="trust-grid flex justify-around items-center bg-[#FAF3EA] h-[270px]">
+            <div class="trust-item flex items-center justify-center gap-2">
+                <img src="/assets/images/firstIcon.svg" alt="Icon">
+                <div>
+                    <h4 class="font-semibold text-[25px]">High Quality</h4>
+                    <p class="font-medium text-[20px] text-gray-400">Crafted from top materials</p>
                 </div>
             </div>
-        </section>
-        
-        <section class="container mx-auto py-16">
-            <div id="shopContainer"></div>
-        </section>
-
-        <nav class="pagination mt-16" aria-label="Shop pages">
-            <ul id="paginationList" class="flex items-center gap-6"></ul>
-        </nav>
-
-        <section class="trust-strip">
-            <div class="trust-grid flex justify-around items-center bg-[#FAF3EA] h-[270px]">
-                <div class="trust-item flex items-center justify-center gap-2">
-                    <img src="/assets/images/firstIcon.svg" alt="Icon">
-                    <div>
-                        <h4 class="font-semibold text-[25px]">High Quality</h4>
-                        <p class="font-medium text-[20px] text-gray-400">Crafted from top materials</p>
-                    </div>
-                </div>
-                <div class="trust-item flex items-center justify-center gap-2">
-                    <img src="/assets/images/secIcon.svg" alt="Icon">
-                    <div>
-                        <h4 class="font-semibold text-[25px]">Warranty Protection</h4>
-                        <p class="font-medium text-[20px] text-gray-400">Over 2 years</p>
-                    </div>
-                </div>
-                <div class="trust-item flex items-center justify-center gap-2">
-                    <img src="/assets/images/thirdIcon.svg" alt="Icon">
-                    <div>
-                        <h4 class="font-semibold text-[25px]">Free Shipping</h4>
-                        <p class="font-medium text-[20px] text-gray-400">Order over $150</p>
-                    </div>
-                </div>
-                <div class="trust-item flex items-center justify-center gap-2">
-                    <img src="/assets/images/fourIcon.svg" alt="Icon">
-                    <div>
-                        <h4 class="font-semibold text-[25px]">24/7 Support</h4>
-                        <p class="font-medium text-[20px] text-gray-400">Dedicated support</p>
-                    </div>
+            <div class="trust-item flex items-center justify-center gap-2">
+                <img src="/assets/images/secIcon.svg" alt="Icon">
+                <div>
+                    <h4 class="font-semibold text-[25px]">Warranty Protection</h4>
+                    <p class="font-medium text-[20px] text-gray-400">Over 2 years</p>
                 </div>
             </div>
-        </section>
+            <div class="trust-item flex items-center justify-center gap-2">
+                <img src="/assets/images/thirdIcon.svg" alt="Icon">
+                <div>
+                    <h4 class="font-semibold text-[25px]">Free Shipping</h4>
+                    <p class="font-medium text-[20px] text-gray-400">Order over $150</p>
+                </div>
+            </div>
+            <div class="trust-item flex items-center justify-center gap-2">
+                <img src="/assets/images/fourIcon.svg" alt="Icon">
+                <div>
+                    <h4 class="font-semibold text-[25px]">24/7 Support</h4>
+                    <p class="font-medium text-[20px] text-gray-400">Dedicated support</p>
+                </div>
+            </div>
+        </div>
+    </section>
 
-        <footer class="w-full bg-white border-t border-gray-200 mt-20">
+    <footer class="w-full bg-white border-t border-gray-200 mt-20">
         <div class="max-w-[1286px] mx-auto px-6 sm:px-8 lg:px-12 py-16">
             <div class="grid gap-12 lg:grid-cols-[1.2fr_2fr] lg:gap-20">
                 <div class="flex flex-col gap-6">
@@ -438,8 +442,9 @@
                 </div>
             </div>
 
-        </footer>
+    </footer>
 
-        <script type="module" src="./shop.js"></script>
-    </body>
+    <script type="module" src="./shop.js"></script>
+</body>
+
 </html>
