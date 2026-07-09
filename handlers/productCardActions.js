@@ -1,14 +1,22 @@
-export function getProductCardAction(event, products) {
-    const actionButton = event.target.closest('[data-action]');
+function resolveProductCardAction(event, products) {
+
+    const actionButton =
+        event.target.closest("[data-action]");
 
     if (!actionButton) return null;
 
-    const productCard = actionButton.closest('.product-card');
+    const productId =
+        Number(
+            actionButton.dataset.id ??
+            actionButton.closest(".product-card")?.dataset.id
+        );
 
-    if (!productCard) return null;
+    if (!productId) return null;
 
-    const productId = Number(productCard.dataset.id);
-    const product = products.find((item) => item.id === productId);
+    const product =
+        products.find(
+            ({ id }) => id === productId
+        );
 
     if (!product) return null;
 
@@ -16,40 +24,67 @@ export function getProductCardAction(event, products) {
         action: actionButton.dataset.action,
         product,
     };
+
 }
 
-export function handleProductCardAction(event, products, handlers = {}) {
-    const resolvedAction = getProductCardAction(event, products)
+export function handleProductCardAction(
+    event,
+    products,
+    handlers = {}
+) {
 
-    if (!resolvedAction) return false
+    const resolvedAction =
+        resolveProductCardAction(event, products);
 
-    const { action, product } = resolvedAction
+    if (!resolvedAction) return false;
 
-    switch (action) {
-        case "add-to-cart":
-            handlers.onAddToCart?.(product)
-            return true
-        case "wishlist":
-            handlers.onWishlist?.(product)
-            return true
-        case "share":
-            handlers.onShare?.(product)
-            return true
-        case "compare":
-            handlers.onCompare?.(product)
-            return true
-        default:
-            return true
-    }
+    const {
+        action,
+        product,
+    } = resolvedAction;
+
+    const actionMap = {
+
+        "add-to-cart": handlers.onAddToCart,
+
+        wishlist: handlers.onWishlist,
+
+        compare: handlers.onCompare,
+
+        share: handlers.onShare,
+
+    };
+
+    actionMap[action]?.(product);
+
+    return true;
+
 }
 
 export async function copyProductLink(product) {
-    const productUrl = `${window.location.origin}/singleProduct/singleProduct.html?id=${product.id}`;
 
-    if (navigator.clipboard?.writeText) {
-        await navigator.clipboard.writeText(productUrl);
-        return;
+    const productUrl =
+        `${window.location.origin}/pages/singleProduct/singleProduct.html?id=${product.id}`;
+
+    try {
+
+        if (navigator.clipboard?.writeText) {
+
+            await navigator.clipboard.writeText(productUrl);
+
+            return;
+
+        }
+
+    } catch (error) {
+
+        console.warn("Clipboard API unavailable.", error);
+
     }
 
-    window.prompt('Copy product link', productUrl);
+    window.prompt(
+        "Copy product link",
+        productUrl
+    );
+
 }

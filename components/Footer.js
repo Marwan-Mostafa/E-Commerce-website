@@ -100,7 +100,7 @@ function renderNewsletter() {
                                hover:text-(--primary)
                                transition-colors duration-300
                                focus-visible:outline-none
-                               focus-visible:text-(--primary)">
+                               focus-visible:text-(--primary) cursor-pointer">
                         Subscribe
                     </button>
 

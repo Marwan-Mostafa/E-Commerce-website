@@ -1,60 +1,15 @@
-import { paginate, getTotalPages } from "../../utils/paginate.js"
-import { products } from "../../data/products.js"
-import { state } from "../../state/shopState.js"
-import { sortProducts } from "../../utils/sortProducts.js";
-import { setupFilters } from "../../components/FilterBar.js";
-import { renderProductGrid } from "../../components/ProductGrid.js"
-import { renderPagination } from "../../components/Pagination.js"
-import { addProductToCompare } from "../../state/compareState.js"
-import { addToCart } from "../../state/cartState.js"
-import { copyProductLink, handleProductCardAction } from "../../handlers/productCardActions.js"
+import { renderNavbar } from "../../components/Navbar.js";
+import { renderFooter } from "../../components/Footer.js";
+import { renderFeaturesSection } from "../../components/FeaturesSection.js";
 
-const shopContainer = document.getElementById("shopContainer")
+import { createShopController } from "./shopController.js";
 
-function renderShop() {
-    const sortedProducts = sortProducts(products, state.sortBy);
+document.getElementById("navbar-root").innerHTML = renderNavbar("shop");
 
-    const paginatedProducts = paginate(sortedProducts, state.currentPage, state.perPage)
-    const totalPages = getTotalPages(sortedProducts, state.perPage)
+document.getElementById("featuresSection").innerHTML = renderFeaturesSection();
 
-    shopContainer.innerHTML = `
-    ${renderProductGrid(paginatedProducts, state.viewMode)}
-    ${renderPagination(state.currentPage, totalPages)}
-    `
-}
+document.getElementById("footer-root").innerHTML = renderFooter();
 
+const controller =createShopController(document.getElementById("shopContainer"));
 
-shopContainer.addEventListener("click", (e) => {
-    const pageBtn = e.target.closest(".page-btn");
-    if (pageBtn && !pageBtn.disabled) {
-        state.currentPage = Number(pageBtn.dataset.page);
-        renderShop();
-        return;
-    }
-
-    const handled = handleProductCardAction(e, products, {
-        onAddToCart: (product) => addToCart(product),
-        onWishlist: (product) => setupFilters(product),
-        onCompare: (product) => {
-            const result = addProductToCompare(product.id)
-
-            if (result.status === "open" || result.status === "ready") {
-                window.location.href = "../comparisonPage/productComparison.html"
-            }
-        },
-        onShare: (product) => void copyProductLink(product),
-    })
-
-    if (handled) {
-        return
-    }
-
-    const productCard = e.target.closest(".product-card");
-    if (productCard) {
-        const productId = Number(productCard.dataset.id);
-        window.location.href = `../singleProduct/singleProduct.html?id=${productId}`;
-    }
-});
-
-setupFilters(renderShop, products)
-renderShop()
+controller.init();

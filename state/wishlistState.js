@@ -1,89 +1,162 @@
-import { state } from '../state/shopState.js';
-
 const DEFAULT_PER_PAGE = 16;
 
 const FILTER_ELEMENT_IDS = {
-    filterBtn: 'filterBtn',
-    showItems: 'showItems',
-    sortItems: 'sortItems',
-    gridView: 'gridView',
-    listView: 'listView',
+    filterBtn: "filterBtn",
+    showItems: "showItems",
+    sortItems: "sortItems",
+    gridView: "gridView",
+    listView: "listView",
 };
 
-export function setupFilters(renderShop, products) {
-    bindFilterToggle(FILTER_ELEMENT_IDS.filterBtn);
-    bindShowItems(FILTER_ELEMENT_IDS.showItems, renderShop, products.length);
-    bindSortItems(FILTER_ELEMENT_IDS.sortItems, renderShop);
-    bindViewMode(FILTER_ELEMENT_IDS.gridView, 'grid', renderShop);
-    bindViewMode(FILTER_ELEMENT_IDS.listView, 'list', renderShop);
+export function setupFilters({
+
+    onPerPageChange,
+
+    onSortChange,
+
+    onViewChange,
+
+    onFilterToggle,
+
+}) {
+
+    bindFilterToggle(
+        FILTER_ELEMENT_IDS.filterBtn,
+        onFilterToggle
+    );
+
+    bindShowItems(
+        FILTER_ELEMENT_IDS.showItems,
+        onPerPageChange
+    );
+
+    bindSortItems(
+        FILTER_ELEMENT_IDS.sortItems,
+        onSortChange
+    );
+
+    bindViewMode(
+        FILTER_ELEMENT_IDS.gridView,
+        "grid",
+        onViewChange
+    );
+
+    bindViewMode(
+        FILTER_ELEMENT_IDS.listView,
+        "list",
+        onViewChange
+    );
+
 }
 
-function applyStateChange(patch, renderShop) {
-    Object.assign(state, patch);
-    renderShop();
-}
+function bindFilterToggle(id, callback) {
 
-function isAlreadyBound(element) {
-    return element.dataset.filtersBound === 'true';
-}
+    const button =
+        document.getElementById(id);
 
-function markBound(element) {
-    element.dataset.filtersBound = 'true';
-}
+    if (!button || isAlreadyBound(button))
+        return;
 
-function bindFilterToggle(id) {
-    const filterBtn = document.getElementById(id);
-    if (!filterBtn || isAlreadyBound(filterBtn)) return;
+    button.addEventListener("click", () => {
 
-    filterBtn.addEventListener('click', () => {
-        const isOpen = filterBtn.getAttribute('aria-expanded') === 'true';
-        filterBtn.setAttribute('aria-expanded', String(!isOpen));
+        const isOpen =
+            button.getAttribute("aria-expanded") === "true";
 
-        window.dispatchEvent(
-            new CustomEvent('shop:filter-toggle', { detail: { open: !isOpen } })
+        button.setAttribute(
+            "aria-expanded",
+            String(!isOpen)
         );
-    });
 
-    markBound(filterBtn);
-}
+        callback?.(!isOpen);
 
-function bindShowItems(id, renderShop, totalProducts) {
-    const showItems = document.getElementById(id);
-    if (!showItems || isAlreadyBound(showItems)) return;
-
-    showItems.addEventListener('change', (event) => {
-        const perPage = resolvePerPage(event.target.value, totalProducts);
-        applyStateChange({ perPage, currentPage: 1 }, renderShop);
-    });
-
-    markBound(showItems);
-}
-
-function resolvePerPage(rawValue, totalProducts) {
-    if (rawValue === 'All') return totalProducts;
-
-    const parsed = Number(rawValue);
-    return Number.isFinite(parsed) && parsed > 0 ? parsed : DEFAULT_PER_PAGE;
-}
-
-function bindSortItems(id, renderShop) {
-    const sortItems = document.getElementById(id);
-    if (!sortItems || isAlreadyBound(sortItems)) return;
-
-    sortItems.addEventListener('change', (event) => {
-        applyStateChange({ sortBy: event.target.value.toLowerCase() }, renderShop);
-    });
-
-    markBound(sortItems);
-}
-
-function bindViewMode(id, viewMode, renderShop) {
-    const button = document.getElementById(id);
-    if (!button || isAlreadyBound(button)) return;
-
-    button.addEventListener('click', () => {
-        applyStateChange({ viewMode }, renderShop);
     });
 
     markBound(button);
+
+}
+
+function bindShowItems(id, callback) {
+
+    const select =
+        document.getElementById(id);
+
+    if (!select || isAlreadyBound(select))
+        return;
+
+    select.addEventListener("change", (event) => {
+
+        const value = event.target.value;
+
+        callback?.(
+
+            value === "All"
+                ? Infinity
+                : Number(value) || DEFAULT_PER_PAGE
+
+        );
+
+    });
+
+    markBound(select);
+
+}
+
+function bindSortItems(id, callback) {
+
+    const select =
+        document.getElementById(id);
+
+    if (!select || isAlreadyBound(select))
+        return;
+
+    select.addEventListener("change", (event) => {
+
+        callback?.(
+
+            event.target.value.toLowerCase()
+
+        );
+
+    });
+
+    markBound(select);
+
+}
+
+function bindViewMode(
+    id,
+    mode,
+    callback
+) {
+
+    const button =
+        document.getElementById(id);
+
+    if (!button || isAlreadyBound(button))
+        return;
+
+    button.addEventListener("click", () => {
+
+        callback?.(mode);
+
+    });
+
+    markBound(button);
+
+}
+
+function isAlreadyBound(element) {
+
+    return (
+        element.dataset.filtersBound ===
+        "true"
+    );
+
+}
+
+function markBound(element) {
+
+    element.dataset.filtersBound =
+        "true";
+
 }

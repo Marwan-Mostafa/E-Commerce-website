@@ -1,79 +1,168 @@
-import { state } from "../state/shopState.js"
+const DEFAULT_PER_PAGE = 16;
 
-export function setupFilters(renderShop, products) {
-    const elements = {
-        filterBtn: document.getElementById("filterBtn"),
-        showItems: document.getElementById("showItems"),
-        sortItems: document.getElementById("sortItems"),
-        gridView: document.getElementById("gridView"),
-        listView: document.getElementById("listView"),
-    }
+const FILTER_ELEMENT_IDS = {
+    filterBtn: "filterBtn",
+    showItems: "showItems",
+    sortItems: "sortItems",
+    gridView: "gridView",
+    listView: "listView",
+};
 
-    const {
-        filterBtn,
-        showItems,
-        sortItems,
-        gridView,
-        listView,
-    } = elements
+export function setupFilters({
+    onFilterToggle,
+    onPerPageChange,
+    onSortChange,
+    onViewChange,
+} = {}) {
 
-    const requiredElements = [
-        filterBtn,
-        showItems,
-        sortItems,
-        gridView,
-        listView,
-    ]
+    bindFilterToggle(
+        FILTER_ELEMENT_IDS.filterBtn,
+        onFilterToggle
+    );
 
-    if (requiredElements.some(element => !element)) {
-        console.warn("FilterBar: Missing required DOM elements.");
-        return
-    }
-    const rerenderShop = (resetPage = false) => {
-        if (resetPage) {
-            state.currentPage = 1;
-        }
+    bindShowItems(
+        FILTER_ELEMENT_IDS.showItems,
+        onPerPageChange
+    );
 
-        renderShop();
-    };
+    bindSortItems(
+        FILTER_ELEMENT_IDS.sortItems,
+        onSortChange
+    );
 
-    const setViewMode = (mode) => {
-        if (state.viewMode === mode) return;
+    bindViewMode(
+        FILTER_ELEMENT_IDS.gridView,
+        "grid",
+        onViewChange
+    );
 
-        state.viewMode = mode;
-        rerenderShop();
-    };
+    bindViewMode(
+        FILTER_ELEMENT_IDS.listView,
+        "list",
+        onViewChange
+    );
+}
 
-    const updateItemsPerPage = (value) => {
-        state.perPage =
+
+function bindFilterToggle(id, callback) {
+
+    const button = document.getElementById(id);
+
+    if (!button || isAlreadyBound(button)) return;
+
+    button.addEventListener("click", () => {
+
+        const isOpen =
+            button.getAttribute("aria-expanded") === "true";
+
+        button.setAttribute(
+            "aria-expanded",
+            String(!isOpen)
+        );
+
+        callback?.(!isOpen);
+
+    });
+
+    markBound(button);
+
+}
+
+
+function bindShowItems(id, callback) {
+
+    const select = document.getElementById(id);
+
+    if (!select || isAlreadyBound(select)) return;
+
+    select.addEventListener("change", (event) => {
+
+        const value = event.target.value;
+
+        callback?.(
             value === "All"
-                ? products.length
-                : Number(value);
+                ? "All"
+                : Number(value) || DEFAULT_PER_PAGE
+        );
 
-        rerenderShop(true);
-    };
+    });
 
-    const updateSorting = (value) => {
-        state.sortBy = value.toLowerCase();
-        rerenderShop();
+    markBound(select);
+
+}
+
+function bindSortItems(id, callback) {
+
+    const select = document.getElementById(id);
+
+    if (!select || isAlreadyBound(select)) return;
+
+    select.addEventListener("change", (event) => {
+
+        callback?.(
+            event.target.value.toLowerCase()
+        );
+
+    });
+
+    markBound(select);
+
+}
+
+function bindViewMode(id, mode, callback) {
+
+    const button = document.getElementById(id);
+
+    if (!button || isAlreadyBound(button)) return;
+
+    button.addEventListener("click", () => {
+
+        callback?.(mode);
+
+        updateActiveView(mode);
+
+    });
+
+    markBound(button);
+
+}
+
+
+function updateActiveView(mode) {
+
+    const gridView =
+        document.getElementById(FILTER_ELEMENT_IDS.gridView);
+
+    const listView =
+        document.getElementById(FILTER_ELEMENT_IDS.listView);
+
+    if (gridView) {
+        gridView.classList.toggle(
+            "text-(--primary)",
+            mode === "grid"
+        );
     }
 
+    if (listView) {
+        listView.classList.toggle(
+            "text-(--primary)",
+            mode === "list"
+        );
+    }
 
-    filterBtn.addEventListener("click", () => { });
+}
 
-    showItems.addEventListener("change", ({ target }) => {
-        updateItemsPerPage(target.value);
-    })
 
-    sortItems.addEventListener("change", (target) => {
-        updateItemsPerPage(target.value);
-    });
+function isAlreadyBound(element) {
 
-    gridView.addEventListener("click", () => {
-        state.viewMode = "grid"
-    });
+    return (
+        element.dataset.filtersBound === "true"
+    );
 
-    listView.addEventListener("click", () => {
-        setViewMode("list")
-    });
+}
+
+function markBound(element) {
+
+    element.dataset.filtersBound = "true";
+
 }

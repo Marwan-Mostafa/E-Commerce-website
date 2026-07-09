@@ -1,5 +1,5 @@
 import { products } from '../../data/products.js';
-import { ProductCard } from '../../components/ProductCard.js';
+import { renderProductCard } from '../../components/ProductCard.js';
 import { handleProductCardAction, copyProductLink } from '../../handlers/productCardActions.js';
 import { addToCart } from '../../state/cartState.js';
 import { setupFilters } from '../../state/wishlistState.js';
@@ -36,7 +36,7 @@ export function initProductGrid(rootId = 'products-root') {
         const nextBatch = products.slice(currentCount, currentCount + PAGE_SIZE);
         const nextCount = currentCount + nextBatch.length;
 
-        grid.insertAdjacentHTML('beforeend', nextBatch.map(ProductCard).join(''));
+        grid.insertAdjacentHTML('beforeend', nextBatch.map(renderProductCard).join(''));
         grid.dataset.visibleCount = String(nextCount);
 
         if (nextCount >= products.length) {

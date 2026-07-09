@@ -7,7 +7,9 @@ transition-all
 duration-300
 hover:-translate-y-1
 active:scale-90
-`;
+`
+
+
 
 function renderDiscountBadge(discount) {
   if (!discount) return ""
@@ -66,7 +68,7 @@ function renderActionButton({
 
 
 
-export function ProductCard(product) {
+export function renderProductCard(product) {
 
   const {
     id,

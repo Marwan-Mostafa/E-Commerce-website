@@ -1,6 +1,6 @@
 export function renderNavbar(activePage = 'home') {
   const navLinks = [
-    { id: 'home', label: 'Home', href: '/home.html' },
+    { id: 'home', label: 'Home', href: '/pages/home/home.html' },
     { id: 'shop', label: 'Shop', href: '/pages/shop/shop.html' },
     { id: 'about', label: 'About', href: '/pages/about.html' },
     { id: 'contact', label: 'Contact', href: '/pages/contact.html' },

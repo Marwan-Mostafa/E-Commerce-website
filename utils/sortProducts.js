@@ -1,14 +1,22 @@
-export function sortProducts(products, sortBy){
-    switch(sortBy){
-        case 'price':
-            return [...products].sort((a, b)=> a.price - b.price)
-        case 'name':
-            return [...products].sort((a, b)=>{
+export function sortProducts(products, sortBy = "default") {
+
+    const sorted = [...products];
+
+    switch (sortBy) {
+
+        case "price":
+            return sorted.sort((a, b) => a.price - b.price);
+
+        case "name":
+            return sorted.sort((a, b) =>
                 a.name.localeCompare(b.name)
-            })
+            );
+
         case "newest":
-            return [...products].reverse()
+            return sorted.reverse();
+
         default:
-            return products;
+            return sorted;
     }
+
 }
