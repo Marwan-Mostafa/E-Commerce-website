@@ -1,144 +1,97 @@
-import { getCart, removeFromCart } from "../../state/cart.js";
-import { formatPrice } from "../../utils/formatPrice.js";
+export function CartDrawer() {
+    return `
 
-const drawer = document.getElementById("cart-drawer");
+    <div
+      id="cart-overlay"
+      class="fixed inset-0 bg-black/40 hidden z-40 transition-opacity duration-300">
+    </div>
 
-const overlay = document.getElementById("cart-overlay");
 
-export function openCartDrawer() {
-    if (!drawer || !overlay) return;
-    drawer.style.right = "0";
-    overlay.classList.remove("hidden");
-}
+    <aside
+      id="cart-drawer"
+      class="
+        fixed
+        top-0
+        right-[-420px]
+        w-[420px]
+        h-screen
+        bg-white
+        z-50
+        flex
+        flex-col
+        transition-all
+        duration-300
+        shadow-2xl
+      ">
 
-export function closeCartDrawer() {
-    if (!drawer || !overlay) return;
-    drawer.style.right = "-420px";
-    overlay.classList.add("hidden");
-}
 
-const closeCartBtn = document.getElementById("close-cart");
+      <div class="flex items-center justify-between p-6 border-b">
 
-if (closeCartBtn) {
-    closeCartBtn.addEventListener("click", closeCartDrawer);
-}
+        <h2 class="text-2xl font-semibold">
 
-if (overlay) {
-    overlay.addEventListener("click", closeCartDrawer);
-}
+          Shopping Cart
 
-export function renderCartDrawer() {
+        </h2>
 
-    const cartItems = document.getElementById("cart-items");
+        <button
+          id="close-cart"
+          class="text-2xl text-gray-500 hover:text-black transition">
 
-    const cart = getCart();
+          ×
 
-    cartItems.innerHTML = cart
-        .map(item => `
-      <div
-        class="flex gap-4 mb-6 items-center"
-      >
-
-                <img
-                    src="${item.image}"
-                    alt="${item.name}"
-                    class="w-20 h-20 object-cover rounded-lg"
-                />
-
-        <div class="flex-1">
-
-          <h3 class="font-medium">
-            ${item.name}
-          </h3>
-
-          <p class="text-sm">
-
-            ${item.quantity}
-            ×
-            ${formatPrice(item.price)}
-
-          </p>
-
-        </div>
-
-                <button
-                    type="button"
-          class="remove-cart-item"
-          data-id="${item.id}"
-        >
-          ✕
         </button>
 
       </div>
-  `).join("");
-
-    renderSubtotal();
-    updateCartBadge();
-}
 
 
-function renderSubtotal() {
-
-    const cart =
-        getCart();
-
-    const total =
-        cart.reduce(
-            (sum, item) =>
-                sum +
-                item.price *
-                item.quantity,
-            0
-        );
-
-    const subtotalEl = document.getElementById("cart-subtotal");
-
-    if (subtotalEl) {
-        subtotalEl.textContent = formatPrice(total);
-    }
-}
+      <div
+        id="cart-items"
+        class="flex-1 overflow-y-auto p-6">
+      </div>
 
 
-document.addEventListener(
-    "click",
-    (e) => {
+      <div class="border-t p-6">
 
-        const removeBtn =
-            e.target.closest(
-                ".remove-cart-item"
-            );
+        <div class="flex justify-between mb-6">
 
-        if (!removeBtn) return;
+          <span class="text-gray-500">
 
-        removeFromCart(
-            Number(
-                removeBtn.dataset.id
-            )
-        );
+            Subtotal
 
-        renderCartDrawer();
-    }
-);
+          </span>
 
+          <span
+            id="cart-subtotal"
+            class="font-semibold text-yellow-700">
 
-export function updateCartBadge() {
+            $0
 
-    const badge = document.getElementById("cart-badge");
+          </span>
 
-    if (!badge) return;
+        </div>
 
-    const cart = getCart();
-    const totalItems = cart.reduce(
-        (sum, item) =>
-            sum + item.quantity,
-        0
-    );
+        <div class="grid grid-cols-2 gap-3">
 
-    badge.textContent = totalItems;
+          <a
+            href="/pages/cart/cart.html"
+            class="border rounded-lg py-3 text-center hover:bg-gray-100 transition">
 
-    if (totalItems > 0) {
-        badge.classList.remove("hidden");
-    } else {
-        badge.classList.add("hidden");
-    }
+            Cart
+
+          </a>
+
+          <a
+            href="/pages/checkout/checkout.html"
+            class="border rounded-lg py-3 text-center hover:bg-[#B88E2F] hover:text-white transition">
+
+            Checkout
+
+          </a>
+
+        </div>
+
+      </div>
+
+    </aside>
+  `;
 }

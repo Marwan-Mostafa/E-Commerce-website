@@ -147,21 +147,21 @@ export function renderProductCard(product) {
 
           <div class="p-4 bg-gray-50">
 
-          <h3 class="font-semibold text-lg">
-          ${name}
-          </h3>
+            <h3 class="font-semibold text-lg">
+            ${name}
+            </h3>
 
-          <p class="text-sm text-gray-500 font-semibold">
-          ${category}
-          </p>
+            <p class="text-sm text-gray-500 font-semibold">
+            ${category}
+            </p>
 
-          <div class="mt-3 flex items-center gap-3">
+            <div class="mt-3 flex items-center gap-3">
 
-          <span class="font-bold text-lg text-gray-900">
-          ${formattedPrice}
-          </span>
+            <span class="font-bold text-lg text-gray-900">
+            ${formattedPrice}
+            </span>
 
-          ${renderOldPrice(oldPrice)}
+            ${renderOldPrice(oldPrice)}
 
           </div>
 

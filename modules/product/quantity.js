@@ -1,4 +1,4 @@
-import { productState } from "../state/productState.js";
+import { productState } from "../../state/productState.js";
 
 export function setupQuantity() {
     const qtyInput = document.getElementById("qty-input")

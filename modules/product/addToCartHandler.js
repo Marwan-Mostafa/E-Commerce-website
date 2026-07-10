@@ -1,7 +1,7 @@
-import { productState } from "../../singleProduct/state/productState.js";
-import { addToCart } from "../../state/cart.js";
-import { openCartDrawer } from "../../components/CartDrawer.js";
-import { renderCartDrawer } from "../../components/CartDrawer.js";
+import { productState } from "../../state/productState.js";
+import { addToCart } from "../../state/cartState.js";
+import { openCartDrawer } from "../../modules/cartDrawer.js";
+import { renderCartDrawer } from "../../modules/cartDrawer.js";
 
 
 export function setupAddToCart(product) {

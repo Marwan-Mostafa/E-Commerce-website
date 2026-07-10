@@ -1,4 +1,4 @@
-import { productState } from "../../singleProduct/state/productState.js"
+import { productState } from "../../state/productState.js";
 
 export function setupSizeSelector() {
     const buttons = document.querySelectorAll(".size-btn")

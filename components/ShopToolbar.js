@@ -3,8 +3,7 @@ import { state } from "../state/shopState.js";
 
 export function updateToolbar(totalProducts) {
 
-    const result =
-        document.querySelector(".shop-toolbar p");
+    const result = document.querySelector(".shop-toolbar p");
 
     if (!result) return;
 
