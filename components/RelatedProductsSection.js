@@ -39,7 +39,7 @@ export function RelatedProducts(currentProduct, products) {
 
         </h2>
 
-        ${renderProductGrid(relatedProducts)}
+        ${renderProductGrid({products: relatedProducts, viewMode: "grid"})}
 
         <div class="flex justify-center mt-10">
 

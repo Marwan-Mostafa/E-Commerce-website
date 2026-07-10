@@ -13,7 +13,6 @@ export function setupColorSelector() {
 
   if (!colors.length) return;
 
-  // أول لون يكون Selected
   productState.selectedColor = colors[0].dataset.color;
   colors[0].setAttribute("aria-pressed", "true");
 

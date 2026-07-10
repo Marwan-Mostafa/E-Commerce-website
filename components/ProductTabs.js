@@ -25,7 +25,7 @@ export function ProductTabs(product) {
         class="flex justify-center flex-wrap gap-12 mb-12">
 
         <button
-          class="${TAB_CLASS} active"
+          class="${TAB_CLASS} active cursor-pointer"
           data-tab="description">
 
           Description
@@ -33,7 +33,7 @@ export function ProductTabs(product) {
         </button>
 
         <button
-          class="${TAB_CLASS}"
+          class="${TAB_CLASS} cursor-pointer"
           data-tab="additional">
 
           Additional Information
@@ -41,7 +41,7 @@ export function ProductTabs(product) {
         </button>
 
         <button
-          class="${TAB_CLASS}"
+          class="${TAB_CLASS} cursor-pointer"
           data-tab="reviews">
 
           Reviews (${product.reviews ?? 0})
