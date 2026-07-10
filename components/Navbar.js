@@ -86,7 +86,7 @@ export function renderNavbar(activePage = 'home') {
     <header class="bg-white w-full h-[100px] flex items-center shadow-sm transition duration-300">
       <div class="mx-auto px-4 max-w-[1286px] w-full flex justify-between items-center">
 
-        <a href="/home.html" class="flex items-center gap-2 hover:scale-105 transition duration-300" aria-label="Furniro — go to homepage">
+        <a href="/pages/home/home.html" class="flex items-center gap-2 hover:scale-105 transition duration-300" aria-label="Furniro — go to homepage">
           <img src="/assets/images/logo.svg" alt="" width="34" height="34" />
           <p class="font-bold md:text-[34px]">Furniro</p>
         </a>

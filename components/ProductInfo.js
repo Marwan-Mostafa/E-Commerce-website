@@ -161,7 +161,7 @@ export function ProductInfo(product) {
           <button
             id="decrease-qty"
             type="button"
-            class="w-12 h-12 hover:bg-gray-100 transition">
+            class="w-12 h-12 hover:bg-gray-100 transition cursor-pointer">
 
             −
 
@@ -176,7 +176,7 @@ export function ProductInfo(product) {
           <button
             id="increase-qty"
             type="button"
-            class="w-12 h-12 hover:bg-gray-100 transition">
+            class="w-12 h-12 hover:bg-gray-100 transition cursor-pointer">
 
             +
 
