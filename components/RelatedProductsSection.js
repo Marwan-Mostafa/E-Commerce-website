@@ -1,5 +1,4 @@
 import { renderProductGrid } from "./ProductGrid.js";
-
 const MAX_RELATED_PRODUCTS = 4;
 
 export function RelatedProducts(currentProduct, products) {

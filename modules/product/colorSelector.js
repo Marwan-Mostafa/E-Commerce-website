@@ -1,17 +1,42 @@
 import { productState } from "../../state/productState.js";
 
+const ACTIVE_CLASSES = [
+  "ring-2",
+  "ring-[#B88E2F]",
+  "ring-offset-2",
+  "scale-110",
+];
+
 export function setupColorSelector() {
-  const colors = document.querySelectorAll(".color-swatch")
+
+  const colors = document.querySelectorAll(".color-swatch");
+
+  if (!colors.length) return;
+
+  // أول لون يكون Selected
+  productState.selectedColor = colors[0].dataset.color;
+  colors[0].setAttribute("aria-pressed", "true");
 
   colors.forEach((color) => {
+
     color.addEventListener("click", () => {
-      productState.selectedColor = color.dataset.color
+
+      productState.selectedColor = color.dataset.color;
 
       colors.forEach((item) => {
-        item.classList.remove("active")
-      })
 
-      color.classList.add("active")
-    })
-  })
+        item.classList.remove(...ACTIVE_CLASSES);
+
+        item.setAttribute("aria-pressed", "false");
+
+      });
+
+      color.classList.add(...ACTIVE_CLASSES);
+
+      color.setAttribute("aria-pressed", "true");
+
+    });
+
+  });
+
 }

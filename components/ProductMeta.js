@@ -1,67 +1,104 @@
 export function ProductMeta(product) {
-    return `
-    <hr class="border-border" />
+  const tags = Array.isArray(product.tags)
+    ? product.tags.join(", ")
+    : product.tags || product.category;
 
-    <div class="flex flex-col gap-2.5 text-sm text-mid">
+  return `
+    <div class="pt-10 mt-10 border-t border-[#D9D9D9]">
 
-      <div class="flex gap-3">
-        <span class="min-w-[72px]">SKU</span>
-        <span class="text-dark/50">:</span>
-        <span id="meta-sku" class="text-dark/70">
-          SKU-${product.id}
-        </span>
-      </div>
+      <div class="space-y-4 text-sm">
 
-      <div class="flex gap-3">
-        <span class="min-w-[72px]">Category</span>
-        <span class="text-dark/50">:</span>
-        <span id="product-category" class="text-dark/70">
-          ${product.category}
-        </span>
-      </div>
+        <div class="grid grid-cols-[90px_20px_1fr] items-center">
 
-      <div class="flex gap-3">
-        <span class="min-w-[72px]">Tags</span>
-        <span class="text-dark/50">:</span>
-        <span id="product-tags" class="text-dark/70">
-          ${product.category}
-        </span>
-      </div>
+          <span class="text-[#9F9F9F]">
+            SKU
+          </span>
 
-      <div class="flex gap-3 items-center">
+          <span class="text-[#9F9F9F]">
+            :
+          </span>
 
-        <span class="min-w-[72px]">Share</span>
+          <span class="text-[#666666] font-medium">
+            ${product.sku ?? `SKU-${product.id}`}
+          </span>
 
-        <span class="text-dark/50">:</span>
+        </div>
 
-        <div class="flex gap-3 ml-1">
+        <div class="grid grid-cols-[90px_20px_1fr] items-center">
 
-          <button
-            id="share-facebook"
-            class="hover:text-gold transition-colors"
-            aria-label="Share on Facebook">
+          <span class="text-[#9F9F9F]">
+            Category
+          </span>
 
-            <i class="fa-brands fa-facebook-f"></i>
+          <span class="text-[#9F9F9F]">
+            :
+          </span>
 
-          </button>
+          <span class="text-[#666666]">
+            ${product.category}
+          </span>
 
-          <button
-            id="share-linkedin"
-            class="hover:text-gold transition-colors"
-            aria-label="Share on LinkedIn">
+        </div>
 
-            <i class="fa-brands fa-linkedin-in"></i>
+        <div class="grid grid-cols-[90px_20px_1fr] items-center">
 
-          </button>
+          <span class="text-[#9F9F9F]">
+            Tags
+          </span>
 
-          <button
-            id="share-twitter"
-            class="hover:text-gold transition-colors"
-            aria-label="Share on Twitter">
+          <span class="text-[#9F9F9F]">
+            :
+          </span>
 
-            <i class="fa-brands fa-x-twitter"></i>
+          <span class="text-[#666666]">
+            ${tags}
+          </span>
 
-          </button>
+        </div>
+
+        <div class="grid grid-cols-[90px_20px_1fr] items-center">
+
+          <span class="text-[#9F9F9F]">
+            Share
+          </span>
+
+          <span class="text-[#9F9F9F]">
+            :
+          </span>
+
+          <div class="flex items-center gap-5 text-lg text-[#666666]">
+
+            <button
+              id="share-facebook"
+              type="button"
+              aria-label="Share on Facebook"
+              class="transition hover:text-[#B88E2F] cursor-pointer">
+
+              <i class="fa-brands fa-facebook-f"></i>
+
+            </button>
+
+            <button
+              id="share-linkedin"
+              type="button"
+              aria-label="Share on LinkedIn"
+              class="transition hover:text-[#B88E2F] cursor-pointer">
+
+              <i class="fa-brands fa-linkedin-in"></i>
+
+            </button>
+
+            <button
+              id="share-twitter"
+              type="button"
+              aria-label="Share on X"
+              class="transition hover:text-[#B88E2F] cursor-pointer">
+
+              <i class="fa-brands fa-x-twitter"></i>
+
+            </button>
+
+          </div>
 
         </div>
 

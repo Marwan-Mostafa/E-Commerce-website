@@ -1,15 +1,31 @@
-export function ProductTabs(product) {
-    return `
-    <section class="mx-auto flex flex-col items-center">
+import { ProductDescription } from "./ProductDescription.js";
+import { ProductAdditionalInfo } from "./ProductAdditionalInfo.js";
+import { ProductReviews } from "./ProductReviews.js";
 
-      <hr class="border-border mb-10 w-full" />
+const TAB_CLASS = `
+tab-btn
+relative
+pb-3
+text-lg
+font-medium
+text-[#9F9F9F]
+transition-all
+duration-300
+hover:text-black
+`;
+
+export function ProductTabs(product) {
+  return `
+    <section class="max-w-[1440px] mx-auto py-16">
+
+      <hr class="border-[#E8E8E8] mb-12">
 
       <div
         id="tabs"
-        class="flex gap-10 mb-8">
+        class="flex justify-center flex-wrap gap-12 mb-12">
 
         <button
-          class="tab-btn active"
+          class="${TAB_CLASS} active"
           data-tab="description">
 
           Description
@@ -17,7 +33,7 @@ export function ProductTabs(product) {
         </button>
 
         <button
-          class="tab-btn"
+          class="${TAB_CLASS}"
           data-tab="additional">
 
           Additional Information
@@ -25,68 +41,36 @@ export function ProductTabs(product) {
         </button>
 
         <button
-          class="tab-btn"
+          class="${TAB_CLASS}"
           data-tab="reviews">
 
-          Reviews [${product.review ?? 0}]
+          Reviews (${product.reviews ?? 0})
 
         </button>
 
       </div>
 
-      <!-- Description -->
-
       <div
         id="tab-description"
-        class="tab-content text-dark/70 text-sm leading-relaxed max-w-3xl space-y-4">
+        class="tab-content">
 
-        <p>
-          ${product.description ?? ""}
-        </p>
+        ${ProductDescription(product)}
 
       </div>
-
-      <!-- Additional -->
 
       <div
         id="tab-additional"
-        class="tab-content hidden text-sm leading-relaxed max-w-2xl">
+        class="tab-content hidden">
 
-        <table class="w-full border-collapse">
-
-          <thead>
-
-            <tr class="bg-light">
-
-              <th class="text-left py-3 px-4 font-medium text-dark">
-                Attribute
-              </th>
-
-              <th class="text-left py-3 px-4 font-medium text-dark">
-                Details
-              </th>
-
-            </tr>
-
-          </thead>
-
-          <tbody id="additional-info">
-
-          </tbody>
-
-        </table>
+        ${ProductAdditionalInfo(product)}
 
       </div>
-
-      <!-- Reviews -->
 
       <div
         id="tab-reviews"
         class="tab-content hidden">
 
-        <div id="reviews-list">
-
-        </div>
+        ${ProductReviews(product)}
 
       </div>
 
