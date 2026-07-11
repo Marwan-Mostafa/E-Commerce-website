@@ -4,87 +4,163 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
     <script src="https://cdn.jsdelivr.net/npm/@tailwindcss/browser@4"></script>
+
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/7.0.1/css/all.min.css"
         integrity="sha512-2SwdPD6INVrV/lHTZbO2nodKhrnDdJK9/kg2XD1r9uGqPo1cUbujc+IYdlYdEErWNu69gVcYgdxlmVmzTWnetw=="
         crossorigin="anonymous" referrerpolicy="no-referrer" />
-    <link rel="stylesheet" href="../styles/style.css">
-    <link rel="stylesheet" href="/styles/inspiration.css">
-    <title>CART FILE</title>
+
+    <link rel="stylesheet" href="../../styles/style.css">
+
+    <title>Cart — Furniro</title>
 </head>
 
-<body>
-    <header id="navbar-root" class="sticky top-0 z-50 flex items-center shadow-sm transition-all duration-300">
+<body class="bg-white">
+
+    <header id="navbar-root" class="sticky top-0 z-50">
     </header>
 
     <section class="page-hero flex justify-center items-center">
+
         <div class="hero-bg-image relative">
-            <img src="/assets/images/shop.svg" alt="shop-image">
+
+            <img src="/assets/images/shop.svg" alt="Cart Hero">
+
         </div>
+
         <div class="hero-content absolute">
-            <h1 class="text-[48px] font-medium">Shop</h1>
-            <nav aria-label="breadcrumb" class="">
-                <ol class="flex justify-between">
-                    <li class="font-medium">Home</li>
-                    <li><i class="fa-solid fa-angle-right"></i></li>
-                    <li>Shop</li>
+
+            <h1 class="text-[48px] font-medium">
+
+                Cart
+
+            </h1>
+
+            <nav aria-label="breadcrumb">
+
+                <ol class="flex justify-center gap-4">
+
+                    <li class="font-medium">
+
+                        Home
+
+                    </li>
+
+                    <li>
+
+                        <i class="fa-solid fa-angle-right"></i>
+
+                    </li>
+
+                    <li>
+
+                        Cart
+
+                    </li>
+
                 </ol>
+
             </nav>
+
         </div>
+
     </section>
 
-    <!-- Main Cart Content -->
-    <main class="max-w-[1440px] mx-auto px-8 lg:px-16 py-16">
-        <div id="cart-empty-state" class="hidden flex-col items-center justify-center gap-4 py-24 text-center">
-            <i class="fa-solid fa-cart-shopping text-5xl text-gray-300"></i>
-            <p class="text-gray-500">Your cart is empty.</p>
-            <a href="/pages/shop.html"
-                class="border border-dark rounded-md px-8 py-3 font-semibold text-dark hover:bg-gold hover:border-gold hover:text-white transition-colors">
-                Continue Shopping
-            </a>
-        </div>
+    <main class="
+            max-w-[1440px]
+            mx-auto
+            px-4
+            sm:px-6
+            lg:px-8
+            py-16
+        ">
 
-        <div id="cart-content" class="grid lg:grid-cols-3 gap-8">
 
-            <!-- Cart Table -->
-            <section aria-label="Cart items" class="lg:col-span-2">
-                <div
-                    class="grid grid-cols-[100px_1fr_1fr_1fr_40px] items-center gap-4 bg-[#FAF3EA] rounded-md px-6 py-4 font-semibold text-dark text-sm">
-                    <span class="sr-only">Image</span>
-                    <span>Product</span>
-                    <span>Price</span>
-                    <span>Quantity</span>
-                    <span>Subtotal</span>
+        <section id="cart-empty-state" class="hidden">
+        </section>
+
+        <section id="cart-content" class="
+                grid
+                lg:grid-cols-[1fr_380px]
+                gap-10
+                items-start
+            ">
+
+            <section aria-label="Shopping Cart" class="min-w-0">
+
+                <div class="
+                        grid
+                        grid-cols-[110px_1fr_180px_140px_180px_60px]
+                        items-center
+                        bg-[#FAF3EA]
+                        rounded-lg
+                        px-6
+                        py-5
+                        font-semibold
+                        text-[#3A3A3A]
+                    ">
+
+                    <span class="sr-only">
+
+                        Product Image
+
+                    </span>
+
+                    <span>
+
+                        Product
+
+                    </span>
+
+                    <span>
+
+                        Price
+
+                    </span>
+
+                    <span>
+
+                        Quantity
+
+                    </span>
+
+                    <span>
+
+                        Subtotal
+
+                    </span>
+
+                    <span></span>
+
                 </div>
 
-                <ul id="cart-rows" class="flex flex-col divide-y divide-gray-100"></ul>
+
+                <ul id="cart-rows" class="
+                        mt-2
+                        flex
+                        flex-col
+                        divide-y
+                        divide-[#F1F1F1]
+                    ">
+                </ul>
+
             </section>
-
-            <!-- Cart Totals -->
-            <aside aria-labelledby="cart-totals-heading" class="bg-[#FAF3EA] rounded-md p-8 h-fit">
-                <h2 id="cart-totals-heading" class="text-2xl font-semibold text-dark mb-6">Cart Totals</h2>
-
-                <div class="flex justify-between border-b border-gray-300 pb-4 mb-4">
-                    <span class="font-medium text-dark">Subtotal</span>
-                    <span id="cart-subtotal" class="text-gray-500">Rs. 0.00</span>
-                </div>
-                <div class="flex justify-between pb-6">
-                    <span class="font-medium text-dark">Total</span>
-                    <span id="cart-total" class="text-gold text-xl font-semibold">Rs. 0.00</span>
-                </div>
-
-                <a href="/pages/checkout.html" id="checkout-btn" class="block text-center border border-dark rounded-md py-4 font-semibold text-dark
-                       hover:bg-gold hover:border-gold hover:text-white transition-colors
-                       aria-disabled:opacity-50 aria-disabled:cursor-not-allowed aria-disabled:pointer-events-none">
-                    Check Out
-                </a>
+            <aside id="cart-summary-root">
             </aside>
-        </div>
+
+        </section>
+
     </main>
 
-    <div id="featuresSection"></div>
+    <section id="featuresSection"></section>
 
     <footer id="footer-root"></footer>
+
+
+    <script type="module" src="./cart.js">
+    </script>
+
 </body>
 
 </html>

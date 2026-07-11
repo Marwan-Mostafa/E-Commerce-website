@@ -1,86 +1,171 @@
-import { getCart, updateQuantity, removeFromCart, getSubtotal, getTotal, formatCurrency } from '../../state/cartState.js';
+import { renderNavbar } from "../../components/Navbar.js";
+import { renderFooter } from "../../components/Footer.js";
+import { renderFeaturesSection } from "../../components/FeaturesSection.js";
 
-const cartRows = document.getElementById('cart-rows');
-const subtotalEl = document.getElementById('cart-subtotal');
-const totalEl = document.getElementById('cart-total');
-const cartContent = document.getElementById('cart-content');
-const emptyState = document.getElementById('cart-empty-state');
-const checkoutBtn = document.getElementById('checkout-btn');
+import { CartRows } from "../../components/cart/CartRows.js";
+import { CartSummary } from "../../components/cart/CartSummary.js";
+import { EmptyCart } from "../../components/cart/EmptyCart.js";
 
-function renderRow(item) {
-    const li = document.createElement('li');
-    li.className = 'grid grid-cols-[100px_1fr_1fr_1fr_40px] items-center gap-4 py-4';
-    li.dataset.id = item.id;
+import {
+    getCart,
+    getSubtotal,
+    getTotal,
+    updateQuantity,
+    removeFromCart,
+    formatCurrency,
+} from "../../state/cartState.js";
 
-    li.innerHTML = `
-        <img src="${item.image}" alt="${item.name}" class="w-20 h-20 object-cover rounded-md bg-[#FAF3EA]" />
-        <span class="text-gray-700">${item.name}</span>
-        <span class="text-gray-500">${formatCurrency(item.price)}</span>
-        <input type="number" min="1" value="${item.quantity}"
-            aria-label="Quantity for ${item.name}"
-            class="quantity-input w-16 border border-gray-300 rounded-md px-2 py-2 text-sm text-center
-                   hover:border-gray-400
-                   focus:outline-none focus:ring-2 focus:ring-gold/40 focus:border-gold
-                   transition-colors" />
-        <span class="row-subtotal text-gray-800">${formatCurrency(item.price * item.quantity)}</span>
-        <button type="button" aria-label="Remove ${item.name} from cart"
-            class="remove-btn text-gold hover:text-red-500 transition-colors justify-self-center">
-            <i class="fa-solid fa-trash"></i>
-        </button>
-    `;
+const navbarRoot = document.getElementById("navbar-root");
+const footerRoot = document.getElementById("footer-root");
+const featuresRoot = document.getElementById("featuresSection");
+const cartContentRoot = document.getElementById("cart-content");
+const emptyStateRoot = document.getElementById("cart-empty-state");
+const cartRowsRoot = document.getElementById("cart-rows");
+const summaryRoot = document.getElementById("cart-summary-root");
 
-    return li;
+
+
+function renderLayout() {
+    navbarRoot.innerHTML = renderNavbar("cart");
+    footerRoot.innerHTML = renderFooter();
+    featuresRoot.innerHTML = renderFeaturesSection();
 }
 
-function render() {
-    const items = getCart();
+
+function renderRows(items) {
+
+    if (!cartRowsRoot) return;
+
+    cartRowsRoot.innerHTML = CartRows(items);
+
+}
+
+
+function renderSummary(items) {
+
+    if (!summaryRoot) return;
+
+    summaryRoot.innerHTML = CartSummary({
+
+        subtotal: formatCurrency(getSubtotal()),
+
+        total: formatCurrency(getTotal()),
+
+        checkoutDisabled: items.length === 0,
+
+    })
+
+}
+
+function renderEmptyState(items) {
+
+    if (!cartContentRoot || !emptyStateRoot) return;
 
     if (items.length === 0) {
-        checkoutBtn.setAttribute('aria-disabled', 'true');
-        cartContent.classList.add('hidden');
-        emptyState.classList.remove('hidden');
-        emptyState.classList.add('flex');
+
+        cartContentRoot.classList.add("hidden");
+
+        emptyStateRoot.classList.remove("hidden");
+
+        emptyStateRoot.innerHTML = EmptyCart();
+
         return;
+
     }
 
-    cartContent.classList.remove('hidden');
-    emptyState.classList.add('hidden');
-    emptyState.classList.remove('flex');
+    cartContentRoot.classList.remove("hidden");
 
-    cartRows.innerHTML = '';
-    items.forEach(item => cartRows.appendChild(renderRow(item)));
+    emptyStateRoot.classList.add("hidden");
 
-    subtotalEl.textContent = formatCurrency(getSubtotal());
-    totalEl.textContent = formatCurrency(getTotal());
-
-    const isEmpty = items.length === 0;
-    checkoutBtn.setAttribute('aria-disabled', String(isEmpty));
 }
 
-function wireRowEvents() {
-    cartRows.addEventListener('change', (e) => {
-        if (!e.target.classList.contains('quantity-input')) return;
+function renderPage() {
 
-        const row = e.target.closest('li');
-        const id = Number(row.dataset.id);
-        const quantity = Math.max(1, parseInt(e.target.value, 10) || 1);
+    const items = getCart();
 
-        updateQuantity(id, quantity);
-    });
+    renderEmptyState(items);
 
-    cartRows.addEventListener('click', (e) => {
-        const btn = e.target.closest('.remove-btn');
-        if (!btn) return;
+    if (items.length === 0) return;
 
-        const row = btn.closest('li');
-        removeFromCart(Number(row.dataset.id));
-    });
+    renderRows(items);
+
+    renderSummary(items);
+
 }
 
-function init() {
-    render();
-    wireRowEvents();
-    window.addEventListener('cart:updated', render);
+
+function handleQuantityChange(event) {
+
+    const input = event.target.closest(".cart-quantity");
+
+    if (!input) return;
+
+    const row = input.closest("[data-product-id]");
+
+    if (!row) return;
+
+    const item = getCart().find(item => item.id === Number(row.dataset.productId));
+    if (!item) return
+
+    const quantity = Math.max(1, Number(input.value) || 1)
+
+    updateQuantity(item, quantity);
+
 }
 
-init()
+
+function handleRemove(event) {
+
+    const button = event.target.closest(".remove-cart-item");
+
+    if (!button) return;
+
+    const productId = Number(button.dataset.productId);
+
+    removeFromCart(productId);
+
+}
+
+function bindEvents() {
+
+    if (!cartRowsRoot) return;
+
+    cartRowsRoot.addEventListener(
+
+        "change",
+
+        handleQuantityChange
+
+    );
+
+    cartRowsRoot.addEventListener(
+
+        "click",
+
+        handleRemove
+
+    );
+
+}
+
+function subscribeToCartUpdates() {
+
+    window.addEventListener(
+
+        "cart:updated",
+
+        renderPage
+
+    );
+
+}
+
+function bootstrap() {
+
+    renderLayout()
+    renderPage()
+    bindEvents()
+    subscribeToCartUpdates()
+}
+
+bootstrap()

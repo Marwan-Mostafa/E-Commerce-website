@@ -22,11 +22,8 @@ export function ProductSelector(
     return `
     <div class="mt-5">
 
-      <label
-        class="block text-sm text-[#9F9F9F] mb-2">
-
+      <label class="block text-sm text-[#9F9F9F] mb-2">
         Choose Product
-
       </label>
 
       <select
