@@ -3,7 +3,7 @@ import { renderProductCard } from '../../components/ProductCard.js';
 import { handleProductCardAction, copyProductLink } from '../../handlers/productCardActions.js';
 import { addToCart } from '../../state/cartState.js';
 import { setupFilters } from '../../state/wishlistState.js';
-import { addProductToCompare } from '../../state/compareState.js';
+import { addCompareId } from '../../state/compareState.js';
 
 const PAGE_SIZE = 8;
 
@@ -23,7 +23,7 @@ export function initProductGrid(rootId = 'products-root') {
                 setupFilters(() => { }, products);
             },
             onCompare: (product) => {
-                addProductToCompare(product.id);
+                addCompareId(product.id);
             },
             onShare: (product) => {
                 copyProductLink(product);

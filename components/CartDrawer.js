@@ -35,10 +35,8 @@ export function CartDrawer() {
 
         <button
           id="close-cart"
-          class="text-2xl text-gray-500 hover:text-black transition">
-
+          class="text-2xl text-gray-500 hover:text-black transition cursor-pointer">
           ×
-
         </button>
 
       </div>

@@ -10,7 +10,7 @@ import { ComparisonTable } from "../../components/comparison/ComparisonTable.js"
 import { getCompareIds } from "../../state/compareState.js";
 
 import { setupComparisonSelector } from "../../modules/comparison/selector.js";
-
+import { setupComparisonAddToCart } from "../../modules/comparison/addToCart.js";
 
 const navbarRoot = document.getElementById("navbar-root");
 const footerRoot = document.getElementById("footer-root");
@@ -62,7 +62,7 @@ function renderEmptyState() {
 
 function renderPage() {
     const comparedProducts = loadComparedProducts();
-    
+
     if (!comparedProducts.length) {
         renderEmptyState();
         return;
@@ -73,6 +73,8 @@ function renderPage() {
 
     comparisonTableRoot.innerHTML =
         ComparisonTable(comparedProducts);
+
+    setupComparisonAddToCart();
 
     setupComparisonSelector({
         products,

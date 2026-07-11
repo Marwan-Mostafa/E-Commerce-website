@@ -3,60 +3,75 @@ import { formatPrice } from "../../utils/formatPrice.js";
 
 export function setupCartDrawer() {
 
-    const drawer = document.getElementById("cart-drawer");
-    const overlay = document.getElementById("cart-overlay");
-    const closeBtn = document.getElementById("close-cart");
+  const drawer = document.getElementById("cart-drawer");
+  const overlay = document.getElementById("cart-overlay");
+  const closeBtn = document.getElementById("close-cart");
 
-    if (!drawer || !overlay) return;
+  if (!drawer || !overlay) return;
 
-    closeBtn?.addEventListener("click", closeCartDrawer);
-    overlay.addEventListener("click", closeCartDrawer);
+  closeBtn?.addEventListener("click", closeCartDrawer);
+  overlay.addEventListener("click", closeCartDrawer);
 
-    document.addEventListener("click", (e) => {
+  document.addEventListener("click", (event) => {
 
-        const removeBtn = e.target.closest(".remove-cart-item");
+    const removeBtn = event.target.closest(".remove-cart-item");
 
-        if (!removeBtn) return;
+    if (!removeBtn) return;
 
-        removeFromCart(Number(removeBtn.dataset.id));
+    const cart = getCart();
 
-        renderCartDrawer();
+    const item = cart.find((cartItem) => {
+
+      return (
+        cartItem.id === Number(removeBtn.dataset.id) &&
+        (cartItem.size ?? "") === (removeBtn.dataset.size ?? "") &&
+        (cartItem.color ?? "") === (removeBtn.dataset.color ?? "")
+      );
+
     });
 
-    updateCartBadge();
+    if (!item) return;
+
+    removeFromCart(item);
+
+    renderCartDrawer();
+
+  });
+
+  updateCartBadge();
 }
 
 export function openCartDrawer() {
 
-    const drawer = document.getElementById("cart-drawer");
-    const overlay = document.getElementById("cart-overlay");
+  const drawer = document.getElementById("cart-drawer");
+  const overlay = document.getElementById("cart-overlay");
 
-    if (!drawer || !overlay) return;
+  if (!drawer || !overlay) return;
 
-    drawer.style.right = "0";
-    overlay.classList.remove("hidden");
+  drawer.style.right = "0";
+  overlay.classList.remove("hidden");
 }
 
 export function closeCartDrawer() {
 
-    const drawer = document.getElementById("cart-drawer");
-    const overlay = document.getElementById("cart-overlay");
+  const drawer = document.getElementById("cart-drawer");
+  const overlay = document.getElementById("cart-overlay");
 
-    if (!drawer || !overlay) return;
+  if (!drawer || !overlay) return;
 
-    drawer.style.right = "-420px";
-    overlay.classList.add("hidden");
+  drawer.style.right = "-420px";
+  overlay.classList.add("hidden");
 }
 
 export function renderCartDrawer() {
 
-    const cartItems = document.getElementById("cart-items");
+  const cartItems = document.getElementById("cart-items");
 
-    if (!cartItems) return;
+  if (!cartItems) return;
 
-    const cart = getCart();
+  const cart = getCart();
 
-    cartItems.innerHTML = cart.map(item => `
+  cartItems.innerHTML = cart.map(item => `
     <div class="flex gap-4 mb-6 items-center">
 
       <img
@@ -78,44 +93,46 @@ export function renderCartDrawer() {
       </div>
 
       <button
-        class="remove-cart-item text-xl hover:text-red-500 transition"
-        data-id="${item.id}">
+        class="remove-cart-item text-xl hover:text-red-500 transition cursor-pointer"
+        data-id="${item.id}"
+        data-size="${item.size ?? ""}"
+        data-color="${item.color ?? ""}">
 
         ×
 
-      </button>
+    </button>
 
     </div>
   `).join("");
 
-    renderSubtotal();
-    updateCartBadge();
+  renderSubtotal();
+  updateCartBadge();
 }
 
 function renderSubtotal() {
 
-    const subtotal = document.getElementById("cart-subtotal");
+  const subtotal = document.getElementById("cart-subtotal");
 
-    if (!subtotal) return;
+  if (!subtotal) return;
 
-    const total = getCart().reduce((sum, item) => {
-        return sum + item.price * item.quantity;
-    }, 0);
+  const total = getCart().reduce((sum, item) => {
+    return sum + item.price * item.quantity;
+  }, 0);
 
-    subtotal.textContent = formatPrice(total);
+  subtotal.textContent = formatPrice(total);
 }
 
 export function updateCartBadge() {
 
-    const badge = document.getElementById("cart-badge");
+  const badge = document.getElementById("cart-badge");
 
-    if (!badge) return;
+  if (!badge) return;
 
-    const totalItems = getCart().reduce((sum, item) => {
-        return sum + item.quantity;
-    }, 0);
+  const totalItems = getCart().reduce((sum, item) => {
+    return sum + item.quantity;
+  }, 0);
 
-    badge.textContent = totalItems;
+  badge.textContent = totalItems;
 
-    badge.classList.toggle("hidden", totalItems === 0);
+  badge.classList.toggle("hidden", totalItems === 0);
 }

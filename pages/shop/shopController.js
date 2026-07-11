@@ -5,7 +5,7 @@ import { renderProductGrid } from "../../components/ProductGrid.js";
 import { renderPagination } from "../../components/Pagination.js";
 import { setupFilters } from "../../components/FilterBar.js";
 import { addToCart } from "../../state/cartState.js";
-import { addProductToCompare } from "../../state/compareState.js";
+import { addCompareId } from "../../state/compareState.js";
 import { copyProductLink, handleProductCardAction } from "../../handlers/productCardActions.js";
 import { updateToolbar } from "../../components/ShopToolbar.js";
 import { renderEmptyState } from "../../components/EmptyState.js"
@@ -129,7 +129,7 @@ export function createShopController(container) {
                     onCompare(product) {
 
                         const result =
-                            addProductToCompare(product.id);
+                            addCompareId(product.id);
 
                         if (
 

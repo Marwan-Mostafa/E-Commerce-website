@@ -54,7 +54,7 @@ function renderActionsRow(products) {
             <button
               type="button"
               class="
-                add-to-cart-btn
+                comparison-add-to-cart-btn
                 w-full
                 max-w-[220px]
                 py-3
@@ -68,7 +68,7 @@ function renderActionsRow(products) {
                 hover:bg-[#9F7A29]
                 active:scale-95
               "
-              data-id="${product.id}">
+              data-product-id="${product.id}">
 
               Add To Cart
 

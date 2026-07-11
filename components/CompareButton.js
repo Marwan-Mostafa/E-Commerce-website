@@ -1,39 +1,79 @@
-import { addProductToCompare, isCompared } from "../state/compareState.js";
+import {
+  addCompareId,
+  isCompared,
+} from "../state/compareState.js";
 
 export function renderCompareButton(product) {
-  const button = document.getElementById("compare-btn");
 
-  if (!button) return;
+  const button =
+    document.getElementById("compare-btn");
+
+  if (!button || !product) return;
 
   updateButton(button, product.id);
 
   button.addEventListener("click", () => {
-    const result = addProductToCompare(product.id)
 
-    if (result.status === "open") {
-      window.location.href = "../comparisonPage/productComparison.html";
-      return
+    const result = addCompareId(product.id);
+
+    switch (result.status) {
+
+      case "added":
+
+      case "ready":
+
+      case "exists":
+
+      case "full":
+
+        window.location.href =
+          "../comparison/comparison.html";
+
+        break;
+
+      case "invalid":
+
+        console.warn("Invalid product id.");
+
+        break;
+
+      default:
+
+        console.warn("Unknown compare status:", result);
+
     }
 
-    updateButton(button, product.id)
-
-    if (result.status === "ready") {
-      window.location.href = "../comparisonPage/productComparison.html";
-      return
-    }
-
-    alert("Product added. Select another product.");
   });
+
 }
 
-function updateButton(button, id) {
-  if (isCompared(id)) {
-    button.textContent = "Compared";
-    button.classList.add("bg-white", "text-black");
-    button.classList.remove("border-yellow-700");
-  } else {
-    button.textContent = "+ Compare";
-    button.classList.remove("bg-yellow-100", "text-white");
-    button.classList.add("border-yellow-200");
-  }
+function updateButton(button, productId) {
+
+  const compared = isCompared(productId);
+
+  button.textContent =
+    compared
+      ? "Compared"
+      : "+ Compare";
+
+  button.classList.toggle(
+    "bg-white",
+    compared
+  );
+
+  button.classList.toggle(
+    "text-black",
+    compared
+  );
+
+  button.classList.toggle(
+    "border-yellow-700",
+    compared
+  );
+
+  button.classList.toggle(
+    "border-gray-300",
+    !compared
+  );
+
 }

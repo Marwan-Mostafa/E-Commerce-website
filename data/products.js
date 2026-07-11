@@ -100,9 +100,9 @@ const baseProducts = [
     image: "/assets/images/productTwo.svg",
     images: [
       "/assets/images/productTwo.svg",
-      "/assets/images/productTwo-2.svg",
-      "/assets/images/productTwo-3.svg",
-      "/assets/images/productTwo-4.svg",
+      "/assets/images/productTwo.svg",
+      "/assets/images/productTwo.svg",
+      "/assets/images/productTwo.svg",
     ],
     description:
       "Lolito is a plush three-seater sofa upholstered in soft velvet, built on an engineered wood frame for a luxurious yet durable centerpiece for any living room.",
@@ -176,9 +176,9 @@ const baseProducts = [
     image: "/assets/images/productThree.svg",
     images: [
       "/assets/images/productThree.svg",
-      "/assets/images/productThree-2.svg",
-      "/assets/images/productThree-3.svg",
-      "/assets/images/productThree-4.svg",
+      "/assets/images/productThree.svg",
+      "/assets/images/productThree.svg",
+      "/assets/images/productThree.svg",
     ],
     description:
       "Leviosa is a king-size leather bed frame finished in rich brown, built on an oak wood structure with a headrest designed for both comfort and presence.",
@@ -258,9 +258,9 @@ const baseProducts = [
     image: "/assets/images/productFour.svg",
     images: [
       "/assets/images/productFour.svg",
-      "/assets/images/productFour-2.svg",
-      "/assets/images/productFour-3.svg",
-      "/assets/images/productFour-4.svg",
+      "/assets/images/productFour.svg",
+      "/assets/images/productFour.svg",
+      "/assets/images/productFour.svg",
     ],
     description:
       "Respira is a weather-resistant aluminum outdoor table with a powder-coated finish, built to handle sun and rain while keeping a light, modern silhouette.",
@@ -334,13 +334,13 @@ const baseProducts = [
     image: "/assets/images/productFive.svg",
     images: [
       "/assets/images/productFive.svg",
-      "/assets/images/productFive-2.svg",
-      "/assets/images/productFive-3.svg",
-      "/assets/images/productFive-4.svg",
+      "/assets/images/productFive.svg",
+      "/assets/images/productFive.svg",
+      "/assets/images/productFive.svg",
     ],
     description:
       "Grifo is a matte black metal table lamp with a minimalist silhouette, designed to give any bedside or reading corner a warm, focused glow.",
-    sizes: ["Standard"],
+    sizes: ["XS", "L", "XL"]  ,
     colors: [
       { hex: "#000000", name: "Black" },
       { hex: "#B88E2F", name: "Gold" },
@@ -410,13 +410,13 @@ const baseProducts = [
     image: "/assets/images/productSix.svg",
     images: [
       "/assets/images/productSix.svg",
-      "/assets/images/productSix-2.svg",
-      "/assets/images/productSix-3.svg",
-      "/assets/images/productSix-4.svg",
+      "/assets/images/productSix.svg",
+      "/assets/images/productSix.svg",
+      "/assets/images/productSix.svg",
     ],
     description:
       "Muggo is a glossy white ceramic mug with a comfortable handle grip, dishwasher and microwave safe for everyday use.",
-    sizes: ["Standard"],
+    sizes: ["XS", "L", "XL"],
     colors: [
       { hex: "#FFFFFF", name: "White" },
       { hex: "#B88E2F", name: "Gold" },
@@ -486,9 +486,9 @@ const baseProducts = [
     image: "/assets/images/productSeven.svg",
     images: [
       "/assets/images/productSeven.svg",
-      "/assets/images/productSeven-2.svg",
-      "/assets/images/productSeven-3.svg",
-      "/assets/images/productSeven-4.svg",
+      "/assets/images/productSeven.svg",
+      "/assets/images/productSeven.svg",
+      "/assets/images/productSeven.svg",
     ],
     description:
       "Pingky is a queen-size bed set upholstered in premium pink fabric with an adjustable headrest, designed as a statement piece for modern bedrooms.",
@@ -562,9 +562,9 @@ const baseProducts = [
     image: "/assets/images/productEight.svg",
     images: [
       "/assets/images/productEight.svg",
-      "/assets/images/productEight-2.svg",
-      "/assets/images/productEight-3.svg",
-      "/assets/images/productEight-4.svg",
+      "/assets/images/productEight.svg",
+      "/assets/images/productEight.svg",
+      "/assets/images/productEight.svg",
     ],
     description:
       "Potty is a handmade terracotta flower pot with a natural clay finish, sized for indoor plants that need good drainage and breathability.",
