@@ -29,11 +29,7 @@ export function ComparisonProductCard(product = {}, slot = 0) {
 
   return `
     <article
-      class="
-        flex
-        flex-col
-        w-[240px]
-      ">
+      class="w-[400px] flex flex-col">
 
       <div
         class="

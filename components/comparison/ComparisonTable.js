@@ -3,17 +3,14 @@ import { ComparisonGroup } from "./ComparisonGroup.js"
 
 export function ComparisonTable(products = []) {
 
-  if (!products.length) {
-    return "";
-  }
+  if (!products.length) return ""
 
   const gridColumns = `
     260px repeat(${products.length}, minmax(260px, 1fr))
   `;
 
   return `
-    <section
-      class="w-full mt-16 overflow-x-auto">
+    <section class="w-full mt-16 overflow-x-auto">
 
       <div
         class="grid min-w-fit"
@@ -44,12 +41,7 @@ function renderActionsRow(products) {
     ${products
       .map(
         (product) => `
-          <div
-            class="
-              flex
-              justify-center
-              py-8
-            ">
+          <div class="flex justify-center py-8">
 
             <button
               type="button"

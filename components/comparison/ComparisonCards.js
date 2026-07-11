@@ -2,17 +2,17 @@ import { ComparisonProductCard } from "./ComparisonProductCard.js";
 
 export function ComparisonCards(products = []) {
 
-    return `
+  return `
     <div
       class="
-        flex
-        gap-8
+      flex
+      justify-evenly
         flex-wrap
       ">
 
       ${products
-            .map((product, index) => ComparisonProductCard(product, index))
-            .join("")}
+      .map((product, index) => ComparisonProductCard(product, index))
+      .join("")}
 
     </div>
   `;
