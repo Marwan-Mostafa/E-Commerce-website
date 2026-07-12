@@ -21,59 +21,96 @@
 
 <body class="bg-white">
 
+    <!-- Navbar -->
+
     <header id="navbar-root" class="sticky top-0 z-50">
     </header>
 
+
+    <!-- Hero -->
+
     <section class="page-hero flex justify-center items-center">
+
         <div class="hero-bg-image relative">
+
             <img src="/assets/images/shop.svg" alt="Checkout Hero">
+
         </div>
 
         <div class="hero-content absolute">
+
             <h1 class="text-[48px] font-medium">
+
                 Checkout
+
             </h1>
+
             <nav aria-label="breadcrumb">
+
                 <ol class="flex justify-center gap-4">
+
                     <li>Home</li>
+
                     <li>
+
                         <i class="fa-solid fa-angle-right"></i>
+
                     </li>
+
                     <li>Checkout</li>
+
                 </ol>
+
             </nav>
+
         </div>
+
     </section>
 
 
+    <!-- Main -->
+
     <main class="max-w-[1440px] mx-auto px-4 sm:px-6 lg:px-8 py-16">
-        <section class="grid lg:grid-cols-[1fr_420px] gap-20 items-start">
+
+
+        <!-- Empty Cart -->
+
+        <section id="checkout-empty-state" class="hidden">
+        </section>
+
+
+        <!-- Checkout Content -->
+
+        <section id="checkout-content" class="grid lg:grid-cols-[1fr_420px] gap-20 items-start">
+
+
+            <!-- Billing -->
+
             <section id="billing-form-root" aria-labelledby="billing-form-title">
             </section>
 
-            <aside class="flex flex-col gap-10">
-                <section id="order-summary-root">
-                </section>
 
-                <section id="payment-method-root">
-                </section>
+            <!-- Sidebar -->
 
-                <section id="privacy-policy-root">
-                </section>
-
-                <section id="place-order-root">
-                </section>
+            <aside id="checkout-sidebar-root">
             </aside>
+
+
         </section>
+
     </main>
 
+
+    <!-- Features -->
 
     <section id="featuresSection">
     </section>
 
+
+    <!-- Footer -->
+
     <footer id="footer-root">
     </footer>
-
 
 
     <script type="module" src="./checkout.js">
