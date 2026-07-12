@@ -1,48 +1,29 @@
-import {
-    dispatchCartUpdated,
-} from "./cartEvents.js";
+import { dispatchCartUpdated, } from "./cartEvents.js";
+import { CART_KEY, } from "./constants.js";
 
-import {
-    CART_KEY,
-    CART_UPDATED_EVENT,
-} from "./constants.js";
+
 
 function isValidCart(cart) {
-
     return Array.isArray(cart);
-
 }
 
 export function loadCart() {
-
     const raw = localStorage.getItem(CART_KEY);
 
     if (!raw) {
-
-        return [];
-
+        return []
     }
 
     try {
 
         const parsed = JSON.parse(raw);
-
         return isValidCart(parsed)
             ? parsed
             : [];
 
     } catch (error) {
-
-        console.warn(
-
-            "[cartStorage] Failed to parse cart data.",
-
-            error
-
-        );
-
-        return [];
-
+        console.warn("[cartStorage] Failed to parse cart data.", error)
+        return []
     }
 
 }
@@ -50,24 +31,10 @@ export function loadCart() {
 export function saveCart(cart) {
 
     try {
-
-        localStorage.setItem(
-
-            CART_KEY,
-
-            JSON.stringify(cart)
-
-        );
-
+        localStorage.setItem(CART_KEY, JSON.stringify(cart));
     } catch (error) {
 
-        console.warn(
-
-            "[cartStorage] Failed to save cart.",
-
-            error
-
-        );
+        console.warn("[cartStorage] Failed to save cart.", error);
 
     }
 
@@ -82,15 +49,7 @@ export function clearCartStorage() {
         localStorage.removeItem(CART_KEY);
 
     } catch (error) {
-
-        console.warn(
-
-            "[cartStorage] Failed to clear cart.",
-
-            error
-
-        );
-
+        console.warn("[cartStorage] Failed to clear cart.", error);
     }
 
 }

@@ -1,58 +1,34 @@
 function normalizeNullable(value) {
-
-    return value ?? null;
-
+    return value ?? null
 }
 
-export function isSameCartLine(a, b) {
-
+export function isSameCartLine(firstItem, secondItem) {
     return (
-
-        a.id === b.id &&
-
-        normalizeNullable(a.size) === normalizeNullable(b.size) &&
-
-        normalizeNullable(a.color) === normalizeNullable(b.color)
-
-    );
+        firstItem.id === secondItem.id &&
+        normalizeNullable(firstItem.size) === normalizeNullable(secondItem.size) &&
+        normalizeNullable(firstItem.color) === normalizeNullable(secondItem.color)
+    )
 
 }
 
 export function cloneCart(cart = []) {
-
-    return cart.map(item => ({
-
-        ...item,
-
-    }));
+    return cart.map(item => ({ ...item, }))
 
 }
 
 export function findCartItem(cart, target) {
 
     if (typeof target === "number") {
-
-        return cart.find(
-
-            item => item.id === target
-
-        );
-
+        return cart.find(item => item.id === target);
     }
 
     if (target && typeof target === "object") {
-
-        return cart.find(item =>
-
-            isSameCartLine(item, target)
-
-        );
-
+        return cart.find(item => isSameCartLine(item, target));
     }
 
     return null;
-
 }
+
 
 export function createCartItem(product) {
 
