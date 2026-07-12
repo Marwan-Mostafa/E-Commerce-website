@@ -1,17 +1,17 @@
-renderNavbar()
+// renderNavbar()
 
-renderHero()
+// renderHero()
 
-renderBillingForm()
+// renderBillingForm()
 
-renderOrderSummary()
+// renderOrderSummary()
 
-renderPaymentMethods()
+// renderPaymentMethods()
 
-renderPrivacyNotice()
+// renderPrivacyNotice()
 
-renderPlaceOrderButton()
+// renderPlaceOrderButton()
 
-bindEvents()
+// bindEvents()
 
-subscribeToCart()
+// subscribeToCart()

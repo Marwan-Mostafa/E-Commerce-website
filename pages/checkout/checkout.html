@@ -2,58 +2,95 @@
 <html lang="en">
 
 <head>
+
     <meta charset="UTF-8">
+
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
     <script src="https://cdn.jsdelivr.net/npm/@tailwindcss/browser@4"></script>
+
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/7.0.1/css/all.min.css"
         integrity="sha512-2SwdPD6INVrV/lHTZbO2nodKhrnDdJK9/kg2XD1r9uGqPo1cUbujc+IYdlYdEErWNu69gVcYgdxlmVmzTWnetw=="
         crossorigin="anonymous" referrerpolicy="no-referrer" />
-    <link rel="stylesheet" href="../styles/style.css">
-    <link rel="stylesheet" href="/styles/inspiration.css">
-    <title>checkout page</title>
+
+    <link rel="stylesheet" href="../../styles/style.css">
+
+    <title>Checkout — Furniro</title>
+
 </head>
 
-<body>
+<body class="bg-white">
 
-    <header id="navbar-root" class="sticky top-0 z-50 flex items-center shadow-sm transition-all duration-300">
+    <header id="navbar-root" class="sticky top-0 z-50">
     </header>
 
-    <section class="relative h-[300px] flex flex-col items-center justify-center bg-cover bg-center"
-        style="background-image: url('/assets/images/shop.svg');">
-        <div class="absolute inset-0"></div>
-        <div class="relative z-10 flex flex-col items-center gap-2">
-            <img src="/assets/images/logo.svg" alt="" class="w-10 h-10">
-            <h1 class="text-5xl font-semibold text-dark">Checkout</h1>
-            <nav aria-label="breadcrumb" class="flex items-center gap-2 text-sm text-gray-600">
-                <a href="/home.html" class="hover:text-gold transition-colors">Home</a>
-                <i class="fa-solid fa-chevron-right text-xs"></i>
-                <span class="text-gray-800">Checkout</span>
+
+    <section class="page-hero flex justify-center items-center">
+
+        <div class="hero-bg-image relative">
+
+            <img src="/assets/images/shop.svg" alt="Checkout Hero">
+
+        </div>
+
+        <div class="hero-content absolute">
+            <h1 class="text-[48px] font-medium">
+                Checkout
+            </h1>
+
+            <nav aria-label="breadcrumb">
+                <ol class="flex justify-center gap-4">
+                    <li>Home</li>
+                    <li>
+                        <i class="fa-solid fa-angle-right"></i>
+                    </li>
+                    <li>Checkout</li>
+                </ol>
             </nav>
         </div>
     </section>
 
-    <main>
-        <section id="billing-form-root"></section>
 
-        <aside>
 
-            <section id="order-summary-root"></section>
+    <main class="max-w-[1440px] mx-auto px-4 sm:px-6 lg:px-8 py-16">
 
-            <section id="payment-method-root"></section>
+        <section class="grid lg:grid-cols-[1fr_420px] gap-20 items-start">
 
-            <section id="privacy-root"></section>
+            <section id="billing-form-root" aria-labelledby="billing-form-title">
+            </section>
 
-            <section id="place-order-root"></section>
+            <aside class="flex flex-col gap-10">
 
-        </aside>
+                <section id="order-summary-root">
+                </section>
+
+                <section id="payment-method-root">
+                </section>
+
+                <section id="privacy-policy-root">
+                </section>
+
+                <section id="place-order-root">
+                </section>
+
+            </aside>
+
+        </section>
 
     </main>
 
-    <div id="featuresSection"></div>
 
-    <footer id="footer-root"></footer>
+    <section id="featuresSection">
+    </section>
 
-    <script type="module" src="./checkout.js"></script>
+    <footer id="footer-root">
+    </footer>
+
+
+
+    <script type="module" src="./checkout.js">
+    </script>
+
 </body>
 
 </html>
