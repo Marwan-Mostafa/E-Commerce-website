@@ -43,9 +43,7 @@ const PAYMENT_DESCRIPTIONS = {
 function renderLayout() {
 
     navbarRoot.innerHTML = renderNavbar("checkout");
-
     footerRoot.innerHTML = renderFooter();
-
     featuresRoot.innerHTML = renderFeaturesSection();
 
 }
@@ -86,7 +84,7 @@ function renderSidebar(items) {
 
         total: formatCurrency(getTotal()),
 
-        checkoutDisabled: items.length === 0,
+        checkoutDisabled: !items.length,
 
     });
 
@@ -95,26 +93,17 @@ function renderSidebar(items) {
 
 function renderEmptyState(items) {
 
-    if (!checkoutContentRoot || !emptyStateRoot) return;
+    const isEmpty = items.length === 0
 
-    if (!items.length) {
+    checkoutContentRoot.classList.toggle("hidden", isEmpty);
 
-        checkoutContentRoot.classList.add("hidden");
+    emptyStateRoot.classList.toggle("hidden", !isEmpty);
 
-        emptyStateRoot.classList.remove("hidden");
-
-        emptyStateRoot.innerHTML = EmptyCart();
-
-        return;
-
-    }
-
-    checkoutContentRoot.classList.remove("hidden");
-    emptyStateRoot.classList.add("hidden");
-    emptyStateRoot.innerHTML = "";
+    emptyStateRoot.innerHTML = isEmpty
+        ? EmptyCart()
+        : "";
 
 }
-
 
 
 function renderPage() {
@@ -142,9 +131,7 @@ function handlePaymentChange(event) {
 
     if (!description) return;
 
-    description.textContent =
-
-        PAYMENT_DESCRIPTIONS[radio.value];
+    description.textContent = PAYMENT_DESCRIPTIONS[radio.value];
 
 }
 

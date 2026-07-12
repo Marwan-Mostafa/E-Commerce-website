@@ -19,7 +19,7 @@ export function CheckoutSidebar({
     return `
 
          <aside
-            class="${SIDEBAR_CLASS}"
+            class="${WRAPPER_CLASS}"
             aria-labelledby="checkout-sidebar-title">
 
             <h2
