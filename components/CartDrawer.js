@@ -1,36 +1,26 @@
 export function CartDrawer() {
-    return `
+  return `
 
-    <div
-      id="cart-overlay"
-      class="fixed inset-0 bg-black/40 hidden z-40 transition-opacity duration-300">
+    <div id="cart-overlay" class="fixed inset-0 bg-black/40 hidden z-40 transition-opacity duration-300">
     </div>
 
 
-    <aside
-      id="cart-drawer"
-      class="
-        fixed
-        top-0
+    <aside id="cart-drawer"
+      class="fixed top-0
         right-[-420px]
         w-[420px]
         h-screen
-        bg-white
-        z-50
-        flex
-        flex-col
+        bg-white z-50
+        flex flex-col
         transition-all
         duration-300
-        shadow-2xl
-      ">
+        shadow-2xl">
 
 
       <div class="flex items-center justify-between p-6 border-b">
 
         <h2 class="text-2xl font-semibold">
-
           Shopping Cart
-
         </h2>
 
         <button
@@ -42,9 +32,7 @@ export function CartDrawer() {
       </div>
 
 
-      <div
-        id="cart-items"
-        class="flex-1 overflow-y-auto p-6">
+      <div id="cart-items" class="flex-1 overflow-y-auto p-6">
       </div>
 
 
@@ -53,33 +41,25 @@ export function CartDrawer() {
         <div class="flex justify-between mb-6">
 
           <span class="text-gray-500">
-
             Subtotal
-
           </span>
 
-          <span
-            id="cart-subtotal"
-            class="font-semibold text-yellow-700">
-
+          <span id="cart-subtotal" class="font-semibold text-yellow-700">
             $0
-
           </span>
 
         </div>
 
         <div class="grid grid-cols-2 gap-3">
 
-          <a
-            href="/pages/cart/cart.html"
-            class="border rounded-lg py-3 text-center hover:bg-gray-100 transition">
+          <a href="/pages/cart/cart.html"
+            class="border rounded-lg py-3 text-center hover:bg-[#B88E2F] hover:text-white transition">
 
             Cart
 
           </a>
 
-          <a
-            href="/pages/checkout/checkout.html"
+          <a href="/pages/checkout/checkout.html"
             class="border rounded-lg py-3 text-center hover:bg-[#B88E2F] hover:text-white transition">
 
             Checkout
@@ -91,5 +71,5 @@ export function CartDrawer() {
       </div>
 
     </aside>
-  `;
+  `
 }
