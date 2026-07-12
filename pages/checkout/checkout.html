@@ -32,155 +32,27 @@
         </div>
     </section>
 
-    <main class="max-w-[1440px] mx-auto px-8 lg:px-16 py-16">
-        <div class="grid lg:grid-cols-2 gap-16">
+    <main>
+        <section id="billing-form-root"></section>
 
-            <section aria-labelledby="billing-heading">
-                <h2 id="billing-heading" class="text-[32px] font-semibold text-dark mb-8">Billing details</h2>
+        <aside>
 
-                <form id="checkout-form" novalidate class="flex flex-col gap-6">
-                    <div class="grid grid-cols-2 gap-6">
-                        <div class="flex flex-col gap-2">
-                            <label for="first-name" class="text-sm font-medium text-dark">First Name</label>
-                            <input type="text" id="first-name" name="firstName" required
-                                class="border border-gray-300 rounded-md px-4 py-3 text-sm focus:outline-none focus:border-gold transition-colors" />
-                            <span class="field-error text-xs text-red-500 hidden"></span>
-                        </div>
-                        <div class="flex flex-col gap-2">
-                            <label for="last-name" class="text-sm font-medium text-dark">Last Name</label>
-                            <input type="text" id="last-name" name="lastName" required
-                                class="border border-gray-300 rounded-md px-4 py-3 text-sm focus:outline-none focus:border-gold transition-colors" />
-                            <span class="field-error text-xs text-red-500 hidden"></span>
-                        </div>
-                    </div>
+            <section id="order-summary-root"></section>
 
-                    <div class="flex flex-col gap-2">
-                        <label for="company" class="text-sm font-medium text-dark">Company Name (Optional)</label>
-                        <input type="text" id="company" name="company"
-                            class="border border-gray-300 rounded-md px-4 py-3 text-sm focus:outline-none focus:border-gold transition-colors" />
-                    </div>
+            <section id="payment-method-root"></section>
 
-                    <div class="flex flex-col gap-2">
-                        <label for="country" class="text-sm font-medium text-dark">Country / Region</label>
-                        <select id="country" name="country" required
-                            class="border border-gray-300 rounded-md px-4 py-3 text-sm bg-white focus:outline-none focus:border-gold transition-colors">
-                            <option value="">Select a country</option>
-                            <option value="LK">Sri Lanka</option>
-                            <option value="US">United States</option>
-                            <option value="EG">Egypt</option>
-                        </select>
-                        <span class="field-error text-xs text-red-500 hidden"></span>
-                    </div>
+            <section id="privacy-root"></section>
 
-                    <div class="flex flex-col gap-2">
-                        <label for="street" class="text-sm font-medium text-dark">Street address</label>
-                        <input type="text" id="street" name="street" required
-                            class="border border-gray-300 rounded-md px-4 py-3 text-sm focus:outline-none focus:border-gold transition-colors" />
-                        <span class="field-error text-xs text-red-500 hidden"></span>
-                    </div>
+            <section id="place-order-root"></section>
 
-                    <div class="flex flex-col gap-2">
-                        <label for="city" class="text-sm font-medium text-dark">Town / City</label>
-                        <input type="text" id="city" name="city" required
-                            class="border border-gray-300 rounded-md px-4 py-3 text-sm focus:outline-none focus:border-gold transition-colors" />
-                        <span class="field-error text-xs text-red-500 hidden"></span>
-                    </div>
+        </aside>
 
-                    <div class="flex flex-col gap-2">
-                        <label for="province" class="text-sm font-medium text-dark">Province</label>
-                        <select id="province" name="province" required
-                            class="border border-gray-300 rounded-md px-4 py-3 text-sm bg-white focus:outline-none focus:border-gold transition-colors">
-                            <option value="">Select a province</option>
-                            <option value="western">Western Province</option>
-                            <option value="southern">Southern Province</option>
-                        </select>
-                        <span class="field-error text-xs text-red-500 hidden"></span>
-                    </div>
-
-                    <div class="grid grid-cols-2 gap-6">
-                        <div class="flex flex-col gap-2">
-                            <label for="zip" class="text-sm font-medium text-dark">ZIP code</label>
-                            <input type="text" id="zip" name="zip" required
-                                class="border border-gray-300 rounded-md px-4 py-3 text-sm focus:outline-none focus:border-gold transition-colors" />
-                            <span class="field-error text-xs text-red-500 hidden"></span>
-                        </div>
-                        <div class="flex flex-col gap-2">
-                            <label for="phone" class="text-sm font-medium text-dark">Phone</label>
-                            <input type="tel" id="phone" name="phone" required
-                                class="border border-gray-300 rounded-md px-4 py-3 text-sm focus:outline-none focus:border-gold transition-colors" />
-                            <span class="field-error text-xs text-red-500 hidden"></span>
-                        </div>
-                    </div>
-
-                    <div class="flex flex-col gap-2">
-                        <label for="email" class="text-sm font-medium text-dark">Email address</label>
-                        <input type="email" id="email" name="email" required
-                            class="border border-gray-300 rounded-md px-4 py-3 text-sm focus:outline-none focus:border-gold transition-colors" />
-                        <span class="field-error text-xs text-red-500 hidden"></span>
-                    </div>
-
-                    <textarea id="additional-info" name="additionalInfo" rows="4" placeholder="Additional information"
-                        aria-label="Additional information"
-                        class="border border-gray-300 rounded-md px-4 py-3 text-sm placeholder:text-gray-400 focus:outline-none focus:border-gold transition-colors"></textarea>
-                </form>
-            </section>
-
-            <section aria-labelledby="order-summary-heading" class="flex flex-col gap-8">
-                <div>
-                    <div class="flex justify-between border-b border-gray-200 pb-4 mb-4">
-                        <h2 id="order-summary-heading" class="text-lg font-semibold text-dark">Product</h2>
-                        <h2 class="text-lg font-semibold text-dark">Subtotal</h2>
-                    </div>
-
-                    <ul id="order-items" class="flex flex-col gap-3 mb-4"></ul>
-
-                    <div class="flex justify-between border-t border-gray-200 pt-4">
-                        <span class="text-gray-600">Subtotal</span>
-                        <span id="order-subtotal" class="text-gray-800">Rs. 0.00</span>
-                    </div>
-                    <div class="flex justify-between border-t border-gray-200 pt-4 mt-2">
-                        <span class="text-gray-600">Total</span>
-                        <span id="order-total" class="text-gold text-xl font-semibold">Rs. 0.00</span>
-                    </div>
-                </div>
-
-                <div class="flex flex-col gap-4 border-t border-gray-200 pt-6">
-                    <fieldset class="flex flex-col gap-3">
-                        <legend class="sr-only">Payment method</legend>
-
-                        <label class="flex items-center gap-3 cursor-pointer">
-                            <input type="radio" name="paymentMethod" value="bank" checked class="accent-gold w-4 h-4" />
-                            <span class="font-medium text-dark">Direct Bank Transfer</span>
-                        </label>
-                        <p id="payment-description" class="text-sm text-gray-500 pl-7">
-                            Make your payment directly into our bank account. Please use your Order ID as the payment
-                            reference. Your order will not be shipped until the funds have cleared in our account.
-                        </p>
-
-                        <label class="flex items-center gap-3 cursor-pointer">
-                            <input type="radio" name="paymentMethod" value="cod" class="accent-gold w-4 h-4" />
-                            <span class="font-medium text-dark">Cash On Delivery</span>
-                        </label>
-                    </fieldset>
-
-                    <p class="text-sm text-gray-500">
-                        Your personal data will be used to support your experience throughout this website, to manage
-                        access to your account, and for other purposes described in our
-                        <a href="#" class="font-semibold text-dark underline">privacy policy.</a>
-                    </p>
-
-                    <button type="submit" form="checkout-form" id="place-order-btn"
-                        class="border border-dark rounded-md py-4 font-semibold text-dark hover:bg-yellow-400 cursor-pointer hover:text-white transition-colors">
-                        Place order
-                    </button>
-                </div>
-            </section>
-        </div>
     </main>
 
     <div id="featuresSection"></div>
 
     <footer id="footer-root"></footer>
+
     <script type="module" src="./checkout.js"></script>
 </body>
 
