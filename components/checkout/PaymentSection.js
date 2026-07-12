@@ -15,22 +15,30 @@ const PAYMENT_ROW_CLASS = `
 flex
 items-start
 gap-4
+cursor-pointer
 `
 
 const RADIO_CLASS = `
-mt-1
-accent-black
+mt-[5px]
+w-[18px]
+h-[18px]
+accent-[#000]
 cursor-pointer
+shrink-0
 `
 
 const LABEL_CLASS = `
 font-medium
+text-[16px]
 text-[#3A3A3A]
 cursor-pointer
 select-none
+leading-6
 `
 
 const DESCRIPTION_CLASS = `
+ml-[34px]
+text-[15px]
 text-[#9F9F9F]
 leading-7
 transition-all
@@ -39,6 +47,7 @@ duration-300
 
 const PRIVACY_CLASS = `
 mt-8
+text-[15px]
 text-[#9F9F9F]
 leading-7
 `
@@ -46,14 +55,15 @@ leading-7
 const BUTTON_CLASS = `
 block
 w-full
-max-w-[318px]
+max-w-[320px]
 mx-auto
 mt-10
-h-16
-rounded-[15px]
+h-[64px]
+rounded-2xl
 border
 border-black
-text-xl
+bg-white
+text-[20px]
 font-medium
 transition-all
 duration-300
@@ -117,7 +127,7 @@ export function PaymentSection({
             aria-labelledby="payment-title">
 
             <fieldset
-        class="${FIELDSET_CLASS}">
+                class="${FIELDSET_CLASS}">
 
         <legend
             id="payment-title"
