@@ -1,0 +1,81 @@
+function normalizeNullable(value) {
+
+    return value ?? null;
+
+}
+
+export function isSameCartLine(a, b) {
+
+    return (
+
+        a.id === b.id &&
+
+        normalizeNullable(a.size) === normalizeNullable(b.size) &&
+
+        normalizeNullable(a.color) === normalizeNullable(b.color)
+
+    );
+
+}
+
+export function cloneCart(cart = []) {
+
+    return cart.map(item => ({
+
+        ...item,
+
+    }));
+
+}
+
+export function findCartItem(cart, target) {
+
+    if (typeof target === "number") {
+
+        return cart.find(
+
+            item => item.id === target
+
+        );
+
+    }
+
+    if (target && typeof target === "object") {
+
+        return cart.find(item =>
+
+            isSameCartLine(item, target)
+
+        );
+
+    }
+
+    return null;
+
+}
+
+export function createCartItem(product) {
+
+    return {
+
+        id: product.id,
+
+        name: product.name,
+
+        image: product.image,
+
+        price: product.price,
+
+        oldPrice: product.oldPrice ?? null,
+
+        discount: product.discount ?? null,
+
+        size: product.size ?? null,
+
+        color: product.color ?? null,
+
+        quantity: product.quantity,
+
+    };
+
+}

@@ -1,191 +1,185 @@
-const CART_KEY = "furniro_cart";
+import { loadCart, saveCart } from "./cartStorage.js";
 
+import {
+    cloneCart,
+    createCartItem,
+    findCartItem,
+    isSameCartLine,
+} from "./cartHelpers.js";
 
-function loadCart() {
-    const raw = localStorage.getItem(CART_KEY);
+import {
+    isValidProduct,
+    normalizeProduct,
+    toPositiveInteger,
+} from "./cartValidation.js";
 
-    if (!raw) return [];
-
-    try {
-        const parsed = JSON.parse(raw);
-
-        return Array.isArray(parsed) ? parsed : [];
-    } catch (error) {
-        console.warn(
-            "[cartState] Corrupted cart data. Resetting cart.",
-            error
-        );
-
-        return [];
-    }
-}
+import {
+    getItemCount as calculateItemCount,
+    getSubtotal as calculateSubtotal,
+    getTotal as calculateTotal,
+    formatCurrency,
+} from "./cartCalculations.js";
 
 let cart = loadCart();
 
-function saveCart() {
-    try {
-        localStorage.setItem(
-            CART_KEY,
-            JSON.stringify(cart)
-        );
-    } catch (error) {
-        console.warn(
-            "[cartState] Failed to save cart.",
-            error
-        );
-    }
 
-    window.dispatchEvent(
-        new CustomEvent("cart:updated", {
-            detail: {
-                cart: getCart(),
-            },
-        })
-    );
+function persist() {
+
+    saveCart(cart);
+
 }
 
-function toPositiveInteger(value, fallback = 1) {
-    const number = Number(value);
 
-    return Number.isFinite(number) && number > 0
-        ? Math.floor(number)
-        : fallback;
-}
-
-function isSameCartLine(a, b) {
-    return (
-        a.id === b.id &&
-        (a.size ?? null) === (b.size ?? null) &&
-        (a.color ?? null) === (b.color ?? null)
-    );
-}
-
-function resolveCartItem(target) {
-    if (typeof target === "number") {
-        return cart.find(
-            (item) => item.id === target
-        );
-    }
-
-    if (target && typeof target === "object") {
-        return cart.find((item) =>
-            isSameCartLine(item, target)
-        );
-    }
-
-    return null;
-}
 
 export function addToCart(product) {
-    if (!product || product.id == null) {
+
+    if (!isValidProduct(product)) {
+
         console.warn(
+
             "[cartState] Invalid product.",
+
             product
+
         );
 
         return;
+
     }
 
-    const item = {
-        id: product.id,
-        name: product.name,
-        image: product.image,
-        price: product.price,
-        oldPrice: product.oldPrice ?? null,
-        discount: product.discount ?? null,
-        size: product.size ?? null,
-        color: product.color ?? null,
-        quantity: toPositiveInteger(
-            product.quantity,
-            1
-        ),
-    };
+    const normalized = normalizeProduct(product);
 
-    const existing = resolveCartItem(item);
+    const item = createCartItem(normalized);
 
-    if (existing) {
-        existing.quantity += item.quantity;
-    } else {
+    const existingItem = findCartItem(cart, item);
+
+    if (existingItem) {
+
+        existingItem.quantity += item.quantity;
+
+    }
+
+    else {
+
         cart.push(item);
+
     }
 
-    saveCart();
+    persist();
+
 }
+
+
 
 export function getCart() {
-    return cart.map((item) => ({
-        ...item,
-    }));
+
+    return cloneCart(cart);
+
 }
+
+
 
 export function removeFromCart(target) {
+
     if (typeof target === "number") {
+
         cart = cart.filter(
-            (item) => item.id !== target
+
+            item => item.id !== target
+
         );
-    } else {
-        cart = cart.filter(
-            (item) =>
-                !isSameCartLine(item, target)
-        );
+
     }
 
-    saveCart();
+    else {
+
+        cart = cart.filter(
+
+            item => !isSameCartLine(item, target)
+
+        );
+
+    }
+
+    persist();
+
 }
 
-export function updateQuantity(target, quantity) {
-    const item = resolveCartItem(target);
 
-    if (!item) return;
+
+export function updateQuantity(target, quantity) {
+
+    const item = findCartItem(
+
+        cart,
+
+        target
+
+    );
+
+    if (!item) {
+
+        return;
+
+    }
 
     const safeQuantity = toPositiveInteger(
+
         quantity,
+
         0
+
     );
 
     if (safeQuantity <= 0) {
+
         removeFromCart(target);
+
         return;
+
     }
 
     item.quantity = safeQuantity;
 
-    saveCart();
+    persist();
+
 }
+
 
 
 export function clearCart() {
+
     cart = [];
 
-    saveCart();
+    persist();
+
 }
+
 
 export function getItemCount() {
-    return cart.reduce(
-        (sum, item) => sum + item.quantity,
-        0
-    );
+
+    return calculateItemCount(cart);
+
 }
+
+
 
 export function getSubtotal() {
-    return cart.reduce(
-        (sum, item) =>
-            sum + item.price * item.quantity,
-        0
-    );
+
+    return calculateSubtotal(cart);
+
 }
+
+
 
 export function getTotal() {
-    return getSubtotal();
+
+    return calculateTotal(cart);
+
 }
 
+export {
 
-export function formatCurrency(amount) {
-    return `Rs. ${new Intl.NumberFormat(
-        "en-US",
-        {
-            minimumFractionDigits: 2,
-            maximumFractionDigits: 2,
-        }
-    ).format(amount)}`;
-}
+    formatCurrency,
+
+};

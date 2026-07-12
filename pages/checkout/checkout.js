@@ -55,8 +55,15 @@ function renderBillingForm() {
 
     if (!billingRoot) return;
 
-    billingRoot.innerHTML = BillingForm();
+    billingRoot.innerHTML = `
+        <form
+            id="checkout-form"
+            novalidate>
 
+            ${BillingForm()}
+
+        </form>
+    `
 }
 
 
@@ -64,9 +71,16 @@ function renderSidebar(items) {
 
     if (!sidebarRoot) return;
 
+    const summaryItems = items.map(item => ({
+        ...item,
+        formattedSubtotal: formatCurrency(
+            item.price * item.quantity
+        ),
+    }));
+
     sidebarRoot.innerHTML = CheckoutSidebar({
 
-        items,
+        items: summaryItems,
 
         subtotal: formatCurrency(getSubtotal()),
 
@@ -83,7 +97,7 @@ function renderEmptyState(items) {
 
     if (!checkoutContentRoot || !emptyStateRoot) return;
 
-    if (items.length === 0) {
+    if (!items.length) {
 
         checkoutContentRoot.classList.add("hidden");
 
@@ -96,8 +110,8 @@ function renderEmptyState(items) {
     }
 
     checkoutContentRoot.classList.remove("hidden");
-
     emptyStateRoot.classList.add("hidden");
+    emptyStateRoot.innerHTML = "";
 
 }
 
@@ -109,7 +123,7 @@ function renderPage() {
 
     renderEmptyState(items);
 
-    if (items.length === 0) return;
+    if (!items.length) return;
 
     renderBillingForm();
 
@@ -120,7 +134,7 @@ function renderPage() {
 
 function handlePaymentChange(event) {
 
-    const radio = event.target.closest("[name='paymentMethod']");
+    const radio = event.target.closest("input[name='paymentMethod']");
 
     if (!radio) return;
 
@@ -137,7 +151,54 @@ function handlePaymentChange(event) {
 
 function validateForm(form) {
 
-    return form.reportValidity();
+    const fields = form.querySelectorAll(
+        "input:not([type='radio']), select, textarea"
+    );
+
+    let isValid = true;
+
+    fields.forEach(field => {
+
+        const error = field
+            .closest("div")
+            ?.querySelector(".field-error");
+
+        field.classList.remove(
+            "border-red-500",
+            "focus:border-red-500"
+        );
+
+        if (error) {
+
+            error.classList.add("hidden");
+
+            error.textContent = "";
+
+        }
+
+        if (!field.checkValidity()) {
+
+            isValid = false;
+
+            field.classList.add(
+                "border-red-500",
+                "focus:border-red-500"
+            );
+
+            if (error) {
+
+                error.textContent =
+                    field.validationMessage;
+
+                error.classList.remove("hidden");
+
+            }
+
+        }
+
+    });
+
+    return isValid;
 
 }
 
@@ -151,9 +212,13 @@ function handleSubmit(event) {
 
     if (!validateForm(form)) return;
 
-    if (getCart().length === 0) return;
+    if (!getCart().length) return;
+
+    console.log("Order Created");
 
     clearCart();
+    form.reset();
+    window.scrollTo({ top: 0, behavior: "smooth" });
 
     alert("Order placed successfully.");
 

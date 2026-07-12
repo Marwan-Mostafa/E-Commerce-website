@@ -21,15 +21,12 @@
 
 <body class="bg-white">
 
-    <!-- Navbar -->
 
     <header id="navbar-root" class="sticky top-0 z-50">
     </header>
 
 
-    <!-- Hero -->
-
-    <section class="page-hero flex justify-center items-center">
+    <section class="page-hero flex justify-center items-center" aria-labelledby="checkout-page-title">
 
         <div class="hero-bg-image relative">
 
@@ -39,25 +36,37 @@
 
         <div class="hero-content absolute">
 
-            <h1 class="text-[48px] font-medium">
+            <h1 id="checkout-page-title" class="text-[48px] font-medium">
 
                 Checkout
 
             </h1>
 
-            <nav aria-label="breadcrumb">
+            <nav aria-label="Breadcrumb">
 
                 <ol class="flex justify-center gap-4">
 
-                    <li>Home</li>
-
                     <li>
+
+                        <a href="/pages/home/home.html">
+
+                            Home
+
+                        </a>
+
+                    </li>
+
+                    <li aria-hidden="true">
 
                         <i class="fa-solid fa-angle-right"></i>
 
                     </li>
 
-                    <li>Checkout</li>
+                    <li aria-current="page">
+
+                        Checkout
+
+                    </li>
 
                 </ol>
 
@@ -67,51 +76,43 @@
 
     </section>
 
+    <main class="
+            max-w-[1440px]
+            mx-auto
+            px-4
+            sm:px-6
+            lg:px-8
+            py-20
+        ">
 
-    <!-- Main -->
-
-    <main class="max-w-[1440px] mx-auto px-4 sm:px-6 lg:px-8 py-16">
-
-
-        <!-- Empty Cart -->
-
-        <section id="checkout-empty-state" class="hidden">
+        <section id="checkout-empty-state" class="hidden" aria-live="polite">
         </section>
 
+        <section id="checkout-content" class="
+                grid
+                lg:grid-cols-[minmax(0,1fr)_420px]
+                gap-20
+                items-start
+            ">
 
-        <!-- Checkout Content -->
 
-        <section id="checkout-content" class="grid lg:grid-cols-[1fr_420px] gap-20 items-start">
+            <section id="billing-form-root" aria-labelledby="billing-details-title">
 
-
-            <!-- Billing -->
-
-            <section id="billing-form-root" aria-labelledby="billing-form-title">
             </section>
 
+            <aside id="checkout-sidebar-root" aria-label="Checkout Summary">
 
-            <!-- Sidebar -->
-
-            <aside id="checkout-sidebar-root">
             </aside>
-
 
         </section>
 
     </main>
 
-
-    <!-- Features -->
-
     <section id="featuresSection">
     </section>
 
-
-    <!-- Footer -->
-
     <footer id="footer-root">
     </footer>
-
 
     <script type="module" src="./checkout.js">
     </script>

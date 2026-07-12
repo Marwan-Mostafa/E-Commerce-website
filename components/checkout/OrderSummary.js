@@ -22,14 +22,7 @@ font-medium
 text-[#3A3A3A]
 `
 
-const ITEMS_CLASS = `
-flex
-flex-col
-divide-y
-divide-[#F3F3F3]
-`
-
-const ROW_CLASS = `
+const ITEM_CLASS = `
 flex
 justify-between
 items-center
@@ -51,18 +44,26 @@ font-bold
 `
 
 const EMPTY_CLASS = `
-py-10
+py-12
 text-center
 text-[#9F9F9F]
 `
 
+const LIST_CLASS = `
+flex
+flex-col
+divide-y
+divide-[#F3F3F3]
+`
+
+
 function renderItem(item) {
 
     return `
-        <li class="${ROW_CLASS}" data-product-id="${item.id}">
+        <li class="${ITEM_CLASS}" data-product-id="${item.id}">
 
-            <div>
-                <p class="text-[#3A3A3A]">
+            <div class="min-w-0">
+                <p class="text-[#3A3A3A] break-words">
                     ${item.name}
                     <span class="text-[#9F9F9F]">
                         × ${item.quantity}
@@ -71,8 +72,8 @@ function renderItem(item) {
 
             </div>
 
-            <span>
-                ${item.subtotal}
+            <span class="whitespace-nowrap">
+                ${item.formattedSubtotal}
             </span>
         </li>
     `
@@ -110,7 +111,7 @@ export function OrderSummary({ items = [], subtotal = "", total = "" } = {}) {
 
             </header>
 
-            <ul id="checkout-order-items"class="${ITEMS_CLASS}">
+            <ul id="checkout-order-items" aria-live="polite" class="${LIST_CLASS}">
 
                 ${items.length
             ? items.map(renderItem).join("")

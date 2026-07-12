@@ -1,10 +1,10 @@
 import { OrderSummary } from "./OrderSummary.js";
 import { PaymentSection } from "./PaymentSection.js";
 
-const SIDEBAR_CLASS = `
+const WRAPPER_CLASS = `
 flex
 flex-col
-gap-10
+gap-12
 `
 
 export function CheckoutSidebar({
@@ -16,8 +16,8 @@ export function CheckoutSidebar({
 
     return `
 
-        <aside
-            class="${SIDEBAR_CLASS}"
+        <div
+            class="${WRAPPER_CLASS}"
             aria-label="Checkout Summary">
 
             ${OrderSummary({
@@ -30,7 +30,7 @@ export function CheckoutSidebar({
         checkoutDisabled,
     })}
 
-        </aside>
+        </div>
 
     `;
 

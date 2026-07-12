@@ -1,9 +1,14 @@
 import { BillingField } from "./BillingField.js";
 
-const WRAPPER_CLASS = `
+const FORM_CLASS = `
+flex
+flex-col
+`;
+const SECTION_CLASS = `
 flex
 flex-col
 gap-7
+lg:gap-8
 `;
 
 const TITLE_CLASS = `
@@ -24,208 +29,142 @@ export function BillingForm() {
 
     return `
 
-<section
-    id="billing-form"
-    aria-labelledby="billing-details-title"
-    class="${WRAPPER_CLASS}">
+    <form
+    id="checkout-form"
+    class="${FORM_CLASS}"
+    autocomplete="on"
+    novalidate>
 
-    <h2
-        id="billing-details-title"
-        class="${TITLE_CLASS}">
+    <section aria-labelledby="billing-details-title" class="${SECTION_CLASS}">
+        <h2 id="billing-details-title" class="${TITLE_CLASS}">
+            Billing Details
+        </h2>
 
-        Billing Details
+        <div class="${TWO_COLUMNS_CLASS}">
 
-    </h2>
-
-
-    <div class="${TWO_COLUMNS_CLASS}">
-
-        ${BillingField({
-
+            ${BillingField({
         id: "firstName",
-
         name: "firstName",
-
         label: "First Name",
-
         required: true,
-
-        autocomplete: "given-name"
-
+        autocomplete: "given-name",
     })}
 
-        ${BillingField({
-
+            ${BillingField({
         id: "lastName",
-
         name: "lastName",
-
         label: "Last Name",
-
         required: true,
-
-        autocomplete: "family-name"
-
+        autocomplete: "family-name",
     })}
 
-    </div>
+        </div>
 
-
-    ${BillingField({
-
+        ${BillingField({
         id: "company",
-
         name: "company",
-
         label: "Company Name (Optional)",
-
-        autocomplete: "organization"
-
+        autocomplete: "organization",
     })}
 
-
-    ${BillingField({
-
+        ${BillingField({
         id: "country",
-
         name: "country",
-
         label: "Country / Region",
-
         type: "select",
-
         required: true,
-
         options: [
-
-            { value: "Sri Lanka", label: "Sri Lanka" },
-
-            { value: "Egypt", label: "Egypt" },
-
-            { value: "Saudi Arabia", label: "Saudi Arabia" },
-
-            { value: "UAE", label: "United Arab Emirates" }
-
-        ]
-
+            {
+                value: "Sri Lanka",
+                label: "Sri Lanka",
+            },
+            {
+                value: "Egypt",
+                label: "Egypt",
+            },
+            {
+                value: "Saudi Arabia",
+                label: "Saudi Arabia",
+            },
+            {
+                value: "UAE",
+                label: "United Arab Emirates",
+            },
+        ],
     })}
 
-
-    ${BillingField({
-
+        ${BillingField({
         id: "street",
-
         name: "street",
-
         label: "Street Address",
-
         required: true,
-
-        autocomplete: "street-address"
-
+        autocomplete: "street-address",
     })}
 
+        <div class="${TWO_COLUMNS_CLASS}">
 
-    <div class="${TWO_COLUMNS_CLASS}">
-
-        ${BillingField({
-
+            ${BillingField({
         id: "city",
-
         name: "city",
-
         label: "Town / City",
+        required: true,
+    })}
 
-        required: true
+            ${BillingField({
+        id: "province",
+        name: "province",
+        label: "Province",
+        type: "select",
+        required: true,
+        options: [
+            {
+                value: "Western Province",
+                label: "Western Province",
+            },
+        ],
+    })}
 
+        </div>
+
+        ${BillingField({
+        id: "zip",
+        name: "zip",
+        label: "ZIP Code",
+        required: true,
+        autocomplete: "postal-code",
     })}
 
         ${BillingField({
-
-        id: "province",
-
-        name: "province",
-
-        label: "Province",
-
-        type: "select",
-
-        required: true,
-
-        options: [
-
-            { value: "Western Province", label: "Western Province" }
-
-        ]
-
-    })}
-
-    </div>
-
-
-    ${BillingField({
-
-        id: "zip",
-
-        name: "zip",
-
-        label: "ZIP Code",
-
-        required: true
-
-    })}
-
-
-    ${BillingField({
-
         id: "phone",
-
         name: "phone",
-
         label: "Phone",
-
         type: "tel",
-
         required: true,
-
-        autocomplete: "tel"
-
+        autocomplete: "tel",
     })}
 
-
-    ${BillingField({
-
+        ${BillingField({
         id: "email",
-
         name: "email",
-
         label: "Email Address",
-
         type: "email",
-
         required: true,
-
-        autocomplete: "email"
-
+        autocomplete: "email",
     })}
 
-
-    ${BillingField({
-
+        ${BillingField({
         id: "notes",
-
         name: "notes",
-
         label: "Order Notes (Optional)",
-
         type: "textarea",
-
-        placeholder: "Notes about your order, e.g. special notes for delivery."
-
+        placeholder:
+            "Notes about your order, e.g. special notes for delivery.",
     })}
 
-</section>
+    </section>
 
-`;
+</form>
+
+`
 
 }

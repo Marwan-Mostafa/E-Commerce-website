@@ -5,6 +5,12 @@ border-[#D9D9D9]
 pt-8
 `
 
+const FIELDSET_CLASS = `
+flex
+flex-col
+gap-6
+`;
+
 const PAYMENT_ROW_CLASS = `
 flex
 items-start
@@ -12,7 +18,7 @@ gap-4
 `
 
 const RADIO_CLASS = `
-mt-[6px]
+mt-1
 accent-black
 cursor-pointer
 `
@@ -25,9 +31,10 @@ select-none
 `
 
 const DESCRIPTION_CLASS = `
-mt-4
 text-[#9F9F9F]
 leading-7
+transition-all
+duration-300
 `
 
 const PRIVACY_CLASS = `
@@ -47,7 +54,7 @@ rounded-[15px]
 border
 border-black
 text-xl
-font-normal
+font-medium
 transition-all
 duration-300
 hover:bg-[#B88E2F]
@@ -79,7 +86,7 @@ function PaymentOption({
 }) {
 
     return `
-        <div class="${PAYMENT_ROW_CLASS}">
+        <label for="${id}" class="${PAYMENT_ROW_CLASS}">
 
             <input
                 id="${id}"
@@ -87,18 +94,14 @@ function PaymentOption({
                 name="paymentMethod"
                 value="${value}"
                 ${checked ? "checked" : ""}
-                autocomplete="off"
-                class="${RADIO_CLASS}">
+                class="${RADIO_CLASS}"
+                autocomplete="off">
 
-            <label
-                for="${id}"
-                class="${LABEL_CLASS}">
-
+            <span class="${LABEL_CLASS}">
                 ${label}
+            </span>
 
-            </label>
-
-        </div>
+        </label>
     `;
 
 }
@@ -113,20 +116,40 @@ export function PaymentSection({
             class="${WRAPPER_CLASS}"
             aria-labelledby="payment-title">
 
-            <h2
-                id="payment-title"
-                class="sr-only">
+            <fieldset
+        class="${FIELDSET_CLASS}">
 
-                Payment Method
+        <legend
+            id="payment-title"
+            class="sr-only">
 
-            </h2>
+            Payment Method
 
-            ${PaymentOption({
+        </legend>
+
+        ${PaymentOption({
+
         id: "bank",
+
         value: "bank",
+
         label: "Direct Bank Transfer",
+
         checked: true,
+
     })}
+
+        ${PaymentOption({
+
+        id: "cod",
+
+        value: "cod",
+
+        label: "Cash On Delivery",
+
+    })}
+
+    </fieldset>
 
             <p
                 id="payment-description"
@@ -137,16 +160,6 @@ export function PaymentSection({
 
             </p>
 
-            <div class="mt-6">
-
-                ${PaymentOption({
-        id: "cod",
-        value: "cod",
-        label: "Cash On Delivery",
-    })}
-
-            </div>
-
             <p class="${PRIVACY_CLASS}">
 
                 ${PRIVACY_TEXT}
@@ -155,6 +168,7 @@ export function PaymentSection({
 
             <button
                 id="place-order-btn"
+                form="checkout-form"
                 type="submit"
                 aria-label="Place Order"
                 ${checkoutDisabled ? "disabled" : ""}

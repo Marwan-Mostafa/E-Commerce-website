@@ -1,11 +1,12 @@
 const WRAPPER_CLASS = `
+billing-field
 flex
 flex-col
 gap-2
 `;
 
 const LABEL_CLASS = `
-text-[15px]
+text-[15px] 
 font-semibold
 tracking-[0.2px]
 text-[#3A3A3A]
@@ -88,17 +89,28 @@ export function BillingField({
 
     const requiredAttr = required ? "required" : "";
 
+    const commonAttributes = `
+        id="${id}"
+        name="${name}"
+        autocomplete="${autocomplete}"
+        ${requiredAttr}
+
+        data-field="${name}"
+        data-required="${required}"
+        data-type="${type}"
+
+        aria-invalid="false"
+        aria-describedby="${id}-error"
+    `;
+
     let field = "";
 
     if (type === "textarea") {
 
         field = `
             <textarea
-                id="${id}"
-                name="${name}"
+                ${commonAttributes}
                 placeholder="${placeholder}"
-                autocomplete="${autocomplete}"
-                ${requiredAttr}
                 class="${TEXTAREA_CLASS}">${value}</textarea>
         `;
 
@@ -108,11 +120,12 @@ export function BillingField({
 
         field = `
             <select
-                id="${id}"
-                name="${name}"
-                ${requiredAttr}
-                autocomplete="${autocomplete}"
+                ${commonAttributes}
                 class="${SELECT_CLASS}">
+
+                <option value="" disabled selected>
+                    Select...
+                </option>
 
                 ${options.map(option => `
                     <option
@@ -130,20 +143,20 @@ export function BillingField({
 
         field = `
             <input
-                id="${id}"
-                name="${name}"
+                ${commonAttributes}
                 type="${type}"
                 value="${value}"
                 placeholder="${placeholder}"
-                autocomplete="${autocomplete}"
-                ${requiredAttr}
                 class="${INPUT_CLASS}">
         `;
 
     }
 
     return `
-        <div class="${WRAPPER_CLASS}">
+
+        <div
+            class="${WRAPPER_CLASS}"
+            data-field="${name}">
 
             <label
                 for="${id}"
@@ -151,16 +164,21 @@ export function BillingField({
 
                 ${label}
 
-                ${required ? `<span class="text-red-500">*</span>` : ""}
+                ${required
+            ? `<span class="text-red-500">*</span>`
+            : ""}
 
             </label>
 
             ${field}
 
-            <p class="field-error ${ERROR_CLASS}">
+            <p
+                id="${id}-error"
+                class="field-error ${ERROR_CLASS}"
+                aria-live="polite">
             </p>
 
         </div>
-    `;
 
+    `
 }
