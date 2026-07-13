@@ -1,4 +1,6 @@
 import { formatPrice } from "../utils/formatPrice.js";
+import { isInWishlist } from "../state/wishlistState.js";
+
 
 const ACTION_BUTTON_CLASS = `
 cursor-pointer
@@ -8,7 +10,11 @@ duration-300
 hover:-translate-y-1
 active:scale-90
 `
-
+const ACTION_LABELS = {
+  wishlist: "Like",
+  compare: "Compare",
+  share: "Share",
+};
 
 
 function renderDiscountBadge(discount) {
@@ -16,9 +22,8 @@ function renderDiscountBadge(discount) {
 
   return `
         <div
-            class="absolute top-3 right-3 bg-[#E97171] text-white text-md w-[48px] px-1 p-3 font-semibold rounded-full"
-            aria-label="${discount} off"
-        >
+            class="absolute top-3 right-3 bg-[#E97171] text-white text-md w-[48px] px-1 p-3 font-semibold rounded-full bg-[#E97171] text-white font-semibold"
+            aria-label="${discount} off">
             ${discount}
         </div>
     `
@@ -46,15 +51,6 @@ function renderActionButton({
     pressed === null
       ? ""
       : `aria-pressed="${pressed}"`
-
-
-  const buttonText = {
-
-    wishlist: "Like",
-    compare: "Compare",
-    share: "Share",
-
-  };
 
   return `
         <button
@@ -88,11 +84,14 @@ export function renderProductCard(product) {
 
   const formattedPrice = formatPrice(price);
 
+  const wishlistActive = isInWishlist(id);
+
+  const wishlistIcon = wishlistActive ? "fa-solid fa-heart" : "fa-regular fa-heart";
+
   return `
       <article
       class="group product-card bg-white shadow-sm hover:shadow-xl transition duration-500 overflow-hidden cursor-pointer"
-      data-id="${id}"
-      >
+      data-id="${id}">
 
       <div class="relative overflow-hidden cursor-pointer" data-action="view-product" data-id="${id}">
 
@@ -101,8 +100,7 @@ export function renderProductCard(product) {
       alt="${name}"
       loading="lazy"
       decoding="async"
-      class="w-full aspect-square object-cover group-hover:scale-110 transition duration-700 pointer-events-none"
-      />
+      class="w-full aspect-square object-cover group-hover:scale-110 transition duration-700 pointer-events-none"/>
 
       <div class="absolute inset-0 bg-black/0 group-hover:bg-black/40 transition"></div>
 
@@ -139,10 +137,10 @@ export function renderProductCard(product) {
 
           ${renderActionButton({
     action: "wishlist",
-    icon: "fa-regular fa-heart",
+    icon: wishlistIcon,
     label: `Add ${name} to wishlist`,
     productId: id,
-    pressed: false,
+    pressed: wishlistActive,
   })}
 
           </div>
