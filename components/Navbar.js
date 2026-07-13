@@ -25,7 +25,6 @@ const ICON_LINKS = Object.freeze([
     label: "Cart",
     icon: "fa-solid fa-cart-shopping",
     href: "/pages/cart/cart.html",
-    action: true,
     badgeId: "cart-badge",
   },
 ]);
