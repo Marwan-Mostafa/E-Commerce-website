@@ -47,6 +47,15 @@ function renderActionButton({
       ? ""
       : `aria-pressed="${pressed}"`
 
+
+  const buttonText = {
+
+    wishlist: "Like",
+    compare: "Compare",
+    share: "Share",
+
+  };
+
   return `
         <button
             type="button"
@@ -57,11 +66,8 @@ function renderActionButton({
             ${ariaPressed}
         >
             <i class="${icon}"></i>
-            ${action === "wishlist"
-      ? "Like"
-      : action === "compare"
-        ? "Compare"
-        : "Share"}
+           ${buttonText[action]}
+
         </button>
     `
 }
@@ -88,30 +94,30 @@ export function renderProductCard(product) {
       data-id="${id}"
       >
 
-      <div class="relative overflow-hidden">
+      <div class="relative overflow-hidden cursor-pointer" data-action="view-product" data-id="${id}">
 
       <img
       src="${image}"
       alt="${name}"
       loading="lazy"
       decoding="async"
-      class="w-full aspect-square object-cover group-hover:scale-110 transition duration-700"
+      class="w-full aspect-square object-cover group-hover:scale-110 transition duration-700 pointer-events-none"
       />
 
-      <div class="absolute inset-0 bg-black/0 group-hover:bg-black/40 group-focus-within:bg-black/40 transition"></div>
+      <div class="absolute inset-0 bg-black/0 group-hover:bg-black/40 transition"></div>
 
           ${renderDiscountBadge(discount)}
 
-          <div class="absolute inset-0 flex flex-col items-center justify-center opacity-0 group-hover:opacity-100 group-focus-within:opacity-100 transition">
+          <div class="absolute inset-0 flex flex-col items-center justify-center opacity-0 group-hover:opacity-100 transition">
 
           <button
           type="button"
           class="add-to-cart-btn bg-white px-10 py-2 text-sm font-semibold text-(--primary)
           cursor-pointer duration-300 transition-all hover:shadow-black/20 hover:-translate-y-1 active:scale-90"
-          aria-label="Add ${name} to cart"
+          aria-label="View ${name}"
           data-action="add-to-cart"
-          data-id="${id}"
-          >
+          data-id="${id}">
+
           Add to cart
           </button>
 
@@ -147,7 +153,9 @@ export function renderProductCard(product) {
 
           <div class="p-4 bg-gray-50">
 
-            <h3 class="font-semibold text-lg">
+            <h3  class="font-semibold text-lg cursor-pointer hover:text-(--primary) transition-colors"
+                    data-action="view-product"
+                    data-id="${id}">
             ${name}
             </h3>
 
