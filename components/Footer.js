@@ -3,7 +3,7 @@ const CURRENT_YEAR = new Date().getFullYear();
 const footerLinks = [
   { label: "Home", href: "/pages/home/home.html" },
   { label: "Shop", href: "/pages/shop/shop.html" },
-  { label: "About", href: "/pages/about/about.html" },
+  { label: "About", href: "/pages/blog/blog.html" },
   { label: "Contact", href: "/pages/contact/contact.html" },
 ]
 

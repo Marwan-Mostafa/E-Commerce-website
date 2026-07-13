@@ -8,6 +8,8 @@ const FILTER_ELEMENT_IDS = {
     listView: "listView",
 };
 
+const BOUND_DATASET_KEY = "filtersBound";
+
 export function setupFilters({
 
     onPerPageChange,
@@ -18,7 +20,7 @@ export function setupFilters({
 
     onFilterToggle,
 
-}) {
+} = {}) {
 
     bindFilterToggle(
         FILTER_ELEMENT_IDS.filterBtn,
@@ -51,89 +53,73 @@ export function setupFilters({
 
 function bindFilterToggle(id, callback) {
 
-    const button =
-        document.getElementById(id);
+    const button = getElement(id);
 
-    if (!button || isAlreadyBound(button))
-        return;
+    if (!button) return;
 
     button.addEventListener("click", () => {
 
-        const isOpen =
+        const expanded =
             button.getAttribute("aria-expanded") === "true";
+
+        const nextState = !expanded;
 
         button.setAttribute(
             "aria-expanded",
-            String(!isOpen)
+            String(nextState)
         );
 
-        callback?.(!isOpen);
+        callback?.(nextState);
 
     });
-
-    markBound(button);
 
 }
 
 function bindShowItems(id, callback) {
 
-    const select =
-        document.getElementById(id);
+    const select = getElement(id);
 
-    if (!select || isAlreadyBound(select))
-        return;
+    if (!select) return;
 
-    select.addEventListener("change", (event) => {
+    select.addEventListener("change", ({ target }) => {
 
-        const value = event.target.value;
+        const value = target.value;
 
-        callback?.(
+        const perPage =
 
             value === "All"
                 ? Infinity
-                : Number(value) || DEFAULT_PER_PAGE
+                : Number(value) || DEFAULT_PER_PAGE;
 
-        );
+        callback?.(perPage);
 
     });
-
-    markBound(select);
 
 }
 
 function bindSortItems(id, callback) {
 
-    const select =
-        document.getElementById(id);
+    const select = getElement(id);
 
-    if (!select || isAlreadyBound(select))
-        return;
+    if (!select) return;
 
-    select.addEventListener("change", (event) => {
+    select.addEventListener("change", ({ target }) => {
 
         callback?.(
 
-            event.target.value.toLowerCase()
+            target.value.toLowerCase()
 
         );
 
     });
 
-    markBound(select);
-
 }
 
-function bindViewMode(
-    id,
-    mode,
-    callback
-) {
+function bindViewMode(id, mode, callback) {
 
-    const button =
-        document.getElementById(id);
+    const button = getElement(id);
 
-    if (!button || isAlreadyBound(button))
-        return;
+    if (!button) return;
 
     button.addEventListener("click", () => {
 
@@ -141,22 +127,42 @@ function bindViewMode(
 
     });
 
-    markBound(button);
+}
+
+function getElement(id) {
+
+    const element = document.getElementById(id);
+
+    if (!element) {
+
+        return null;
+
+    }
+
+    if (isAlreadyBound(element)) {
+
+        return null;
+
+    }
+
+    markBound(element);
+
+    return element;
 
 }
 
 function isAlreadyBound(element) {
 
     return (
-        element.dataset.filtersBound ===
-        "true"
+
+        element.dataset[BOUND_DATASET_KEY] === "true"
+
     );
 
 }
 
 function markBound(element) {
 
-    element.dataset.filtersBound =
-        "true";
+    element.dataset[BOUND_DATASET_KEY] = "true";
 
 }

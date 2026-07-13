@@ -2,13 +2,13 @@ export function renderNavbar(activePage = 'home') {
   const navLinks = [
     { id: 'home', label: 'Home', href: '/pages/home/home.html' },
     { id: 'shop', label: 'Shop', href: '/pages/shop/shop.html' },
-    { id: 'about', label: 'About', href: '/pages/blog/blog.html' },
+    { id: 'blog', label: 'About', href: '/pages/blog/blog.html' },
     { id: 'contact', label: 'Contact', href: '/pages/contact/contact.html' },
   ];
 
   const iconLinks = [
-    { id: 'account', label: 'Account', icon: 'fa-solid fa-user', href: '/pages/account.html' },
-    { id: 'wishlist', label: 'Wishlist', icon: 'fa-regular fa-heart', href: '/pages/wishlist.html' },
+    { id: 'account', label: 'Account', icon: 'fa-solid fa-user', href: '/pages/account/account.html' },
+    { id: 'wishlist', label: 'Wishlist', icon: 'fa-regular fa-heart', href: '/pages/wishlist/wishlist.html' },
     { id: 'cart', label: 'Cart', icon: 'fa-solid fa-cart-shopping', href: '/pages/cart/cart.html' },
   ];
 
