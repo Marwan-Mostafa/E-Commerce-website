@@ -3,6 +3,7 @@ w-full
 max-w-[237px]
 h-[55px]
 
+cursor-pointer
 inline-flex
 items-center
 justify-center
@@ -26,9 +27,9 @@ hover:border-[#a37c27]
 
 focus:outline-none
 focus:ring-4
-focus:ring-[#B88E2F]/20
+focus:ring-[#B88E2F]/40
 
-disabled:opacity-60
+disabled:opacity-40
 disabled:cursor-not-allowed
 disabled:hover:bg-[#B88E2F]
 disabled:hover:border-[#B88E2F]

@@ -43,7 +43,7 @@ export function ContactForm() {
 
         label: "Your Name",
 
-        placeholder: "Abc",
+        placeholder: "Your name here",
 
         autocomplete: "name",
 
@@ -61,7 +61,7 @@ export function ContactForm() {
 
         type: "email",
 
-        placeholder: "Abc@def.com",
+        placeholder: "Your email here",
 
         autocomplete: "email",
 
