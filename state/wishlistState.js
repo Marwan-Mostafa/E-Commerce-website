@@ -1,79 +1,93 @@
-const STORAGE_KEY = "furinro_wishlist";
+import {
+    loadWishlist,
+    saveWishlist,
+} from "./wishlistStorage.js";
+
+
+let wishlist = loadWishlist();
+
 const subscribers = new Set();
 
-function loadWishlist() {
 
-    try {
-        const data = localStorage.getItem(STORAGE_KEY);
-        return data
-            ? JSON.parse(data)
-            : [];
-    }
+function notifySubscribers() {
 
-    catch {
-        return [];
-    }
+    const snapshot = [...wishlist];
+
+    subscribers.forEach(listener => {
+
+        listener(snapshot);
+
+    });
 
 }
 
-function saveWishlist(wishlist) {
+function persist() {
 
-    localStorage.setItem(
+    saveWishlist(wishlist);
 
-        STORAGE_KEY,
-
-        JSON.stringify(wishlist)
-
-    );
-
-    notifyWishlistSubscribers(wishlist);
+    notifySubscribers();
 
 }
+
 
 export function getWishlist() {
 
-    return loadWishlist();
+    return [...wishlist];
 
 }
 
 export function getWishlistIds() {
 
-    return loadWishlist()
+    return wishlist.map(
 
-        .map(product => product.id);
+        ({ id }) => id
+
+    );
 
 }
 
 export function getWishlistCount() {
 
-    return loadWishlist().length;
+    return wishlist.length;
 
 }
 
 export function isInWishlist(productId) {
 
-    return loadWishlist()
+    return wishlist.some(
 
-        .some(
+        ({ id }) => id === productId
 
-            ({ id }) => id === productId
+    );
 
-        );
+}
+
+export function hasWishlistItem(productId) {
+
+    return isInWishlist(productId);
+
+}
+
+export function getWishlistItem(productId) {
+
+    return wishlist.find(
+
+        ({ id }) => id === productId
+
+    );
+
+}
+
+export function isWishlistEmpty() {
+
+    return wishlist.length === 0;
 
 }
 
 
 export function addToWishlist(product) {
 
-    const wishlist = loadWishlist();
-
-    const exists = wishlist.some(
-
-        ({ id }) => id === product.id
-
-    );
-
-    if (exists) {
+    if (isInWishlist(product.id)) {
 
         return false;
 
@@ -81,7 +95,7 @@ export function addToWishlist(product) {
 
     wishlist.push(product);
 
-    saveWishlist(wishlist);
+    persist();
 
     return true;
 
@@ -89,25 +103,19 @@ export function addToWishlist(product) {
 
 export function removeFromWishlist(productId) {
 
-    const wishlist = loadWishlist()
+    wishlist = wishlist.filter(
 
-        .filter(
+        ({ id }) => id !== productId
 
-            ({ id }) => id !== productId
+    );
 
-        );
-
-    saveWishlist(wishlist);
+    persist();
 
 }
 
 export function toggleWishlist(product) {
 
-    if (
-
-        isInWishlist(product.id)
-
-    ) {
+    if (isInWishlist(product.id)) {
 
         removeFromWishlist(product.id);
 
@@ -123,32 +131,27 @@ export function toggleWishlist(product) {
 
 export function clearWishlist() {
 
-    saveWishlist([]);
+    wishlist = [];
+
+    persist();
 
 }
-
 
 
 export function subscribeWishlist(listener) {
 
+    if (typeof listener !== "function") {
+
+        return () => { };
+
+    }
+
     subscribers.add(listener);
 
-    return () =>
+    return () => {
 
         subscribers.delete(listener);
 
-}
-
-function notifyWishlistSubscribers(
-
-    wishlist
-
-) {
-
-    subscribers.forEach(listener =>
-
-        listener(wishlist)
-
-    );
+    };
 
 }
