@@ -2,7 +2,7 @@ import {
     loadCompareIds,
     saveCompareIds,
     clearCompareStorage,
-} from "./compareStorage.js";
+} from "./wishlistStorage.js";
 
 
 let wishlist = loadCompareIds();
