@@ -8,11 +8,18 @@ const FILTER_ELEMENT_IDS = {
     listView: "listView",
 };
 
+const BOUND_DATASET_KEY = "filtersBound";
+
 export function setupFilters({
-    onFilterToggle,
+
     onPerPageChange,
+
     onSortChange,
+
     onViewChange,
+
+    onFilterToggle,
+
 } = {}) {
 
     bindFilterToggle(
@@ -41,128 +48,121 @@ export function setupFilters({
         "list",
         onViewChange
     );
-}
 
+}
 
 function bindFilterToggle(id, callback) {
 
-    const button = document.getElementById(id);
+    const button = getElement(id);
 
-    if (!button || isAlreadyBound(button)) return;
+    if (!button) return;
 
     button.addEventListener("click", () => {
 
-        const isOpen =
+        const expanded =
             button.getAttribute("aria-expanded") === "true";
+
+        const nextState = !expanded;
 
         button.setAttribute(
             "aria-expanded",
-            String(!isOpen)
+            String(nextState)
         );
 
-        callback?.(!isOpen);
+        callback?.(nextState);
 
     });
-
-    markBound(button);
 
 }
 
-
 function bindShowItems(id, callback) {
 
-    const select = document.getElementById(id);
+    const select = getElement(id);
 
-    if (!select || isAlreadyBound(select)) return;
+    if (!select) return;
 
-    select.addEventListener("change", (event) => {
+    select.addEventListener("change", ({ target }) => {
 
-        const value = event.target.value;
+        const value = target.value;
 
-        callback?.(
+        const perPage =
+
             value === "All"
-                ? "All"
-                : Number(value) || DEFAULT_PER_PAGE
-        );
+                ? Infinity
+                : Number(value) || DEFAULT_PER_PAGE;
+
+        callback?.(perPage);
 
     });
-
-    markBound(select);
 
 }
 
 function bindSortItems(id, callback) {
 
-    const select = document.getElementById(id);
+    const select = getElement(id);
 
-    if (!select || isAlreadyBound(select)) return;
+    if (!select) return;
 
-    select.addEventListener("change", (event) => {
+    select.addEventListener("change", ({ target }) => {
 
         callback?.(
-            event.target.value.toLowerCase()
+
+            target.value.toLowerCase()
+
         );
 
     });
-
-    markBound(select);
 
 }
 
 function bindViewMode(id, mode, callback) {
 
-    const button = document.getElementById(id);
+    const button = getElement(id);
 
-    if (!button || isAlreadyBound(button)) return;
+    if (!button) return;
 
     button.addEventListener("click", () => {
 
         callback?.(mode);
 
-        updateActiveView(mode);
-
     });
 
-    markBound(button);
-
 }
 
+function getElement(id) {
 
-function updateActiveView(mode) {
+    const element = document.getElementById(id);
 
-    const gridView =
-        document.getElementById(FILTER_ELEMENT_IDS.gridView);
+    if (!element) {
 
-    const listView =
-        document.getElementById(FILTER_ELEMENT_IDS.listView);
+        return null;
 
-    if (gridView) {
-        gridView.classList.toggle(
-            "text-(--primary)",
-            mode === "grid"
-        );
     }
 
-    if (listView) {
-        listView.classList.toggle(
-            "text-(--primary)",
-            mode === "list"
-        );
+    if (isAlreadyBound(element)) {
+
+        return null;
+
     }
+
+    markBound(element);
+
+    return element;
 
 }
-
 
 function isAlreadyBound(element) {
 
     return (
-        element.dataset.filtersBound === "true"
+
+        element.dataset[BOUND_DATASET_KEY] === "true"
+
     );
 
 }
 
 function markBound(element) {
 
-    element.dataset.filtersBound = "true";
+    element.dataset[BOUND_DATASET_KEY] = "true";
 
 }

@@ -1,168 +1,154 @@
-const DEFAULT_PER_PAGE = 16;
+const STORAGE_KEY = "furinro_wishlist";
+const subscribers = new Set();
 
-const FILTER_ELEMENT_IDS = {
-    filterBtn: "filterBtn",
-    showItems: "showItems",
-    sortItems: "sortItems",
-    gridView: "gridView",
-    listView: "listView",
-};
+function loadWishlist() {
 
-const BOUND_DATASET_KEY = "filtersBound";
+    try {
+        const data = localStorage.getItem(STORAGE_KEY);
+        return data
+            ? JSON.parse(data)
+            : [];
+    }
 
-export function setupFilters({
-
-    onPerPageChange,
-
-    onSortChange,
-
-    onViewChange,
-
-    onFilterToggle,
-
-} = {}) {
-
-    bindFilterToggle(
-        FILTER_ELEMENT_IDS.filterBtn,
-        onFilterToggle
-    );
-
-    bindShowItems(
-        FILTER_ELEMENT_IDS.showItems,
-        onPerPageChange
-    );
-
-    bindSortItems(
-        FILTER_ELEMENT_IDS.sortItems,
-        onSortChange
-    );
-
-    bindViewMode(
-        FILTER_ELEMENT_IDS.gridView,
-        "grid",
-        onViewChange
-    );
-
-    bindViewMode(
-        FILTER_ELEMENT_IDS.listView,
-        "list",
-        onViewChange
-    );
+    catch {
+        return [];
+    }
 
 }
 
-function bindFilterToggle(id, callback) {
+function saveWishlist(wishlist) {
 
-    const button = getElement(id);
+    localStorage.setItem(
 
-    if (!button) return;
+        STORAGE_KEY,
 
-    button.addEventListener("click", () => {
+        JSON.stringify(wishlist)
 
-        const expanded =
-            button.getAttribute("aria-expanded") === "true";
+    );
 
-        const nextState = !expanded;
-
-        button.setAttribute(
-            "aria-expanded",
-            String(nextState)
-        );
-
-        callback?.(nextState);
-
-    });
+    notifyWishlistSubscribers(wishlist);
 
 }
 
-function bindShowItems(id, callback) {
+export function getWishlist() {
 
-    const select = getElement(id);
-
-    if (!select) return;
-
-    select.addEventListener("change", ({ target }) => {
-
-        const value = target.value;
-
-        const perPage =
-
-            value === "All"
-                ? Infinity
-                : Number(value) || DEFAULT_PER_PAGE;
-
-        callback?.(perPage);
-
-    });
+    return loadWishlist();
 
 }
 
-function bindSortItems(id, callback) {
+export function getWishlistIds() {
 
-    const select = getElement(id);
+    return loadWishlist()
 
-    if (!select) return;
+        .map(product => product.id);
 
-    select.addEventListener("change", ({ target }) => {
+}
 
-        callback?.(
+export function getWishlistCount() {
 
-            target.value.toLowerCase()
+    return loadWishlist().length;
+
+}
+
+export function isInWishlist(productId) {
+
+    return loadWishlist()
+
+        .some(
+
+            ({ id }) => id === productId
 
         );
 
-    });
-
 }
 
-function bindViewMode(id, mode, callback) {
 
-    const button = getElement(id);
+export function addToWishlist(product) {
 
-    if (!button) return;
+    const wishlist = loadWishlist();
 
-    button.addEventListener("click", () => {
+    const exists = wishlist.some(
 
-        callback?.(mode);
-
-    });
-
-}
-
-function getElement(id) {
-
-    const element = document.getElementById(id);
-
-    if (!element) {
-
-        return null;
-
-    }
-
-    if (isAlreadyBound(element)) {
-
-        return null;
-
-    }
-
-    markBound(element);
-
-    return element;
-
-}
-
-function isAlreadyBound(element) {
-
-    return (
-
-        element.dataset[BOUND_DATASET_KEY] === "true"
+        ({ id }) => id === product.id
 
     );
 
+    if (exists) {
+
+        return false;
+
+    }
+
+    wishlist.push(product);
+
+    saveWishlist(wishlist);
+
+    return true;
+
 }
 
-function markBound(element) {
+export function removeFromWishlist(productId) {
 
-    element.dataset[BOUND_DATASET_KEY] = "true";
+    const wishlist = loadWishlist()
+
+        .filter(
+
+            ({ id }) => id !== productId
+
+        );
+
+    saveWishlist(wishlist);
+
+}
+
+export function toggleWishlist(product) {
+
+    if (
+
+        isInWishlist(product.id)
+
+    ) {
+
+        removeFromWishlist(product.id);
+
+        return false;
+
+    }
+
+    addToWishlist(product);
+
+    return true;
+
+}
+
+export function clearWishlist() {
+
+    saveWishlist([]);
+
+}
+
+
+
+export function subscribeWishlist(listener) {
+
+    subscribers.add(listener);
+
+    return () =>
+
+        subscribers.delete(listener);
+
+}
+
+function notifyWishlistSubscribers(
+
+    wishlist
+
+) {
+
+    subscribers.forEach(listener =>
+
+        listener(wishlist)
+
+    );
 
 }

@@ -5,7 +5,7 @@ import { WishlistLayout } from "../../components/wishlist/WishlistLayout.js";
 
 import {
     setupFilters,
-} from "../../state/wishlistState.js";
+} from "../../components/FilterBar.js";
 
 const ROOTS = {
 

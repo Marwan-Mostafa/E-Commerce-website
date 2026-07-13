@@ -3,7 +3,7 @@ import { renderProductCard } from '../../components/ProductCard.js';
 import { handleProductCardAction, copyProductLink } from '../../handlers/productCardActions.js';
 import { addToCart } from '../../state/cartState.js';
 import { addCompareId } from '../../state/compareState.js';
-import { setupFilters } from '../../state/wishlistState.js';
+import { setupFilters } from '../../components/FilterBar.js';
 
 const PAGE_SIZE = 8;
 function navigateToProduct(productId) {
