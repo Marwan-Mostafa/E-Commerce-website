@@ -62,7 +62,7 @@ function renderActionButton({
             ${ariaPressed}
         >
             <i class="${icon}"></i>
-           ${buttonText[action]}
+           ${ACTION_LABELS[action]}
 
         </button>
     `

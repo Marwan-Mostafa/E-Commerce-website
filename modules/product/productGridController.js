@@ -1,14 +1,17 @@
-import { products } from '../../data/products.js';
-import { renderProductCard } from '../../components/ProductCard.js';
-import { handleProductCardAction, copyProductLink } from '../../handlers/productCardActions.js';
-import { addToCart } from '../../state/cartState.js';
-import { addCompareId } from '../../state/compareState.js';
-import { setupFilters } from '../../components/FilterBar.js';
+import { products } from "../../data/products.js";
+
+import { renderProductCard } from "../../components/ProductCard.js";
+
+import {
+    handleProductCardAction,
+    copyProductLink,
+    navigateToProduct,
+} from "../../handlers/productCardActions.js";
+
+import { toggleWishlist } from "../../state/wishlistState.js";
+import { addCompareId } from "../../state/compareState.js";
 
 const PAGE_SIZE = 8;
-function navigateToProduct(productId) {
-    window.location.href = `/pages/singleProduct/singleProduct.html?id=${productId}`;
-}
 
 export function initProductGrid(rootId = "products-root") {
 
@@ -23,99 +26,264 @@ export function initProductGrid(rootId = "products-root") {
     const grid =
         root.querySelector("#product-grid-list");
 
-    const showMoreBtn =
+    const showMoreButton =
         root.querySelector("#show-more-btn");
 
-    root.addEventListener("click", (event) => {
+    bindProductActions(root);
 
-        handleProductCardAction(
+    bindShowMoreButton(
 
-            event,
+        showMoreButton,
 
-            products,
+        grid
 
-            {
+    );
 
-                onViewProduct(product) {
+}
 
-                    navigateToProduct(product.id);
 
-                },
+function bindProductActions(root) {
 
-                onAddToCart(product) {
+    root.addEventListener(
 
-                    navigateToProduct(product.id);
+        "click",
 
-                },
+        (event) => {
 
-                onWishlist(product) {
+            handleProductCardAction(
 
-                    setupFilters(product);
+                event,
 
-                },
+                products,
 
-                onCompare(product) {
+                {
 
-                    addCompareId(product.id);
+                    onView(product) {
 
-                },
+                        navigateToProduct(
 
-                onShare(product) {
+                            product.id
 
-                    copyProductLink(product);
+                        );
 
-                },
+                    },
 
-            }
+                    onAddToCart(product) {
 
-        );
+                        navigateToProduct(
 
-    });
+                            product.id
 
-    showMoreBtn?.addEventListener("click", () => {
+                        );
 
-        const currentCount = Number(
+                    },
 
-            grid.dataset.visibleCount
+                    onWishlist(product) {
 
-        );
+                        const added =
 
-        const nextBatch = products.slice(
+                            toggleWishlist(
 
-            currentCount,
+                                product
 
-            currentCount + PAGE_SIZE
+                            );
 
-        );
+                        updateWishlistButton(
 
-        grid.insertAdjacentHTML(
+                            event,
 
-            "beforeend",
+                            added
 
-            nextBatch
+                        );
 
-                .map(renderProductCard)
+                    },
 
-                .join("")
+                    onCompare(product) {
 
-        );
+                        addCompareId(
 
-        const nextCount =
+                            product.id
 
-            currentCount +
+                        );
 
-            nextBatch.length;
+                    },
 
-        grid.dataset.visibleCount =
+                    onShare(product) {
 
-            String(nextCount);
+                        copyProductLink(
 
-        if (nextCount >= products.length) {
+                            product
 
-            showMoreBtn.remove();
+                        );
+
+                    },
+
+                }
+
+            );
 
         }
 
-    });
+    );
+
+}
+
+
+function updateWishlistButton(
+
+    event,
+
+    isWishlisted
+
+) {
+
+    const button =
+
+        event.target.closest(
+
+            '[data-action="wishlist"]'
+
+        );
+
+    if (!button) {
+
+        return;
+
+    }
+
+    button.setAttribute(
+
+        "aria-pressed",
+
+        String(isWishlisted)
+
+    );
+
+    const icon =
+
+        button.querySelector("i");
+
+    if (!icon) {
+
+        return;
+
+    }
+
+    icon.classList.remove(
+
+        "fa-solid",
+
+        "fa-regular"
+
+    );
+
+    icon.classList.add(
+
+        isWishlisted
+
+            ? "fa-solid"
+
+            : "fa-regular",
+
+        "fa-heart"
+
+    );
+
+}
+
+
+function bindShowMoreButton(
+
+    button,
+
+    grid
+
+) {
+
+    if (!button || !grid) {
+
+        return;
+
+    }
+
+    button.addEventListener(
+
+        "click",
+
+        () => {
+
+            renderNextProducts(
+
+                button,
+
+                grid
+
+            );
+
+        }
+
+    );
+
+}
+
+function renderNextProducts(
+
+    button,
+
+    grid
+
+) {
+
+    const visibleCount = Number(
+
+        grid.dataset.visibleCount
+
+    );
+
+    const nextProducts =
+
+        products.slice(
+
+            visibleCount,
+
+            visibleCount +
+
+            PAGE_SIZE
+
+        );
+
+    grid.insertAdjacentHTML(
+
+        "beforeend",
+
+        nextProducts
+
+            .map(renderProductCard)
+
+            .join("")
+
+    );
+
+    const nextVisibleCount =
+
+        visibleCount +
+
+        nextProducts.length;
+
+    grid.dataset.visibleCount =
+
+        String(nextVisibleCount);
+
+    if (
+
+        nextVisibleCount >=
+
+        products.length
+
+    ) {
+
+        button.remove();
+
+    }
 
 }

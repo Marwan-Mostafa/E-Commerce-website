@@ -43,6 +43,10 @@ export function handleProductCardAction(
 
 }
 
+export function navigateToProduct(productId) {
+    window.location.href = `/pages/singleProduct/singleProduct.html?id=${productId}`;
+}
+
 export async function copyProductLink(product) {
 
     const productUrl = `${window.location.origin}/pages/singleProduct/singleProduct.html?id=${product.id}`;
