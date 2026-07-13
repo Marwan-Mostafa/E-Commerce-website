@@ -1,24 +1,12 @@
 function resolveProductCardAction(event, products) {
 
-    const actionButton =
-        event.target.closest("[data-action]");
-
+    const actionButton = event.target.closest("[data-action]");
     if (!actionButton) return null;
 
-    const productId =
-        Number(
-            actionButton.dataset.id ??
-            actionButton.closest(".product-card")?.dataset.id
-        );
+    const productCard = actionButton.closest(".product-card");
+    const productId = Number(actionButton.dataset.id ?? productCard?.dataset.id);
 
     if (!productId) return null;
-
-    const product =
-        products.find(
-            ({ id }) => id === productId
-        );
-
-    if (!product) return null;
 
     return {
         action: actionButton.dataset.action,
@@ -33,26 +21,20 @@ export function handleProductCardAction(
     handlers = {}
 ) {
 
-    const resolvedAction =
-        resolveProductCardAction(event, products);
-
+    const resolvedAction = resolveProductCardAction(event, products);
     if (!resolvedAction) return false;
 
-    const {
-        action,
-        product,
-    } = resolvedAction;
+    event.preventDefault();
+    event.stopPropagation();
+
+    const { action, product } = resolvedAction;
 
     const actionMap = {
-
+        "view-product": handlers.onViewProduct,
         "add-to-cart": handlers.onAddToCart,
-
         wishlist: handlers.onWishlist,
-
         compare: handlers.onCompare,
-
         share: handlers.onShare,
-
     };
 
     actionMap[action]?.(product);
@@ -63,28 +45,20 @@ export function handleProductCardAction(
 
 export async function copyProductLink(product) {
 
-    const productUrl =
-        `${window.location.origin}/pages/singleProduct/singleProduct.html?id=${product.id}`;
+    const productUrl = `${window.location.origin}/pages/singleProduct/singleProduct.html?id=${product.id}`;
 
     try {
 
         if (navigator.clipboard?.writeText) {
-
             await navigator.clipboard.writeText(productUrl);
-
             return;
 
         }
 
     } catch (error) {
-
-        console.warn("Clipboard API unavailable.", error);
-
+        console.warn("[ProductCard] Clipboard API unavailable.", error);
     }
 
-    window.prompt(
-        "Copy product link",
-        productUrl
-    );
+    window.prompt("Copy product link", productUrl);
 
 }
