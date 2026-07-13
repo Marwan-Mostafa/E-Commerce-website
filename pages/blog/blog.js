@@ -1,84 +1,174 @@
-import { posts } from '../../data/posts.js';
-import { renderBlogPostCard } from '../../components/BlogPostCard.js';
-import { renderCategories, renderRecentPosts } from '../../components/BlogSidebar.js';
-import { renderPagination } from '../../components/Pagination.js';
+import { renderNavbar } from "../../components/Navbar.js";
+import { renderFooter } from "../../components/Footer.js";
+import { renderFeaturesSection } from "../../components/FeaturesSection.js";
+import { renderPagination } from "../../components/Pagination.js";
 
-const POSTS_PER_PAGE = 3;
+import { BlogLayout } from "../../components/blog/BlogLayout.js";
 
-const state = {
-    currentPage: 1,
-    activeCategory: null,
-    searchTerm: '',
+import { getBlogPosts } from "./blogData.js";
+
+const ROOTS = {
+
+    navbar: document.getElementById("navbar-root"),
+
+    blog: document.getElementById("blog-root"),
+
+    pagination: document.getElementById("pagination-root"),
+
+    features: document.getElementById("features-root"),
+
+    footer: document.getElementById("footer-root"),
+
 };
 
-const postList = document.getElementById('post-list');
-const paginationEl = document.getElementById('pagination');
-const categoryList = document.getElementById('category-list');
-const recentPostsList = document.getElementById('recent-posts');
-const searchForm = document.getElementById('search-form');
-const searchInput = document.getElementById('blog-search');
+function buildCategories(posts) {
 
-function getFilteredPosts() {
-    return posts.filter(post => {
-        const matchesCategory = !state.activeCategory || post.category === state.activeCategory;
-        const matchesSearch = !state.searchTerm ||
-            post.title.toLowerCase().includes(state.searchTerm) ||
-            post.excerpt.toLowerCase().includes(state.searchTerm);
-        return matchesCategory && matchesSearch;
+    const categoryMap = new Map();
+
+    posts.forEach(post => {
+
+        const current = categoryMap.get(post.category) ?? 0;
+
+        categoryMap.set(
+
+            post.category,
+
+            current + 1
+
+        );
+
     });
+
+    return [...categoryMap.entries()].map(
+
+        ([name, count]) => ({
+
+            name,
+
+            count,
+
+        })
+
+    );
+
 }
 
-function render() {
-    const filtered = getFilteredPosts();
-    const totalPages = Math.max(1, Math.ceil(filtered.length / POSTS_PER_PAGE));
+function buildRecentPosts(posts) {
 
-    if (state.currentPage > totalPages) {
-        state.currentPage = 1;
+    return [...posts]
+
+        .sort(
+
+            (a, b) =>
+
+                new Date(b.date) -
+
+                new Date(a.date)
+
+        )
+
+        .slice(0, 5);
+
+}
+
+function renderLayout() {
+
+    ROOTS.navbar.innerHTML =
+
+        renderNavbar("blog");
+
+    ROOTS.features.innerHTML =
+
+        renderFeaturesSection();
+
+    ROOTS.footer.innerHTML =
+
+        renderFooter();
+
+}
+
+function renderBlog() {
+
+    const posts = getBlogPosts();
+
+    ROOTS.blog.innerHTML = BlogLayout({
+
+        posts,
+
+        categories: buildCategories(posts),
+
+        recentPosts: buildRecentPosts(posts),
+
+    });
+
+}
+
+function Pagination() {
+
+    ROOTS.pagination.innerHTML = renderPagination({
+
+        currentPage: 1,
+
+        totalPages: 3,
+
+    });
+
+}
+
+function bindEvents() {
+
+    document.addEventListener(
+
+        "submit",
+
+        handleSearch
+
+    );
+
+}
+
+function handleSearch(event) {
+
+    if (
+
+        event.target.id !==
+
+        "blog-search-form"
+
+    ) {
+
+        return;
+
     }
 
-    const start = (state.currentPage - 1) * POSTS_PER_PAGE;
-    const pagePosts = filtered.slice(start, start + POSTS_PER_PAGE);
+    event.preventDefault();
 
-    postList.innerHTML = '';
-    if (pagePosts.length === 0) {
-        postList.innerHTML = `<li class="text-gray-500">No posts match your search.</li>`;
-    } else {
-        pagePosts.forEach(post => postList.appendChild(renderBlogPostCard(post)));
-    }
+    const search = new FormData(
 
-    paginationEl.innerHTML = renderPagination(state.currentPage, totalPages);
+        event.target
 
-    categoryList.innerHTML = renderCategories(posts, state.activeCategory);
-    recentPostsList.innerHTML = renderRecentPosts(posts);
+    ).get("search");
+
+    console.log(
+
+        "Search:",
+
+        search
+
+    );
+
 }
 
-function wireEvents() {
-    paginationEl.addEventListener('click', (e) => {
-        const btn = e.target.closest('.page-btn');
-        if (!btn || btn.disabled) return;
-        state.currentPage = Number(btn.dataset.page);
-        render();
-    });
+function bootstrap() {
 
-    categoryList.addEventListener('click', (e) => {
-        const btn = e.target.closest('.category-btn');
-        if (!btn) return;
-        const category = btn.dataset.category;
-        state.activeCategory = state.activeCategory === category ? null : category;
-        render();
-    });
+    renderLayout();
 
-    searchForm.addEventListener('submit', (e) => {
-        e.preventDefault();
-        state.searchTerm = searchInput.value.trim().toLowerCase();
-        state.currentPage = 1;
-        render();
-    });
+    renderBlog();
+
+    Pagination();
+
+    bindEvents();
+
 }
 
-function init() {
-    render();
-    wireEvents();
-}
-
-init();
+bootstrap();
