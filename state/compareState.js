@@ -1,258 +1,104 @@
-import {
-    loadCompareIds,
-    saveCompareIds,
-    clearCompareStorage,
-} from "./compareStorage.js";
-
-
-// ======================================================
-// Constants
-// ======================================================
-
+const STORAGE_KEY = "compareIds";
 const MAX_COMPARE = 2;
 
+const saveCompareIds = (ids) => {
+    localStorage.setItem(STORAGE_KEY, JSON.stringify(ids));
+};
 
-// ======================================================
-// State
-// ======================================================
-
-let compareIds = loadCompareIds();
-
-const subscribers = new Set();
+const isValidId = (id) => Number.isInteger(id) && id > 0;
 
 
-// ======================================================
-// Internal Helpers
-// ======================================================
+export const getCompareIds = () => {
+    try {
+        const ids = JSON.parse(localStorage.getItem(STORAGE_KEY));
 
-function notifySubscribers() {
+        return Array.isArray(ids) ? ids : [];
+    } catch {
+        return [];
+    }
+};
 
-    const snapshot = [...compareIds];
+export const getCount = () => {
+    return getCompareIds().length;
+};
 
-    subscribers.forEach(listener => {
-
-        listener(snapshot);
-
-    });
-
-}
-
-function persist() {
-
-    saveCompareIds(compareIds);
-
-    notifySubscribers();
-
-}
-
-function isValidId(id) {
-
-    return Number.isInteger(id) && id > 0;
-
-}
-
-
-// ======================================================
-// Queries
-// ======================================================
-
-export function getCompareIds() {
-
-    return [...compareIds];
-
-}
-
-export function getCount() {
-
-    return compareIds.length;
-
-}
-
-export function isCompared(id) {
-
-    return compareIds.includes(id);
-
-}
-
-export function hasCompare(id) {
-
-    return isCompared(id);
-
-}
-
-export function isCompareEmpty() {
-
-    return compareIds.length === 0;
-
-}
-
-
-// ======================================================
-// Mutations
-// ======================================================
-
-export function addCompareId(id) {
-
+export const addCompareId = (id) => {
     if (!isValidId(id)) {
-
         return {
-
             success: false,
-
             status: "invalid",
-
             count: getCount(),
-
         };
-
     }
 
-    if (compareIds.includes(id)) {
+    const ids = getCompareIds();
 
+    if (ids.includes(id)) {
         return {
-
             success: false,
-
             status: "exists",
-
-            count: compareIds.length,
-
+            count: ids.length,
         };
-
     }
 
-    if (compareIds.length >= MAX_COMPARE) {
-
+    if (ids.length >= MAX_COMPARE) {
         return {
-
             success: false,
-
             status: "full",
-
-            count: compareIds.length,
-
+            count: ids.length,
         };
-
     }
 
-    compareIds.push(id);
+    const nextIds = [...ids, id];
 
-    persist();
+    saveCompareIds(nextIds);
 
     return {
-
         success: true,
-
-        status:
-
-            compareIds.length === MAX_COMPARE
-
-                ? "ready"
-
-                : "added",
-
-        count: compareIds.length,
-
+        status: nextIds.length === MAX_COMPARE ? "ready" : "added",
+        count: nextIds.length,
     };
+};
 
-}
-
-export function replaceCompareId(oldId, newId) {
-
+export const replaceCompareId = (oldId, newId) => {
     if (!isValidId(newId)) {
-
         return false;
-
     }
 
-    const index = compareIds.indexOf(oldId);
+    const ids = getCompareIds();
+
+    const index = ids.indexOf(oldId);
 
     if (index === -1) {
-
         return false;
-
     }
 
-    if (compareIds.includes(newId)) {
-
+    if (ids.includes(newId)) {
         return false;
-
     }
 
-    compareIds[index] = newId;
+    ids[index] = newId;
 
-    persist();
+    saveCompareIds(ids);
 
     return true;
-
-}
-
-export function removeCompareId(id) {
-
-    compareIds = compareIds.filter(
-
-        compareId => compareId !== id
-
-    );
-
-    persist();
-
-}
-
-export function clearCompare() {
-
-    compareIds = [];
-
-    clearCompareStorage();
-
-    notifySubscribers();
-
-}
-
-export function toggleCompare(id) {
-
-    if (isCompared(id)) {
-
-        removeCompareId(id);
-
-        return false;
-
-    }
-
-    return addCompareId(id);
-
-}
-
-
-// ======================================================
-// Subscriptions
-// ======================================================
-
-export function subscribeCompare(listener) {
-
-    if (typeof listener !== "function") {
-
-        return () => { };
-
-    }
-
-    subscribers.add(listener);
-
-    return () => {
-
-        subscribers.delete(listener);
-
-    };
-
-}
-
-
-// ======================================================
-// Exports
-// ======================================================
-
-export {
-
-    MAX_COMPARE,
-
 };
+
+export const removeCompareId = (id) => {
+    const ids = getCompareIds();
+
+    saveCompareIds(
+        ids.filter((compareId) => compareId !== id)
+    );
+};
+
+export const clearCompare = () => {
+    localStorage.removeItem(STORAGE_KEY);
+};
+
+
+export const isCompared = (id) => {
+    return getCompareIds().includes(id);
+};
+
+export { MAX_COMPARE };

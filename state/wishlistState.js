@@ -1,10 +1,11 @@
 import {
-    loadWishlist,
-    saveWishlist,
-} from "./wishlistStorage.js";
+    loadCompareIds,
+    saveCompareIds,
+    clearCompareStorage,
+} from "./compareStorage.js";
 
 
-let wishlist = loadWishlist();
+let wishlist = loadCompareIds();
 
 const subscribers = new Set();
 
@@ -23,7 +24,7 @@ function notifySubscribers() {
 
 function persist() {
 
-    saveWishlist(wishlist);
+    saveCompareIds(wishlist);
 
     notifySubscribers();
 

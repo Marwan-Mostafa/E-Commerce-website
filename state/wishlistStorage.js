@@ -1,18 +1,16 @@
-import { STORAGE_KEY } from "./wishlistStorage.js";
+const STORAGE_KEY = "compareIds";
 
-export function loadWishlist() {
+export function loadCompareIds() {
 
     try {
 
-        const data = localStorage.getItem(
+        const data = localStorage.getItem(STORAGE_KEY);
 
-            STORAGE_KEY
+        const ids = JSON.parse(data);
 
-        );
+        return Array.isArray(ids)
 
-        return data
-
-            ? JSON.parse(data)
+            ? ids
 
             : [];
 
@@ -22,7 +20,7 @@ export function loadWishlist() {
 
         console.error(
 
-            "[wishlistStorage] Failed to load wishlist.",
+            "[compareStorage] Failed to load compare ids.",
 
             error
 
@@ -34,14 +32,20 @@ export function loadWishlist() {
 
 }
 
-export function saveWishlist(wishlist) {
+export function saveCompareIds(compareIds) {
 
     localStorage.setItem(
 
         STORAGE_KEY,
 
-        JSON.stringify(wishlist)
+        JSON.stringify(compareIds)
 
     );
+
+}
+
+export function clearCompareStorage() {
+
+    localStorage.removeItem(STORAGE_KEY);
 
 }
