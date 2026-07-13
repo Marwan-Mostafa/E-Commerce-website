@@ -11,7 +11,7 @@ import {
     getSubtotal,
     getTotal,
     formatCurrency,
-    clearCart,
+    removeFromCart,
 } from "../../state/cartState.js";
 
 
@@ -203,7 +203,7 @@ function handleSubmit(event) {
 
     console.log("Order Created");
 
-    clearCart();
+    removeFromCart();
     form.reset();
     window.scrollTo({ top: 0, behavior: "smooth" });
 
