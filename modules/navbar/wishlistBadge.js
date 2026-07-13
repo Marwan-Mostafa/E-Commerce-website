@@ -30,12 +30,6 @@ function renderBadge(badge) {
 
     badge.textContent = count;
 
-    badge.classList.toggle(
-
-        "hidden",
-
-        count === 0
-
-    );
+    badge.classList.toggle("hidden", count === 0);
 
 }

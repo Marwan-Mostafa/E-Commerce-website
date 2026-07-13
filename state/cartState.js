@@ -24,10 +24,19 @@ import {
 
 
 let cart = loadCart();
+let subscribers = new Set();
 
+
+function notifySubscribers() {
+    const snapshot = cloneCart(cart);
+    subscribers.forEach(listener => {
+        listener(snapshot);
+    });
+}
 
 function persist() {
     saveCart(cart)
+    notifySubscribers()
 }
 
 
@@ -38,16 +47,16 @@ export function addToCart(product) {
         return
     }
 
-    const normalized = normalizeProduct(product);
+    const normalizedProduct = normalizeProduct(product);
 
-    const item = createCartItem(normalized);
+    const newItem = createCartItem(normalizedProduct);
 
-    const existingItem = findCartItem(cart, item);
+    const existingItem = findCartItem(cart, newItem);
 
     if (existingItem) {
-        existingItem.quantity += item.quantity
+        existingItem.quantity += newItem.quantity
     } else {
-        cart.push(item);
+        cart.push(newItem);
     }
     persist();
 }
@@ -55,23 +64,24 @@ export function addToCart(product) {
 
 
 export function removeFromCart(target) {
+    cart = typeof target === "number" ? cart.filter(
+        item => item.id !== target
+    )
 
-    if (typeof target === "number") {
-        cart = cart.filter(item => item.id !== target)
-    } else {
-        cart = cart.filter(item => !isSameCartLine(item, target))
-    }
+        : cart.filter(item =>
+            !isSameCartLine(item, target)
+        );
 
-    persist()
+    persist();
 }
 
 
 
 export function updateQuantity(target, quantity) {
 
-    const cartItem = findCartItem(cart, target)
+    const item = findCartItem(cart, target)
 
-    if (!cartItem) {
+    if (!item) {
         return;
     }
 
@@ -82,35 +92,71 @@ export function updateQuantity(target, quantity) {
         return
     }
 
-    cartItem.quantity = safeQuantity
+    item.quantity = safeQuantity
     persist()
 
 }
 
-
 export function getCart() {
-    return cloneCart(cart)
+
+    return cloneCart(cart);
+
+}
+
+export function getCartItem(target) {
+
+    return findCartItem(cart, target);
+
+}
+
+export function hasProduct(target) {
+
+    return Boolean(
+
+        findCartItem(cart, target)
+
+    );
+
+}
+
+export function isCartEmpty() {
+
+    return cart.length === 0;
+
 }
 
 export function getItemCount() {
-    return calculateItemCount(cart);
-}
 
+    return calculateItemCount(cart);
+
+}
 
 export function getSubtotal() {
-    return calculateSubtotal(cart);
-}
 
+    return calculateSubtotal(cart);
+
+}
 
 export function getTotal() {
+
     return calculateTotal(cart);
+
 }
 
 
-export function clearCart() {
-    cart = []
-    persist()
+export function subscribe(listener) {
+
+    if (typeof listener !== "function") {
+        return () => { };
+    }
+    subscribers.add(listener);
+    return () => {
+        subscribers.delete(listener);
+
+    };
+
 }
 
-
-export { formatCurrency, }
+export {
+    formatCurrency,
+};

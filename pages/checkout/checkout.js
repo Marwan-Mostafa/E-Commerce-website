@@ -1,7 +1,7 @@
 import { renderNavbar } from "../../components/Navbar.js";
 import { renderFooter } from "../../components/Footer.js";
 import { renderFeaturesSection } from "../../components/FeaturesSection.js";
-
+import { setupWishlistBadge } from "../../modules/navbar/wishlistBadge.js";
 import { BillingForm } from "../../components/checkout/BillingForm.js";
 import { CheckoutSidebar } from "../../components/checkout/CheckoutSidebar.js";
 import { EmptyCart } from "../../components/cart/EmptyCart.js";

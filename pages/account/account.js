@@ -2,15 +2,13 @@ import { renderNavbar } from "../../components/Navbar.js";
 import { renderFooter } from "../../components/Footer.js";
 import { renderFeaturesSection } from "../../components/FeaturesSection.js";
 import { AccountLayout } from "../../components/account/AccountLayout.js";
+import { setupWishlistBadge } from "../../modules/navbar/wishlistBadge.js";
 
 const ROOTS = {
 
     navbar: document.getElementById("navbar-root"),
-
     account: document.getElementById("account-root"),
-
     features: document.getElementById("features-root"),
-
     footer: document.getElementById("footer-root"),
 
 };
@@ -50,6 +48,8 @@ function renderLayout() {
 
     ROOTS.navbar.innerHTML =
         renderNavbar("account");
+
+    setupWishlistBadge();
 
     ROOTS.features.innerHTML =
         renderFeaturesSection();

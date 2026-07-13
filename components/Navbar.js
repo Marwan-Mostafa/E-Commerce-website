@@ -488,27 +488,16 @@ id="mobile-menu-panel"
 class="
 
 md:hidden
-
 fixed
-
 inset-0
-
 top-[100px]
-
 bg-white
-
 z-40
-
 transform
-
--transition-x-full
-
 -translate-x-full
-
 transition-transform
-
 duration-300
-
+ease-out
 "
 
 inert

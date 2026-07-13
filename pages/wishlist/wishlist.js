@@ -2,7 +2,7 @@ import { renderNavbar } from "../../components/Navbar.js";
 import { renderFooter } from "../../components/Footer.js";
 import { renderFeaturesSection } from "../../components/FeaturesSection.js";
 import { WishlistLayout } from "../../components/wishlist/WishlistLayout.js";
-
+import { setupWishlistBadge } from "../../modules/navbar/wishlistBadge.js";
 import {
     setupFilters,
 } from "../../components/FilterBar.js";

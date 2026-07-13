@@ -3,7 +3,7 @@ import { products } from "../../data/products.js";
 import { renderNavbar } from "../../components/Navbar.js";
 import { renderFooter } from "../../components/Footer.js";
 import { renderFeaturesSection } from "../../components/FeaturesSection.js";
-
+import { setupWishlistBadge } from "../../modules/navbar/wishlistBadge.js";
 import { ComparisonSection } from "../../components/comparison/ComparisonSection.js";
 import { ComparisonTable } from "../../components/comparison/ComparisonTable.js";
 

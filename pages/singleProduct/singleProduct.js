@@ -8,7 +8,7 @@ import { ProductTabs } from "../../components/ProductTabs.js";
 import { RelatedProducts } from "../../components/RelatedProductsSection.js";
 import { CartDrawer } from "../../components/CartDrawer.js";
 import { renderCompareButton } from "../../components/CompareButton.js";
-
+import { setupWishlistBadge } from "../../modules/navbar/wishlistBadge.js";
 import { setupGallery } from "../../modules/product/gallery.js";
 import { setupSizeSelector } from "../../modules/product/sizeSelector.js";
 import { setupColorSelector } from "../../modules/product/colorSelector.js";
@@ -23,9 +23,7 @@ import {
 } from "../../modules/cartDrawer.js";
 
 const params = new URLSearchParams(window.location.search);
-
 const productId = Number(params.get("id")) || 1;
-
 const product = products.find((p) => p.id === productId);
 
 if (!product) {
@@ -71,6 +69,7 @@ renderCompareButton(product);
 setupTabs();
 
 setupCartDrawer();
+setupWishlistBadge();
 
 const cartTrigger = document.getElementById("cart-trigger");
 

@@ -2,6 +2,7 @@ import { renderNavbar } from "../../components/Navbar.js";
 import { renderFooter } from "../../components/Footer.js";
 import { renderFeaturesSection } from "../../components/FeaturesSection.js";
 import { ContactSection } from "../../components/contact/ContactSection.js";
+import { setupWishlistBadge } from "../../modules/navbar/wishlistBadge.js";
 import {
     bindContactForm,
 } from "../../utils/contact/contactEvents.js";
