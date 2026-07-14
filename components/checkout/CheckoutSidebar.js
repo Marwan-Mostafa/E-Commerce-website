@@ -7,7 +7,15 @@ flex-col
 gap-12
 sticky
 top-28
-`
+`;
+
+
+function trimClassList(classList) {
+    return classList
+        .split(/\s+/)
+        .filter(Boolean)
+        .join(" ");
+}
 
 export function CheckoutSidebar({
     items = [],
@@ -19,7 +27,7 @@ export function CheckoutSidebar({
     return `
 
          <aside
-            class="${WRAPPER_CLASS}"
+            class="${trimClassList(WRAPPER_CLASS)}"
             aria-labelledby="checkout-sidebar-title">
 
             <h2
