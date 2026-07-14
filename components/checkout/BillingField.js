@@ -75,6 +75,126 @@ text-red-500
 pl-1
 `;
 
+
+function escapeHtml(value) {
+    return String(value ?? "")
+        .replace(/&/g, "&amp;")
+        .replace(/</g, "&lt;")
+        .replace(/>/g, "&gt;")
+        .replace(/"/g, "&quot;")
+        .replace(/'/g, "&#39;");
+}
+
+
+function trimClassList(classList) {
+    return classList
+        .split(/\s+/)
+        .filter(Boolean)
+        .join(" ");
+}
+
+
+function buildCommonAttributes({ id, name, type, required, autocomplete }) {
+    const requiredAttr = required ? "required" : "";
+    const autocompleteAttr = autocomplete
+        ? `autocomplete="${escapeHtml(autocomplete)}"`
+        : "";
+
+    return `
+        id="${escapeHtml(id)}"
+        name="${escapeHtml(name)}"
+        ${autocompleteAttr}
+        ${requiredAttr}
+
+        data-field="${escapeHtml(name)}"
+        data-required="${required}"
+        data-type="${escapeHtml(type)}"
+
+        aria-invalid="false"
+        aria-required="${required}"
+        aria-describedby="${escapeHtml(id)}-error"
+    `;
+}
+
+
+function renderInput({ commonAttributes, type, value, placeholder }) {
+    return `
+        <input
+            ${commonAttributes}
+            type="${escapeHtml(type)}"
+            value="${escapeHtml(value)}"
+            placeholder="${escapeHtml(placeholder)}"
+            class="${trimClassList(INPUT_CLASS)}">
+    `;
+}
+
+
+function renderTextarea({ commonAttributes, value, placeholder }) {
+    return `
+        <textarea
+            ${commonAttributes}
+            placeholder="${escapeHtml(placeholder)}"
+            class="${trimClassList(TEXTAREA_CLASS)}">${escapeHtml(value)}</textarea>
+    `;
+}
+
+function renderSelectOption(option, currentValue) {
+    const isSelected = String(option.value) === String(currentValue);
+
+    return `
+        <option
+            value="${escapeHtml(option.value)}"
+            ${isSelected ? "selected" : ""}>
+            ${escapeHtml(option.label)}
+        </option>
+    `;
+}
+
+
+function renderSelect({ commonAttributes, value, options }) {
+    const placeholderSelected = value ? "" : "selected";
+
+    return `
+        <select
+            ${commonAttributes}
+            class="${trimClassList(SELECT_CLASS)}">
+
+            <option value="" disabled ${placeholderSelected}>
+                Select...
+            </option>
+
+            ${options.map(option => renderSelectOption(option, value)).join("")}
+
+        </select>
+    `;
+}
+
+
+function renderLabel({ id, label, required }) {
+    return `
+        <label
+            for="${escapeHtml(id)}"
+            class="${trimClassList(LABEL_CLASS)}">
+
+            ${escapeHtml(label)}
+
+            ${required ? `<span class="text-red-500">*</span>` : ""}
+
+        </label>
+    `;
+}
+
+
+function renderErrorMessage({ id }) {
+    return `
+        <p
+            id="${escapeHtml(id)}-error"
+            class="field-error ${trimClassList(ERROR_CLASS)}"
+            aria-live="polite">
+        </p>
+    `;
+}
+
 export function BillingField({
     id,
     name,
@@ -87,96 +207,39 @@ export function BillingField({
     options = [],
 }) {
 
-    const requiredAttr = required ? "required" : "";
-
-    const commonAttributes = `
-        id="${id}"
-        name="${name}"
-        autocomplete="${autocomplete}"
-        ${requiredAttr}
-
-        data-field="${name}"
-        data-required="${required}"
-        data-type="${type}"
-
-        aria-invalid="false"
-        aria-describedby="${id}-error"
-    `;
+    const commonAttributes = buildCommonAttributes({
+        id,
+        name,
+        type,
+        required,
+        autocomplete,
+    });
 
     let field = "";
 
     if (type === "textarea") {
-
-        field = `
-            <textarea
-                ${commonAttributes}
-                placeholder="${placeholder}"
-                class="${TEXTAREA_CLASS}">${value}</textarea>
-        `;
-
+        field = renderTextarea({ commonAttributes, value, placeholder });
     }
 
     else if (type === "select") {
-
-        field = `
-            <select
-                ${commonAttributes}
-                class="${SELECT_CLASS}">
-
-                <option value="" disabled selected>
-                    Select...
-                </option>
-
-                ${options.map(option => `
-                    <option
-                        value="${option.value}">
-                        ${option.label}
-                    </option>
-                `).join("")}
-
-            </select>
-        `;
-
+        field = renderSelect({ commonAttributes, value, options });
     }
 
     else {
-
-        field = `
-            <input
-                ${commonAttributes}
-                type="${type}"
-                value="${value}"
-                placeholder="${placeholder}"
-                class="${INPUT_CLASS}">
-        `;
-
+        field = renderInput({ commonAttributes, type, value, placeholder });
     }
 
     return `
 
         <div
-            class="${WRAPPER_CLASS}"
-            data-field="${name}">
+            class="${trimClassList(WRAPPER_CLASS)}"
+            data-field="${escapeHtml(name)}">
 
-            <label
-                for="${id}"
-                class="${LABEL_CLASS}">
-
-                ${label}
-
-                ${required
-            ? `<span class="text-red-500">*</span>`
-            : ""}
-
-            </label>
+            ${renderLabel({ id, label, required })}
 
             ${field}
 
-            <p
-                id="${id}-error"
-                class="field-error ${ERROR_CLASS}"
-                aria-live="polite">
-            </p>
+            ${renderErrorMessage({ id })}
 
         </div>
 
