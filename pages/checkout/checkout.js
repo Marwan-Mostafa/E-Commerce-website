@@ -12,6 +12,7 @@ import {
     getTotal,
     formatCurrency,
     removeFromCart,
+    subscribe,
 } from "../../state/cartState.js";
 
 
@@ -27,24 +28,12 @@ const checkoutContentRoot = document.getElementById("checkout-content");
 const emptyStateRoot = document.getElementById("checkout-empty-state");
 
 
-
-const PAYMENT_DESCRIPTIONS = {
-
-    bank:
-        "Make your payment directly into our bank account. Please use your Order ID as the payment reference. Your order will not be shipped until the funds have cleared in our account.",
-
-    cod:
-        "Pay with cash when your order is delivered to your address.",
-
-};
-
-
-
 function renderLayout() {
 
     navbarRoot.innerHTML = renderNavbar("checkout");
     footerRoot.innerHTML = renderFooter();
     featuresRoot.innerHTML = renderFeaturesSection();
+    setupWishlistBadge();
 
 }
 
@@ -52,16 +41,8 @@ function renderLayout() {
 function renderBillingForm() {
 
     if (!billingRoot) return;
+    billingRoot.innerHTML = BillingForm();
 
-    billingRoot.innerHTML = `
-        <form
-            id="checkout-form"
-            novalidate>
-
-            ${BillingForm()}
-
-        </form>
-    `
 }
 
 
@@ -92,13 +73,16 @@ function renderSidebar(items) {
 
 
 function renderEmptyState(items) {
+    if (!checkoutContentRoot || !emptyStateRoot) {
+        console.warn(
+            "[checkout] Missing #checkout-content or #checkout-empty-state root(s)."
+        );
+        return;
+    }
 
     const isEmpty = items.length === 0
-
     checkoutContentRoot.classList.toggle("hidden", isEmpty);
-
     emptyStateRoot.classList.toggle("hidden", !isEmpty);
-
     emptyStateRoot.innerHTML = isEmpty
         ? EmptyCart()
         : "";
@@ -109,13 +93,9 @@ function renderEmptyState(items) {
 function renderPage() {
 
     const items = getCart();
-
     renderEmptyState(items);
-
     if (!items.length) return;
-
     renderBillingForm();
-
     renderSidebar(items);
 
 }
@@ -130,8 +110,7 @@ function handlePaymentChange(event) {
     const description = document.getElementById("payment-description");
 
     if (!description) return;
-
-    description.textContent = PAYMENT_DESCRIPTIONS[radio.value];
+    description.textContent = radio.dataset.description ?? "";
 
 }
 
@@ -199,15 +178,18 @@ function handleSubmit(event) {
 
     if (!validateForm(form)) return;
 
-    if (!getCart().length) return;
+    const currentItems = getCart();
+
+    if (!currentItems.length) return;
 
     console.log("Order Created");
+    currentItems.forEach(item => removeFromCart(item.id));
 
-    removeFromCart();
     form.reset();
     window.scrollTo({ top: 0, behavior: "smooth" });
 
     alert("Order placed successfully.");
+    renderPage();
 
 }
 
@@ -228,48 +210,23 @@ function bindEvents() {
         "submit",
 
         (event) => {
-
-            if (
-
-                event.target.id !==
-
-                "checkout-form"
-
-            )
-
+            if (event.target.id !== "checkout-form")
                 return;
-
             handleSubmit(event);
-
         }
-
     );
-
 }
 
 
 function subscribeToCartUpdates() {
-
-    window.addEventListener(
-
-        "cart:updated",
-
-        renderPage
-
-    );
-
+    subscribe(renderPage);
 }
 
 function bootstrap() {
-
     renderLayout();
-
     renderPage();
-
     bindEvents();
-
     subscribeToCartUpdates();
-
 }
 
 bootstrap();

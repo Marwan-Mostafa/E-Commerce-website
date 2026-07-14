@@ -80,16 +80,36 @@ focus:ring-4
 focus:ring-[#B88E2F]/30
 `;
 
+const CONTINUE_SHOPPING_URL = "/pages/shop/shop.html";
+
+const EMPTY_TITLE_TEXT = "Your wishlist is empty";
+
+const EMPTY_DESCRIPTION_TEXT = `
+    You haven't added any products yet.
+    Explore our collection and save your
+    favorite products to your wishlist.
+`;
+
+const CONTINUE_SHOPPING_LABEL = "Continue Shopping";
+
+
+function trimClassList(classList) {
+    return classList
+        .split(/\s+/)
+        .filter(Boolean)
+        .join(" ");
+}
+
 export function WishlistEmpty() {
 
     return `
 
         <section
-            class="${WRAPPER_CLASS}"
+            class="${trimClassList(WRAPPER_CLASS)}"
             aria-labelledby="wishlist-empty-title">
 
             <div
-                class="${ICON_WRAPPER_CLASS}"
+                class="${trimClassList(ICON_WRAPPER_CLASS)}"
                 aria-hidden="true">
 
                 <i class="fa-regular fa-heart"></i>
@@ -98,30 +118,25 @@ export function WishlistEmpty() {
 
             <h2
                 id="wishlist-empty-title"
-                class="${TITLE_CLASS}">
+                class="${trimClassList(TITLE_CLASS)}">
 
-                Your wishlist is empty
+                ${EMPTY_TITLE_TEXT}
 
             </h2>
 
             <p
-                class="${DESCRIPTION_CLASS}">
+                class="${trimClassList(DESCRIPTION_CLASS)}">
 
-                You haven't added any products yet.
-
-                Explore our collection and save your
-                favorite products to your wishlist.
+                ${EMPTY_DESCRIPTION_TEXT}
 
             </p>
 
             <a
-                href="/pages/shop/shop.html"
-                class="${BUTTON_CLASS}">
-
-                Continue Shopping
+                href="${CONTINUE_SHOPPING_URL}"
+                class="${trimClassList(BUTTON_CLASS)}">
+                ${CONTINUE_SHOPPING_LABEL}
 
             </a>
-
         </section>
 
     `;

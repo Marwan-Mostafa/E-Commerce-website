@@ -211,4 +211,3 @@ export function OrderSummary({ items = [], subtotal = "", total = "" } = {}) {
         </section>
     `
 }
-//OrderSummary file
