@@ -1,43 +1,90 @@
-export function initMobileMenu() {
-    const toggleButton = document.getElementById('mobile-menu-toggle');
-    const panel = document.getElementById('mobile-menu-panel');
+const DESKTOP_BREAKPOINT_QUERY = "(min-width: 768px)";
+const OPEN_CLASSES = ["translate-y-0", "opacity-100"];
+const CLOSED_CLASSES = ["-translate-y-full", "opacity-0"];
 
-    if (!toggleButton || !panel) return;
+export function initMobileMenu(root = document) {
+    const toggleButton = root.querySelector("#mobile-menu-toggle");
+    const panel = root.querySelector("#mobile-menu-panel");
 
-    const openMenu = () => {
-        panel.classList.remove('-translate-x-full');
-        panel.removeAttribute('inert');
-        toggleButton.setAttribute('aria-expanded', 'true');
-        toggleButton.setAttribute('aria-label', 'Close menu');
-        toggleButton.querySelector('i').className = 'fa-solid fa-xmark text-xl';
-        panel.querySelector('a')?.focus();
-    };
+    if (!toggleButton || !panel) {
+        return;
+    }
 
-    const closeMenu = () => {
-        panel.classList.add('-translate-x-full');
-        panel.setAttribute('inert', '');
-        toggleButton.setAttribute('aria-expanded', 'false');
-        toggleButton.setAttribute('aria-label', 'Open menu');
-        toggleButton.querySelector('i').className = 'fa-solid fa-bars text-xl';
-        toggleButton.focus();
-    };
+    if (toggleButton.dataset.mobileMenuBound === "true") {
+        return;
+    }
 
-    const isOpen = () => toggleButton.getAttribute('aria-expanded') === 'true';
+    toggleButton.dataset.mobileMenuBound = "true";
 
-    toggleButton.addEventListener('click', () => {
-        isOpen() ? closeMenu() : openMenu();
+    const icon = toggleButton.querySelector("i");
+    const desktopBreakpoint = window.matchMedia(DESKTOP_BREAKPOINT_QUERY);
+    function isOpen() {
+        return toggleButton.getAttribute("aria-expanded") === "true";
+    }
+    function openMenu() {
+        panel.classList.remove(...CLOSED_CLASSES);
+        panel.classList.add(...OPEN_CLASSES);
+        panel.removeAttribute("inert");
+
+        toggleButton.setAttribute("aria-expanded", "true");
+        toggleButton.setAttribute("aria-label", "Close menu");
+
+        if (icon) {
+            icon.classList.remove("fa-bars");
+            icon.classList.add("fa-xmark");
+        }
+
+        document.body.classList.add("overflow-hidden");
+
+        const firstLink = panel.querySelector("a");
+        (firstLink || panel).focus();
+    }
+
+    function closeMenu({ returnFocus = true } = {}) {
+        panel.classList.remove(...OPEN_CLASSES);
+        panel.classList.add(...CLOSED_CLASSES);
+        panel.setAttribute("inert", "");
+
+        toggleButton.setAttribute("aria-expanded", "false");
+        toggleButton.setAttribute("aria-label", "Open menu");
+
+        if (icon) {
+            icon.classList.remove("fa-xmark");
+            icon.classList.add("fa-bars");
+        }
+
+        document.body.classList.remove("overflow-hidden");
+
+        if (returnFocus) {
+            toggleButton.focus();
+        }
+    }
+
+    function toggleMenu() {
+        if (isOpen()) {
+            closeMenu();
+        } else {
+            openMenu();
+        }
+    }
+
+    toggleButton.addEventListener("click", toggleMenu);
+
+    panel.addEventListener("click", (event) => {
+        if (event.target.closest("a")) {
+            closeMenu({ returnFocus: false });
+        }
     });
 
-    panel.addEventListener('click', (event) => {
-        if (event.target.tagName === 'A') closeMenu();
+    document.addEventListener("keydown", (event) => {
+        if (event.key === "Escape" && isOpen()) {
+            closeMenu();
+        }
     });
 
-    document.addEventListener('keydown', (event) => {
-        if (event.key === 'Escape' && isOpen()) closeMenu();
-    });
-
-    const desktopBreakpoint = window.matchMedia('(min-width: 768px)');
-    desktopBreakpoint.addEventListener('change', (event) => {
-        if (event.matches && isOpen()) closeMenu();
+    desktopBreakpoint.addEventListener("change", (event) => {
+        if (event.matches && isOpen()) {
+            closeMenu({ returnFocus: false });
+        }
     });
 }
