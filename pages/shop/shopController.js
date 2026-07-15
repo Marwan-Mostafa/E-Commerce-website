@@ -4,15 +4,16 @@ import { getShopData } from "../../services/shopService.js";
 import { renderProductGrid } from "../../components/ProductGrid.js";
 import { renderPagination } from "../../components/Pagination.js";
 import { setupFilters } from "../../components/FilterBar.js";
-import { addToCart } from "../../state/cartState.js";
 import { addCompareId } from "../../state/compareState.js";
-import { copyProductLink, handleProductCardAction } from "../../handlers/productCardActions.js";
+import { toggleWishlist } from "../../state/wishlistState.js";
+import {
+    copyProductLink,
+    handleProductCardAction,
+} from "../../handlers/productCardActions.js";
 import { updateToolbar } from "../../components/ShopToolbar.js";
-import { renderEmptyState } from "../../components/EmptyState.js"
-
+import { renderEmptyState } from "../../components/EmptyState.js";
 
 export function createShopController(container) {
-
     if (!container) {
         throw new Error("Shop container was not found.");
     }
@@ -22,62 +23,34 @@ export function createShopController(container) {
     }
 
     function render() {
-
-        const {
-            visibleProducts,
-            totalProducts,
-            totalPages,
-        } = getData()
-
+        const { visibleProducts, totalProducts, totalPages } = getData();
 
         updateToolbar(totalProducts);
 
         if (!visibleProducts.length) {
-
-            container.innerHTML =
-                renderEmptyState();
-
+            container.innerHTML = renderEmptyState();
             return;
-
         }
-
 
         container.innerHTML = `
     ${renderProductGrid({
-
             products: visibleProducts,
-
             viewMode: state.viewMode,
-
         })}
 
-    ${renderPagination(
-
-            state.currentPage,
-
-            totalPages
-
-        )}
+    ${renderPagination(state.currentPage, totalPages)}
 `;
-
     }
 
     function goToProduct(id) {
-
-        window.location.href =
-            `../singleProduct/singleProduct.html?id=${id}`;
-
+        window.location.href = `../singleProduct/singleProduct.html?id=${id}`;
     }
 
     function goToCompare() {
-
-        window.location.href =
-            "../comparisonPage/productComparison.html";
-
+        window.location.href = "../comparisonPage/productComparison.html";
     }
 
     function changePage(page) {
-
         if (page === state.currentPage) return;
 
         state.currentPage = page;
@@ -88,151 +61,126 @@ export function createShopController(container) {
             top: 0,
             behavior: "smooth",
         });
-
     }
 
     function handlePagination(event) {
-
-        const button =
-            event.target.closest(".page-btn");
+        const button = event.target.closest(".page-btn");
 
         if (!button) return false;
 
-        changePage(
-            Number(button.dataset.page)
-        );
+        changePage(Number(button.dataset.page));
 
         return true;
+    }
 
+
+    function updateWishlistButton(event, isWishlisted) {
+        const button = event.target.closest('[data-action="wishlist"]');
+
+        if (!button) {
+            return;
+        }
+
+        button.setAttribute("aria-pressed", String(isWishlisted));
+
+        const icon = button.querySelector("i");
+
+        if (!icon) {
+            return;
+        }
+
+        icon.classList.remove("fa-solid", "fa-regular");
+        icon.classList.add(isWishlisted ? "fa-solid" : "fa-regular", "fa-heart");
     }
 
     function handleProductActions(event) {
+        try {
+            const handled = handleProductCardAction(event, products, {
+                onView(product) {
+                    goToProduct(product.id);
+                },
 
-        const handled =
-            handleProductCardAction(
-                event,
-                products,
-                {
+                onAddToCart(product) {
+                    goToProduct(product.id);
+                },
 
-                    onAddToCart(product) {
+                onWishlist(product) {
+                    const added = toggleWishlist(product);
+                    updateWishlistButton(event, added);
+                },
 
-                        addToCart(product);
+                onCompare(product) {
+                    const result = addCompareId(product.id);
 
-                    },
+                    if (result.status === "ready" || result.status === "open") {
+                        goToCompare();
+                    }
+                },
 
-                    onWishlist(product) {
+                onShare(product) {
+                    copyProductLink(product);
+                },
+            });
 
-                        toggleWishlist(product);
-
-                    },
-
-                    onCompare(product) {
-
-                        const result =
-                            addCompareId(product.id);
-
-                        if (
-
-                            result.status === "ready" ||
-
-                            result.status === "open"
-
-                        ) {
-
-                            goToCompare();
-
-                        }
-
-                    },
-
-                    onShare(product) {
-
-                        copyProductLink(product);
-
-                    },
-
-                }
+            return handled;
+        } catch (error) {
+            console.error(
+                "[shopController] Failed to handle product card action.",
+                error
             );
-
-        return handled;
-
+            return false;
+        }
     }
 
     function handleCardNavigation(event) {
-
-        const card =
-            event.target.closest(".product-card");
+        const card = event.target.closest(".product-card");
 
         if (!card) return;
 
-        goToProduct(
-            Number(card.dataset.id)
-        );
-
+        goToProduct(card.dataset.id);
     }
 
     function handleClick(event) {
-
         if (handlePagination(event)) return;
 
         if (handleProductActions(event)) return;
 
         handleCardNavigation(event);
-
     }
 
     function bindFilters() {
-
         setupFilters({
-
             onSortChange(sortBy) {
-
                 state.sortBy = sortBy;
                 state.currentPage = 1;
                 render();
-
             },
 
             onPerPageChange(value) {
-
-                state.perPage =
-                    value === "All"
-                        ? products.length
-                        : value;
+                state.perPage = value === "All" ? products.length : value;
 
                 state.currentPage = 1;
 
                 render();
-
             },
 
             onViewChange(viewMode) {
-
                 state.viewMode = viewMode;
                 render();
-
             },
-
         });
-
     }
 
     function init() {
-
         bindFilters();
 
-        container.addEventListener(
-            "click",
-            handleClick
-        );
+        container.addEventListener("click", handleClick);
 
         render();
-
     }
 
     return {
         init,
         render,
     };
-
-} // shop controller file
+}
