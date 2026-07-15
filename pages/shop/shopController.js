@@ -235,4 +235,4 @@ export function createShopController(container) {
         render,
     };
 
-}
+} // shop controller file

@@ -5,7 +5,6 @@ const NAV_LINKS = Object.freeze([
   { id: "contact", label: "Contact", href: "/pages/contact/contact.html" },
 ]);
 
-
 const ICON_LINKS = Object.freeze([
   {
     id: "account",
@@ -25,6 +24,7 @@ const ICON_LINKS = Object.freeze([
     label: "Cart",
     icon: "fa-solid fa-cart-shopping",
     href: "/pages/cart/cart.html",
+    action: true,
     badgeId: "cart-badge",
   },
 ]);
@@ -63,11 +63,11 @@ const iconLinkClasses = `
   focus-visible:outline-none
   focus-visible:ring-2
   focus-visible:ring-(--primary)
-`
+`;
+
 
 function renderBadge(badgeId) {
   if (!badgeId) return "";
-
 
   return `
     <span
@@ -115,6 +115,7 @@ function renderIconLink({ id, label, icon, href, action, badgeId }) {
 
   return `<li>${content}</li>`;
 }
+
 
 export function renderNavbar(activePage = "home") {
 
