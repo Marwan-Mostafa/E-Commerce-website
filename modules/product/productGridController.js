@@ -1,5 +1,6 @@
 import { products } from "../../data/products.js";
 import { renderProductCard } from "../../components/ProductCard.js";
+
 import {
     handleProductCardAction,
     copyProductLink,
@@ -11,6 +12,7 @@ import { addCompareId } from "../../state/compareState.js";
 
 const PAGE_SIZE = 8;
 const COMPARISON_PAGE_PATH = "../comparisonPage/productComparison.html";
+
 
 function navigateToComparisonPage() {
     window.location.href = COMPARISON_PAGE_PATH;
@@ -98,7 +100,6 @@ function bindShowMoreButton(button, grid) {
         renderNextProducts(button, grid);
     });
 }
-
 
 function renderNextProducts(button, grid) {
     const parsedVisibleCount = Number(grid.dataset.visibleCount);
