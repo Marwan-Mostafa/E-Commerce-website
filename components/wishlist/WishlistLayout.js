@@ -8,20 +8,30 @@ flex-col
 gap-14
 `;
 
-
 function trimClassList(classList) {
-    return classList.split(/\s+/).filter(Boolean).join(" ");
+    return classList
+        .split(/\s+/)
+        .filter(Boolean)
+        .join(" ");
 }
-
 
 export function WishlistLayout({ products = [] } = {}) {
     const safeProducts = Array.isArray(products) ? products : [];
-    const hasProducts = safeProducts.length > 0;
+
+    const content = safeProducts.length
+        ? renderProductGrid({
+            products: safeProducts,
+            viewMode: "grid",
+        })
+        : WishlistEmpty();
 
     return `
         <section class="${trimClassList(WRAPPER_CLASS)}">
-            ${WishlistHeader({ totalItems: safeProducts.length })}
-            ${hasProducts ? renderProductGrid(safeProducts) : WishlistEmpty()}
+            ${WishlistHeader({
+        totalItems: safeProducts.length,
+    })}
+
+            ${content}
         </section>
     `;
 }

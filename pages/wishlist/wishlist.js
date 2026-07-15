@@ -28,7 +28,6 @@ function renderLayout() {
 
 function renderWishlist() {
     const products = getWishlist();
-
     setHtml("wishlist-root", WishlistLayout({ products }));
 }
 
@@ -38,6 +37,8 @@ function handleClick(event) {
     if (!removeButton) {
         return;
     }
+
+    const productId = Number(removeButton.dataset.id);
 
     if (!Number.isInteger(productId) || productId <= 0) {
         console.warn(
