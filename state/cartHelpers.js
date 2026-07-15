@@ -2,12 +2,6 @@ function normalizeNullable(value) {
     return value ?? null;
 }
 
-/**
- * @param {object} firstItem
- * @param {object} secondItem
- * @returns {boolean}
- */
-
 export function isSameCartLine(firstItem, secondItem) {
     if (!firstItem || !secondItem) {
         return false;
@@ -20,19 +14,9 @@ export function isSameCartLine(firstItem, secondItem) {
     );
 }
 
-/**
- * @param {Array} [cart=[]]
- * @returns {Array}
- */
 export function cloneCart(cart = []) {
     return cart.map((item) => ({ ...item }));
 }
-
-/**
- * @param {Array} cart
- * @param {number|string|object} target
- * @returns {object|undefined|null}
- */
 
 export function findCartItem(cart, target) {
     if (typeof target === "number" || typeof target === "string") {
@@ -45,11 +29,6 @@ export function findCartItem(cart, target) {
 
     return null;
 }
-
-/**
- * @param {object} product
- * @returns {object}
- */
 
 export function createCartItem(product) {
     return {

@@ -20,10 +20,8 @@ import {
     formatCurrency,
 } from "./cartCalculations.js";
 
-
-
-
 let cart = loadCart();
+
 let subscribers = new Set();
 
 function matchesTarget(item, target) {
@@ -43,8 +41,6 @@ function notifySubscribers() {
     });
 }
 
-
-
 function persist(previousCart) {
     try {
         saveCart(cart);
@@ -53,17 +49,15 @@ function persist(previousCart) {
         cart = previousCart;
         return;
     }
+
     notifySubscribers();
 }
 
-
-
 export function addToCart(product) {
     if (!isValidProduct(product)) {
-        console.warn("[cartState] Invalid product.", product)
-        return
+        console.warn("[cartState] Invalid product.", product);
+        return;
     }
-
 
     const previousCart = cloneCart(cart);
 
@@ -85,8 +79,6 @@ export function addToCart(product) {
     persist(previousCart);
 }
 
-
-
 export function removeFromCart(target) {
     const itemExists = cart.some((item) => matchesTarget(item, target));
 
@@ -95,11 +87,11 @@ export function removeFromCart(target) {
     }
 
     const previousCart = cloneCart(cart);
+
     cart = cart.filter((item) => !matchesTarget(item, target));
+
     persist(previousCart);
 }
-
-
 
 export function updateQuantity(target, quantity) {
     const item = findCartItem(cart, target);
@@ -119,8 +111,6 @@ export function updateQuantity(target, quantity) {
     item.quantity = safeQuantity;
     persist(previousCart);
 }
-
-
 
 export function getCart() {
     return cloneCart(cart);
@@ -150,7 +140,6 @@ export function getSubtotal() {
 export function getTotal() {
     return calculateTotal(cart);
 }
-
 
 export function subscribe(listener) {
     if (typeof listener !== "function") {
