@@ -1,15 +1,17 @@
 import { formatPrice } from "../utils/formatPrice.js";
 import { isInWishlist } from "../state/wishlistState.js";
 
+const SINGLE_PRODUCT_PAGE_PATH = "../singleProduct/singleProduct.html";
 
 const ACTION_BUTTON_CLASS = `
 cursor-pointer
 hover:text-gray-700
-transition-all
+transition
 duration-300
 hover:-translate-y-1
 active:scale-90
-`
+`;
+
 const ACTION_LABELS = {
   wishlist: "Like",
   compare: "Compare",
@@ -17,27 +19,55 @@ const ACTION_LABELS = {
 };
 
 
+function escapeHtml(value) {
+  return String(value ?? "").replace(/[&<>"']/g, (char) => {
+    switch (char) {
+      case "&":
+        return "&amp;";
+      case "<":
+        return "&lt;";
+      case ">":
+        return "&gt;";
+      case '"':
+        return "&quot;";
+      case "'":
+        return "&#39;";
+      default:
+        return char;
+    }
+  });
+}
+
+function buildSingleProductUrl(id) {
+  return `${SINGLE_PRODUCT_PAGE_PATH}?id=${encodeURIComponent(id)}`;
+}
+
+
 function renderDiscountBadge(discount) {
-  if (!discount) return ""
+  if (!discount) return "";
+
+  const safeDiscount = escapeHtml(discount);
 
   return `
         <div
-            class="absolute top-3 right-3 bg-[#E97171] text-white text-md w-[48px] px-1 p-3 font-semibold rounded-full bg-[#E97171] text-white font-semibold"
-            aria-label="${discount} off">
-            ${discount}
+            class="absolute top-3 right-3 bg-[#E97171] text-white text-md min-w-[48px] px-1 p-3 font-semibold rounded-full"
+            aria-label="${safeDiscount} off">
+            ${safeDiscount}
         </div>
-    `
+    `;
 }
 
-function renderOldPrice(oldPrice) {
-  if (!oldPrice) return ""
+
+function renderOldPrice(oldPrice, price) {
+  if (!oldPrice || oldPrice <= price) return "";
 
   return `
         <span class="text-gray-400 line-through text-sm">
             ${formatPrice(oldPrice)}
         </span>
-    `
+    `;
 }
+
 
 function renderActionButton({
   action,
@@ -46,75 +76,78 @@ function renderActionButton({
   productId,
   pressed = null,
 }) {
-
-  const ariaPressed =
-    pressed === null
-      ? ""
-      : `aria-pressed="${pressed}"`
+  const ariaPressed = pressed === null ? "" : `aria-pressed="${pressed}"`;
 
   return `
         <button
             type="button"
             class="${ACTION_BUTTON_CLASS}"
-            aria-label="${label}"
+            aria-label="${escapeHtml(label)}"
             data-action="${action}"
-            data-id="${productId}"
+            data-id="${escapeHtml(productId)}"
             ${ariaPressed}
         >
             <i class="${icon}"></i>
            ${ACTION_LABELS[action]}
 
         </button>
-    `
+    `;
 }
 
 
-
 export function renderProductCard(product) {
+  const { id, name, image, category, price, oldPrice, discount } = product;
 
-  const {
-    id,
-    name,
-    image,
-    category,
-    price,
-    oldPrice,
-    discount,
-  } = product
+  const safeId = escapeHtml(id);
+  const safeName = escapeHtml(name);
+  const safeCategory = escapeHtml(category);
+  const safeImage = escapeHtml(image);
+  const productUrl = buildSingleProductUrl(id);
 
   const formattedPrice = formatPrice(price);
 
   const wishlistActive = isInWishlist(id);
 
-  const wishlistIcon = wishlistActive ? "fa-solid fa-heart" : "fa-regular fa-heart";
+  const wishlistIcon = wishlistActive
+    ? "fa-solid fa-heart"
+    : "fa-regular fa-heart";
 
   return `
       <article
-      class="group product-card bg-white shadow-sm hover:shadow-xl transition duration-500 overflow-hidden cursor-pointer"
-      data-id="${id}">
+      class="group product-card bg-white shadow-sm hover:shadow-xl transition duration-500 overflow-hidden"
+      data-id="${safeId}">
 
-      <div class="relative overflow-hidden cursor-pointer" data-action="view-product" data-id="${id}">
+      <div class="relative overflow-hidden">
+
+      <a
+      href="${productUrl}"
+      class="block cursor-pointer"
+      data-action="view-product"
+      data-id="${safeId}"
+      aria-label="View ${safeName}">
 
       <img
-      src="${image}"
-      alt="${name}"
+      src="${safeImage}"
+      alt="${safeName}"
       loading="lazy"
       decoding="async"
       class="w-full aspect-square object-cover group-hover:scale-110 transition duration-700 pointer-events-none"/>
 
       <div class="absolute inset-0 bg-black/0 group-hover:bg-black/40 transition"></div>
 
+      </a>
+
           ${renderDiscountBadge(discount)}
 
-          <div class="absolute inset-0 flex flex-col items-center justify-center opacity-0 group-hover:opacity-100 transition">
+          <div class="absolute inset-0 flex flex-col items-center justify-center opacity-0 pointer-events-none group-hover:opacity-100 group-hover:pointer-events-auto group-focus-within:opacity-100 group-focus-within:pointer-events-auto transition">
 
           <button
           type="button"
           class="add-to-cart-btn bg-white px-10 py-2 text-sm font-semibold text-(--primary)
-          cursor-pointer duration-300 transition-all hover:shadow-black/20 hover:-translate-y-1 active:scale-90"
-          aria-label="View ${name}"
+          cursor-pointer duration-300 transition hover:shadow-black/20 hover:-translate-y-1 active:scale-90"
+          aria-label="View ${safeName}"
           data-action="add-to-cart"
-          data-id="${id}">
+          data-id="${safeId}">
 
           Add to cart
           </button>
@@ -124,21 +157,21 @@ export function renderProductCard(product) {
           ${renderActionButton({
     action: "share",
     icon: "fa-solid fa-share-nodes",
-    label: `Share ${name}`,
+    label: `Share ${safeName}`,
     productId: id,
   })}
 
           ${renderActionButton({
     action: "compare",
     icon: "fa-solid fa-arrow-right-arrow-left",
-    label: `Compare ${name}`,
+    label: `Compare ${safeName}`,
     productId: id,
   })}
 
           ${renderActionButton({
     action: "wishlist",
     icon: wishlistIcon,
-    label: `Add ${name} to wishlist`,
+    label: `Add ${safeName} to wishlist`,
     productId: id,
     pressed: wishlistActive,
   })}
@@ -151,14 +184,18 @@ export function renderProductCard(product) {
 
           <div class="p-4 bg-gray-50">
 
-            <h3  class="font-semibold text-lg cursor-pointer hover:text-(--primary) transition-colors"
-                    data-action="view-product"
-                    data-id="${id}">
-            ${name}
+            <h3 class="font-semibold text-lg">
+            <a
+                href="${productUrl}"
+                class="hover:text-(--primary) transition-colors"
+                data-action="view-product"
+                data-id="${safeId}">
+            ${safeName}
+            </a>
             </h3>
 
             <p class="text-sm text-gray-500 font-semibold">
-            ${category}
+            ${safeCategory}
             </p>
 
             <div class="mt-3 flex items-center gap-3">
@@ -167,12 +204,12 @@ export function renderProductCard(product) {
             ${formattedPrice}
             </span>
 
-            ${renderOldPrice(oldPrice)}
+            ${renderOldPrice(oldPrice, price)}
 
           </div>
 
           </div>
 
           </article>
-          `
+          `;
 }
