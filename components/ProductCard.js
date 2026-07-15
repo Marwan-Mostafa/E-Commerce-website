@@ -18,7 +18,6 @@ const ACTION_LABELS = {
   share: "Share",
 };
 
-
 function escapeHtml(value) {
   return String(value ?? "").replace(/[&<>"']/g, (char) => {
     switch (char) {
@@ -42,7 +41,6 @@ function buildSingleProductUrl(id) {
   return `${SINGLE_PRODUCT_PAGE_PATH}?id=${encodeURIComponent(id)}`;
 }
 
-
 function renderDiscountBadge(discount) {
   if (!discount) return "";
 
@@ -57,7 +55,6 @@ function renderDiscountBadge(discount) {
     `;
 }
 
-
 function renderOldPrice(oldPrice, price) {
   if (!oldPrice || oldPrice <= price) return "";
 
@@ -67,7 +64,6 @@ function renderOldPrice(oldPrice, price) {
         </span>
     `;
 }
-
 
 function renderActionButton({
   action,
@@ -94,7 +90,6 @@ function renderActionButton({
     `;
 }
 
-
 export function renderProductCard(product) {
   const { id, name, image, category, price, oldPrice, discount } = product;
 
@@ -111,6 +106,11 @@ export function renderProductCard(product) {
   const wishlistIcon = wishlistActive
     ? "fa-solid fa-heart"
     : "fa-regular fa-heart";
+
+
+  const wishlistLabel = wishlistActive
+    ? `Remove ${safeName} from wishlist`
+    : `Add ${safeName} to wishlist`;
 
   return `
       <article
@@ -171,7 +171,7 @@ export function renderProductCard(product) {
           ${renderActionButton({
     action: "wishlist",
     icon: wishlistIcon,
-    label: `Add ${safeName} to wishlist`,
+    label: wishlistLabel,
     productId: id,
     pressed: wishlistActive,
   })}
