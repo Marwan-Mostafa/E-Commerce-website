@@ -4,93 +4,68 @@ import { renderFeaturesSection } from "../../components/FeaturesSection.js";
 import { WishlistLayout } from "../../components/wishlist/WishlistLayout.js";
 import { setupWishlistBadge } from "../../modules/navbar/wishlistBadge.js";
 import {
-    setupFilters,
-} from "../../components/FilterBar.js";
+    getWishlist,
+    removeFromWishlist,
+    subscribeWishlist,
+} from "../../state/wishlistState.js";
 
-const ROOTS = {
+function setHtml(rootId, html) {
+    const root = document.getElementById(rootId);
 
-    navbar: document.getElementById("navbar-root"),
+    if (!root) {
+        console.warn(`[wishlist] Missing root element: #${rootId}`);
+        return;
+    }
 
-    wishlist: document.getElementById("wishlist-root"),
-
-    features: document.getElementById("features-root"),
-
-    footer: document.getElementById("footer-root"),
-
-};
+    root.innerHTML = html;
+}
 
 function renderLayout() {
-
-    ROOTS.navbar.innerHTML =
-        renderNavbar("wishlist");
-
-    ROOTS.features.innerHTML =
-        renderFeaturesSection();
-
-    ROOTS.footer.innerHTML =
-        renderFooter();
-
+    setHtml("navbar-root", renderNavbar("wishlist"));
+    setHtml("features-root", renderFeaturesSection());
+    setHtml("footer-root", renderFooter());
 }
 
 function renderWishlist() {
+    const products = getWishlist();
 
-    const products = setupFilters();
-
-    ROOTS.wishlist.innerHTML =
-        WishlistLayout({
-
-            products,
-
-        });
-
-}
-
-function bindEvents() {
-
-    document.addEventListener(
-
-        "click",
-
-        handleClick
-
-    );
-
+    setHtml("wishlist-root", WishlistLayout({ products }));
 }
 
 function handleClick(event) {
+    const removeButton = event.target.closest('[data-action="wishlist"]');
 
-    const productCard = event.target.closest(
-
-        "[data-product-id]"
-
-    );
-
-    if (!productCard) {
-
+    if (!removeButton) {
         return;
-
     }
 
-    const productId =
+    if (!Number.isInteger(productId) || productId <= 0) {
+        console.warn(
+            `[wishlist] Invalid product id on remove button: "${removeButton.dataset.id}".`
+        );
+        return;
+    }
 
-        productCard.dataset.productId;
+    removeFromWishlist(productId);
+}
 
-    console.log(
+function bindEvents() {
+    const wishlistRoot = document.getElementById("wishlist-root");
 
-        "Wishlist Product:",
+    if (!wishlistRoot) {
+        console.warn("[wishlist] Missing root element: #wishlist-root");
+        return;
+    }
 
-        productId
-
-    );
-
+    wishlistRoot.addEventListener("click", handleClick);
 }
 
 function bootstrap() {
-
-    renderLayout()
-    renderWishlist()
-    bindEvents()
-
+    renderLayout();
+    renderWishlist();
+    bindEvents();
+    setupWishlistBadge();
+    subscribeWishlist(renderWishlist);
 }
 
 bootstrap();

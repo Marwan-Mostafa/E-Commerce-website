@@ -1,17 +1,21 @@
 import {
-    loadCompareIds,
-    saveCompareIds,
-    clearCompareStorage,
+    loadCompareIds as loadWishlist,
+    saveCompareIds as saveWishlist,
+    clearCompareStorage as clearWishlistStorage,
 } from "./wishlistStorage.js";
 
-let wishlist = loadCompareIds();
+let wishlist = loadWishlist();
 const subscribers = new Set();
 
 
-function cloneWishlist(items) {
-    return items.map(item => ({ ...item }));
+
+function sameId(a, b) {
+    return String(a) === String(b);
 }
 
+function cloneWishlist(items) {
+    return items.map((item) => ({ ...item }));
+}
 
 function isValidProduct(product) {
     return Boolean(product) && typeof product === "object" && "id" in product;
@@ -19,7 +23,7 @@ function isValidProduct(product) {
 
 function notifySubscribers() {
     const snapshot = cloneWishlist(wishlist);
-    subscribers.forEach(listener => {
+    subscribers.forEach((listener) => {
         try {
             listener(snapshot);
         } catch (error) {
@@ -30,9 +34,12 @@ function notifySubscribers() {
 
 function persist(previousWishlist) {
     try {
-        saveCompareIds(wishlist);
+        saveWishlist(wishlist);
     } catch (error) {
-        console.error("[wishlistState] Failed to persist wishlist. Rolling back.", error);
+        console.error(
+            "[wishlistState] Failed to persist wishlist. Rolling back.",
+            error
+        );
         wishlist = previousWishlist;
         return;
     }
@@ -52,7 +59,7 @@ export function getWishlistCount() {
 }
 
 export function isInWishlist(productId) {
-    return wishlist.some(({ id }) => id === productId);
+    return wishlist.some(({ id }) => sameId(id, productId));
 }
 
 export function hasWishlistItem(productId) {
@@ -60,7 +67,7 @@ export function hasWishlistItem(productId) {
 }
 
 export function getWishlistItem(productId) {
-    const item = wishlist.find(({ id }) => id === productId);
+    const item = wishlist.find(({ id }) => sameId(id, productId));
     return item ? { ...item } : undefined;
 }
 
@@ -79,14 +86,14 @@ export function addToWishlist(product) {
     }
 
     const previousWishlist = [...wishlist];
-    wishlist.push(product);
+    wishlist.push({ ...product });
     persist(previousWishlist);
     return true;
 }
 
 export function removeFromWishlist(productId) {
     const previousWishlist = [...wishlist];
-    wishlist = wishlist.filter(({ id }) => id !== productId);
+    wishlist = wishlist.filter(({ id }) => !sameId(id, productId));
     persist(previousWishlist);
 }
 
@@ -111,7 +118,7 @@ export function clearWishlist() {
     const previousWishlist = [...wishlist];
     wishlist = [];
     persist(previousWishlist);
-    clearCompareStorage();
+    clearWishlistStorage();
 }
 
 export function subscribeWishlist(listener) {

@@ -1,4 +1,5 @@
-const STORAGE_KEY = "compareIds";
+const STORAGE_KEY = "wishlistItems";
+
 
 export function loadCompareIds() {
     try {
@@ -6,17 +7,16 @@ export function loadCompareIds() {
         const ids = JSON.parse(data);
         return Array.isArray(ids) ? ids : [];
     } catch (error) {
-        console.error("[compareStorage] Failed to load compare ids.", error);
+        console.error("[wishlistStorage] Failed to load compare ids.", error);
         return [];
     }
 }
-
 
 export function saveCompareIds(compareIds) {
     try {
         localStorage.setItem(STORAGE_KEY, JSON.stringify(compareIds));
     } catch (error) {
-        console.error("[compareStorage] Failed to save compare ids.", error);
+        console.error("[wishlistStorage] Failed to save compare ids.", error);
         throw error;
     }
 }
