@@ -1,14 +1,10 @@
-export function toPositiveInteger(
-    value,
-    fallback = 1
-
-) {
-
+export function toPositiveInteger(value, fallback = 1) {
     const number = Number(value);
 
     if (!Number.isInteger(number) || number <= 0) {
         return fallback;
     }
+    return number;
 }
 
 
@@ -31,6 +27,7 @@ export function normalizeProduct(product) {
     return {
         ...product,
         quantity: toPositiveInteger(product.quantity, 1),
+        price: toPositiveInteger(product.price, 0),
     };
 
 }

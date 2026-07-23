@@ -1,3 +1,4 @@
 export function formatPrice(price) {
-    return "Rp " + price.toLocaleString("id-ID")
+    const safePrice = Number.isFinite(price) ? price : 0;
+    return "Rp " + safePrice.toLocaleString("id-ID");
 }

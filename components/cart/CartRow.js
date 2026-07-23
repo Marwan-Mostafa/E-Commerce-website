@@ -60,33 +60,32 @@ export function CartRow({
     size = "",
     color = "",
 }) {
-    const subtotal = price * quantity;
+    const safeQuantity = Number.isFinite(quantity) && quantity > 0 ? quantity : 1;
+    const safePrice = Number.isFinite(price) ? price : 0;
+    const subtotal = safePrice * safeQuantity;
 
     return `
         <li
             class="${ROW_CLASS}"
             data-product-id="${id}"
             data-size="${size}"
-            data-color="${color}"
-        >
+            data-color="${color}">
 
             <div class="${IMAGE_WRAPPER_CLASS}">
                 <img
                     src="${image}"
                     alt="${name}"
                     class="w-full h-full object-contain"
-                    loading="lazy"
-                >
+                    loading="lazy">
             </div>
 
             <h3
-                class="text-[#3A3A3A] font-medium leading-6 line-clamp-2"
-            >
+                class="text-[#3A3A3A] font-medium leading-6 line-clamp-2">
                 ${name}
             </h3>
 
             <p class="text-[#9F9F9F]">
-                ${formatPrice(price)}
+                ${formatPrice(safePrice)}
             </p>
 
             <input
