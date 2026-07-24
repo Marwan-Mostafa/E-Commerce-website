@@ -28,20 +28,12 @@ const ICON_LINKS = Object.freeze([
   },
 ]);
 
-/* ==========================================================================
-   Shared Utilities
-========================================================================== */
-
 function trimClassList(classList) {
   return classList
     .split(/\s+/)
     .filter(Boolean)
     .join(" ");
 }
-
-/* ==========================================================================
-   Shared Tailwind Classes
-========================================================================== */
 
 const TRANSITION_CLASS = `
 transition-all
@@ -62,10 +54,6 @@ const activeTextClass = (isActive) =>
     ? "text-(--primary)"
     : "text-gray-700 hover:text-(--primary)";
 
-/* ==========================================================================
-   Navigation Link Classes
-========================================================================== */
-
 const navLinkClass = (isActive) => `
 relative
 group
@@ -80,10 +68,6 @@ ${FOCUS_RING_CLASS}
 focus-visible:rounded-md
 ${activeTextClass(isActive)}
 `;
-
-/* ==========================================================================
-   Icon Button Classes
-========================================================================== */
 
 const iconLinkClasses = `
 relative
@@ -101,10 +85,6 @@ select-none
 ${TRANSITION_CLASS}
 ${FOCUS_RING_CLASS}
 `;
-
-/* ==========================================================================
-   Badge
-========================================================================== */
 
 function renderBadge(badgeId) {
   if (!badgeId) return "";
@@ -135,10 +115,6 @@ function renderBadge(badgeId) {
     </span>
   `;
 }
-
-/* ==========================================================================
-   Icon Link
-========================================================================== */
 
 function renderIconLink(
   {
@@ -205,16 +181,7 @@ function renderIconLink(
   `;
 }
 
-/* ==========================================================================
-   Navbar
-========================================================================== */
-
 export function renderNavbar(activePage = "home") {
-
-  /* ========================================================================
-     Desktop Navigation Item
-  ======================================================================== */
-
   function renderDesktopLinkItem({ id, label, href }) {
 
     const isActive = id === activePage;
@@ -256,9 +223,6 @@ export function renderNavbar(activePage = "home") {
     `;
   }
 
-  /* ========================================================================
-     Mobile Navigation Item
-  ======================================================================== */
 
   function renderMobileLinkItem({ id, label, href }) {
 
