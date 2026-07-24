@@ -1,33 +1,33 @@
 const CURRENT_YEAR = new Date().getFullYear();
 
 const footerLinks = [
-  { label: "Home", href: "/pages/home/home.html" },
-  { label: "Shop", href: "/pages/shop/shop.html" },
-  { label: "About", href: "/pages/blog/blog.html" },
-  { label: "Contact", href: "/pages/contact/contact.html" },
+    { label: "Home", href: "../../pages/home/home.html" },
+    { label: "Shop", href: "../../pages/shop/shop.html" },
+    { label: "Blogs", href: "../../pages/blog/blog.html" },
+    { label: "Contact", href: "../../pages/contact/contact.html" },
 ]
 
 const helpLinks = [
-  { label: "Payment Options", href: "#" },
-  { label: "Returns", href: "#" },
-  { label: "Privacy Policies", href: "#" },
+    { label: "Payment Options", href: "#" },
+    { label: "Returns", href: "#" },
+    { label: "Privacy Policies", href: "#" },
 ]
 
 const socialLinks = [
-  { label: "Facebook", href: "#", ariaLabel: "Furniro on Facebook" },
-  { label: "Instagram", href: "#", ariaLabel: "Furniro on Instagram" },
-  { label: "Twitter", href: "#", ariaLabel: "Furniro on Twitter" },
+    { label: "Facebook", href: "#", ariaLabel: "Furniro on Facebook" },
+    { label: "Instagram", href: "#", ariaLabel: "Furniro on Instagram" },
+    { label: "Twitter", href: "#", ariaLabel: "Furniro on Twitter" },
 ]
 
 
 const SECTION_TITLE_CLASS =
-  "text-sm font-semibold tracking-wide text-gray-400 mb-7";
+    "text-sm font-semibold tracking-wide text-gray-400 mb-7";
 
 const FOOTER_LINK_CLASS =
-  "group relative inline-block text-[15px] text-gray-700 hover:text-gray-900 transition-colors duration-300";
+    "group relative inline-block text-[15px] text-gray-700 hover:text-gray-900 transition-colors duration-300";
 
 function renderFooterLink({ label, href = "#" }) {
-  return `
+    return `
         <li>
             <a href="${href}" class="${FOOTER_LINK_CLASS}">
                 ${label}
@@ -39,7 +39,7 @@ function renderFooterLink({ label, href = "#" }) {
 }
 
 function renderLinksSection(title, links, ariaLabel) {
-  return `
+    return `
         <nav aria-label="${ariaLabel}">
             <h3 class="${SECTION_TITLE_CLASS}">
                 ${title}
@@ -53,7 +53,7 @@ function renderLinksSection(title, links, ariaLabel) {
 }
 
 function renderNewsletter() {
-  return `
+    return `
         <div class="min-w-[240px]">
 
             <h3 class="${SECTION_TITLE_CLASS}">
@@ -115,9 +115,9 @@ function renderNewsletter() {
 }
 
 function renderSocialLinks() {
-  return socialLinks
-    .map(
-      ({ label, href, ariaLabel }) => `
+    return socialLinks
+        .map(
+            ({ label, href, ariaLabel }) => `
                 <a href="${href}"
                     aria-label="${ariaLabel}"
                     class="text-sm text-gray-400 hover:text-gray-900 transition-colors">
@@ -126,7 +126,7 @@ function renderSocialLinks() {
 }
 
 export function renderFooter() {
-  return `
+    return `
         <footer class="w-full bg-white border-t border-gray-200 mt-20">
             <div class="max-w-[1286px] mx-auto px-6 sm:px-8 lg:px-12 py-16">
                 <div class="grid gap-12 lg:grid-cols-[1.2fr_2fr] lg:gap-20">

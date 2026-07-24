@@ -13,7 +13,6 @@ export function ProductDetails(product) {
         <div>
 
           ${ProductInfo(product)}
-
           ${ProductMeta(product)}
 
         </div>

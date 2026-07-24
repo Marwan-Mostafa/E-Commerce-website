@@ -1,8 +1,8 @@
 const NAV_LINKS = Object.freeze([
-  { id: "home", label: "Home", href: "/pages/home/home.html" },
-  { id: "shop", label: "Shop", href: "/pages/shop/shop.html" },
-  { id: "blog", label: "Blogs", href: "/pages/blog/blog.html" },
-  { id: "contact", label: "Contact", href: "/pages/contact/contact.html" },
+  { id: "home", label: "Home", href: "../../pages/home/home.html" },
+  { id: "shop", label: "Shop", href: "../../pages/shop/shop.html" },
+  { id: "blog", label: "Blogs", href: "../../pages/blog/blog.html" },
+  { id: "contact", label: "Contact", href: "../../pages/contact/contact.html" },
 ]);
 
 const ICON_LINKS = Object.freeze([
@@ -10,20 +10,20 @@ const ICON_LINKS = Object.freeze([
     id: "account",
     label: "Account",
     icon: "fa-solid fa-user",
-    href: "/pages/account/account.html",
+    href: "../../pages/account/account.html",
   },
   {
     id: "wishlist",
     label: "Wishlist",
     icon: "fa-regular fa-heart",
-    href: "/pages/wishlist/wishlist.html",
+    href: "../../pages/wishlist/wishlist.html",
     badgeId: "wishlist-count",
   },
   {
     id: "cart",
     label: "Cart",
     icon: "fa-solid fa-cart-shopping",
-    href: "/pages/cart/cart.html",
+    href: "../../pages/cart/cart.html",
     action: true,
     badgeId: "cart-badge",
   },
@@ -174,12 +174,12 @@ export function renderNavbar(activePage = "home") {
     <header class="bg-white shadow-sm w-full h-[100px] flex items-center">
       <div class="mx-auto max-w-[1286px] w-full px-4 flex items-center justify-between">
         <a
-          href="/pages/home/home.html"
+          href="../../pages/home/home.html"
           class="flex items-center gap-2 transition hover:scale-105"
           aria-label="Furniro Home"
         >
           <img
-            src="/assets/images/logo.svg"
+            src="../../assets/images/logo.svg"
             alt="Furniro Logo"
             width="34"
             height="34"

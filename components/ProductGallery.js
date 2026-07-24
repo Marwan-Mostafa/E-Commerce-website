@@ -51,8 +51,7 @@ export function ProductGallery(product) {
               transition-transform
               duration-300
               group-hover:scale-105
-              select-none
-            ">
+              select-none">
 
         </button>
       `
@@ -63,8 +62,6 @@ export function ProductGallery(product) {
     <section
       class="grid grid-cols-[90px_1fr] gap-6 items-start">
 
-      <!-- Thumbnails -->
-
       <div
         id="thumbnails"
         class="flex flex-col gap-4">
@@ -72,8 +69,6 @@ export function ProductGallery(product) {
         ${thumbnails}
 
       </div>
-
-      <!-- Main Image -->
 
       <figure
         class="
@@ -84,8 +79,7 @@ export function ProductGallery(product) {
           items-center
           justify-center
           p-8
-          min-h-[500px]
-        ">
+          min-h-[500px]">
 
         <img
           id="main-image"
@@ -103,8 +97,7 @@ export function ProductGallery(product) {
             object-contain
             transition-opacity
             duration-300
-            select-none
-          ">
+            select-none">
 
         <figcaption class="sr-only">
           ${product.name} Product Image

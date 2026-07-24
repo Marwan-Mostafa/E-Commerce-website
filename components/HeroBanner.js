@@ -2,7 +2,7 @@ export function renderHeroBanner() {
     return `
     <section class="relative w-full " aria-label="Featured collection">
       <img
-        src="/assets/images/banner.png"
+        src="../../assets/images/banner.png"
         alt=""
         class="w-full h-[500px] md:h-[700px] object-cover"
       />
@@ -17,7 +17,7 @@ export function renderHeroBanner() {
               Lorem ipsum dolor sit amet, consectetur adipiscing elit. Ut elit tellus, luctus nec ullamcorper mattis.
             </p>
             
-              <a href="/pages/shop/shop.html"
+              <a href="../../pages/shop/shop.html"
               class="text-center capitalize text-white font-bold w-full sm:w-[220px] rounded-full
                      h-[55px] md:h-[65px] flex items-center justify-center bg-(--primary)
                      transition-all duration-300 hover:shadow-lg hover:-translate-y-1 active:scale-95

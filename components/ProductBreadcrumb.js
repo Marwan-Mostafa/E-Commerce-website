@@ -5,7 +5,7 @@ export function ProductBreadcrumb(product) {
       <div class="max-w-[1286px] mx-auto px-6 flex items-center gap-6 text-sm">
 
         <a
-          href="/pages/home/home.html"
+          href="../../pages/home/home.html"
           class="text-gray-500 hover:text-[#B88E2F] transition">
 
           Home
@@ -15,7 +15,7 @@ export function ProductBreadcrumb(product) {
         <i class="fa-solid fa-chevron-right text-xs text-gray-400"></i>
 
         <a
-          href="/pages/shop/shop.html"
+          href="../../pages/shop/shop.html"
           class="text-gray-500 hover:text-[#B88E2F] transition">
 
           Shop
