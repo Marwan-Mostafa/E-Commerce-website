@@ -94,7 +94,8 @@ function renderBadge(badgeId) {
         text-[11px]
         font-semibold
         text-white
-      `)}">0</span>
+      `)}"
+    >0</span>
   `;
 }
 
@@ -114,19 +115,20 @@ function renderIconLink({ id, label, icon, href = "#", action, badgeId }, active
         aria-haspopup="true"
         aria-expanded="false"
         title="${label}"
-        class="${linkClass}">
-
+        class="${linkClass}"
+      >
         <i class="${icon}" aria-hidden="true"></i>
         ${renderBadge(badgeId)}
       </button>
     `
     : `
       
-        <a href="${href}"
+        href="${href}"
         aria-label="${label}"
         title="${label}"
         ${isActive ? 'aria-current="page"' : ""}
-        class="${linkClass}">
+        class="${linkClass}"
+      >
         <i class="${icon}" aria-hidden="true"></i>
         ${renderBadge(badgeId)}
       </a>
@@ -143,10 +145,10 @@ export function renderNavbar(activePage = "home") {
     return `
       <li>
         
-        <a href="${href}"
+          href="${href}"
           class="${trimClassList(navLinkClass(isActive))}"
-          ${isActive ? 'aria-current="page"' : ""}>
-          
+          ${isActive ? 'aria-current="page"' : ""}
+        >
           ${label}
           <span
             class="${trimClassList(`
@@ -171,7 +173,7 @@ export function renderNavbar(activePage = "home") {
     return `
       <li>
         
-          <a href="${href}"
+          href="${href}"
           class="${trimClassList(`
             block
             py-3
@@ -193,7 +195,7 @@ export function renderNavbar(activePage = "home") {
     <header class="bg-white shadow-sm w-full h-[100px] flex items-center">
       <div class="mx-auto max-w-[1286px] w-full px-4 flex items-center justify-between">
         
-        <a href="../../pages/home/home.html"
+          href="../../pages/home/home.html"
           class="flex items-center gap-2 transition hover:scale-105"
           aria-label="Furniro Home"
         >
