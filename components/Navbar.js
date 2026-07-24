@@ -30,6 +30,14 @@ const ICON_LINKS = Object.freeze([
 ]);
 
 
+function trimClassList(classList) {
+  return classList
+    .split(/\s+/)
+    .filter(Boolean)
+    .join(" ");
+}
+
+
 const activeTextClass = (isActive) =>
   isActive ? "text-(--primary)" : "text-gray-700 hover:text-black";
 
@@ -72,12 +80,11 @@ function renderBadge(badgeId) {
   return `
     <span
       id="${badgeId}"
-      class="
+      class="${trimClassList(`
         absolute
         -top-1
         -right-1
         hidden
-        flex
         h-5
         w-5
         items-center
@@ -87,27 +94,39 @@ function renderBadge(badgeId) {
         text-[11px]
         font-semibold
         text-white
-      "
-    >0</span>
+      `)}">0</span>
   `;
 }
 
 
-function renderIconLink({ id, label, icon, href, action, badgeId }) {
+function renderIconLink({ id, label, icon, href = "#", action, badgeId }, activePage) {
+  const isActive = id === activePage;
+
+  const stateClass = isActive ? "text-(--primary) bg-gray-100" : "";
+  const linkClass = trimClassList(`${iconLinkClasses} ${stateClass}`);
+
   const content = action
     ? `
       <button
         type="button"
         id="${id}-trigger"
         aria-label="${label}"
-        class="${iconLinkClasses}"
-      >
+        aria-haspopup="true"
+        aria-expanded="false"
+        title="${label}"
+        class="${linkClass}">
+
         <i class="${icon}" aria-hidden="true"></i>
         ${renderBadge(badgeId)}
       </button>
     `
     : `
-      <a href="${href}" aria-label="${label}" class="${iconLinkClasses}">
+      
+        <a href="${href}"
+        aria-label="${label}"
+        title="${label}"
+        ${isActive ? 'aria-current="page"' : ""}
+        class="${linkClass}">
         <i class="${icon}" aria-hidden="true"></i>
         ${renderBadge(badgeId)}
       </a>
@@ -123,14 +142,14 @@ export function renderNavbar(activePage = "home") {
     const isActive = id === activePage;
     return `
       <li>
-        <a
-          href="${href}"
-          class="${navLinkClass(isActive)}"
-          ${isActive ? 'aria-current="page"' : ""}
-        >
+        
+        <a href="${href}"
+          class="${trimClassList(navLinkClass(isActive))}"
+          ${isActive ? 'aria-current="page"' : ""}>
+          
           ${label}
           <span
-            class="
+            class="${trimClassList(`
               absolute
               left-0
               -bottom-1
@@ -139,7 +158,7 @@ export function renderNavbar(activePage = "home") {
               transition
               duration-300
               ${isActive ? "w-full" : "w-0 group-hover:w-full"}
-            "
+            `)}"
             aria-hidden="true"
           ></span>
         </a>
@@ -151,9 +170,9 @@ export function renderNavbar(activePage = "home") {
     const isActive = id === activePage;
     return `
       <li>
-        <a
-          href="${href}"
-          class="
+        
+          <a href="${href}"
+          class="${trimClassList(`
             block
             py-3
             text-lg
@@ -161,7 +180,7 @@ export function renderNavbar(activePage = "home") {
             capitalize
             transition
             ${activeTextClass(isActive)}
-          "
+          `)}"
           ${isActive ? 'aria-current="page"' : ""}
         >
           ${label}
@@ -173,8 +192,8 @@ export function renderNavbar(activePage = "home") {
   return `
     <header class="bg-white shadow-sm w-full h-[100px] flex items-center">
       <div class="mx-auto max-w-[1286px] w-full px-4 flex items-center justify-between">
-        <a
-          href="../../pages/home/home.html"
+        
+        <a href="../../pages/home/home.html"
           class="flex items-center gap-2 transition hover:scale-105"
           aria-label="Furniro Home"
         >
@@ -195,7 +214,7 @@ export function renderNavbar(activePage = "home") {
 
         <div class="flex items-center gap-4">
           <ul class="flex items-center gap-4 md:gap-8 text-xl">
-            ${ICON_LINKS.map(renderIconLink).join("")}
+            ${ICON_LINKS.map((item) => renderIconLink(item, activePage)).join("")}
           </ul>
 
           <button
