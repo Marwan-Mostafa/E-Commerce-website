@@ -24,7 +24,6 @@ const ICON_LINKS = Object.freeze([
     label: "Cart",
     icon: "fa-solid fa-cart-shopping",
     href: "../../pages/cart/cart.html",
-    action: true,
     badgeId: "cart-badge",
   },
 ]);
@@ -123,7 +122,7 @@ function renderIconLink({ id, label, icon, href = "#", action, badgeId }, active
     `
     : `
       
-        href="${href}"
+      <a href="${href}"
         aria-label="${label}"
         title="${label}"
         ${isActive ? 'aria-current="page"' : ""}
@@ -145,7 +144,7 @@ export function renderNavbar(activePage = "home") {
     return `
       <li>
         
-          href="${href}"
+         <a href="${href}"
           class="${trimClassList(navLinkClass(isActive))}"
           ${isActive ? 'aria-current="page"' : ""}
         >
@@ -173,7 +172,7 @@ export function renderNavbar(activePage = "home") {
     return `
       <li>
         
-          href="${href}"
+          <a href="${href}"
           class="${trimClassList(`
             block
             py-3
@@ -195,7 +194,7 @@ export function renderNavbar(activePage = "home") {
     <header class="bg-white shadow-sm w-full h-[100px] flex items-center">
       <div class="mx-auto max-w-[1286px] w-full px-4 flex items-center justify-between">
         
-          href="../../pages/home/home.html"
+         <a href="../../pages/home/home.html"
           class="flex items-center gap-2 transition hover:scale-105"
           aria-label="Furniro Home"
         >

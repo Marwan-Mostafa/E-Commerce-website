@@ -1,11 +1,19 @@
 export function CartDrawer() {
   return `
 
-    <div id="cart-overlay" class="fixed inset-0 bg-black/40 hidden z-40 transition-opacity duration-300">
+    <div
+      id="cart-overlay"
+      aria-hidden="true"
+      class="fixed inset-0 bg-black/40 hidden z-40 transition-opacity duration-300">
     </div>
 
 
     <aside id="cart-drawer"
+      role="dialog"
+      aria-modal="true"
+      aria-labelledby="cart-drawer-title"
+      tabindex="-1"
+      inert
       class="fixed top-0
         right-[-420px]
         w-[420px]
@@ -19,12 +27,14 @@ export function CartDrawer() {
 
       <div class="flex items-center justify-between p-6 border-b">
 
-        <h2 class="text-2xl font-semibold">
+        <h2 id="cart-drawer-title" class="text-2xl font-semibold">
           Shopping Cart
         </h2>
 
         <button
+          type="button"
           id="close-cart"
+          aria-label="Close cart"
           class="text-2xl text-gray-500 hover:text-black transition cursor-pointer">
           ×
         </button>
@@ -32,7 +42,7 @@ export function CartDrawer() {
       </div>
 
 
-      <div id="cart-items" class="flex-1 overflow-y-auto p-6">
+      <div id="cart-items" aria-live="polite" class="flex-1 overflow-y-auto p-6">
       </div>
 
 
@@ -45,21 +55,21 @@ export function CartDrawer() {
           </span>
 
           <span id="cart-subtotal" class="font-semibold text-yellow-700">
-            $0
+            Rs. 0.00
           </span>
 
         </div>
 
         <div class="grid grid-cols-2 gap-3">
 
-          <a href="/pages/cart/cart.html"
+          <a href="../../pages/cart/cart.html"
             class="border rounded-lg py-3 text-center hover:bg-[#B88E2F] hover:text-white transition">
 
             Cart
 
           </a>
 
-          <a href="/pages/checkout/checkout.html"
+          <a href="../../pages/checkout/checkout.html"
             class="border rounded-lg py-3 text-center hover:bg-[#B88E2F] hover:text-white transition">
 
             Checkout
