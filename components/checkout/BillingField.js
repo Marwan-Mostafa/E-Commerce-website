@@ -83,6 +83,8 @@ w-full
 h-[60px]
 flex
 items-center
+overflow-hidden
+whitespace-nowrap
 text-[15px]
 text-[#3A3A3A]
 bg-white
@@ -117,6 +119,7 @@ file:hover:bg-[#a17d29]
 disabled:opacity-60
 disabled:cursor-not-allowed
 disabled:bg-[#F5F5F5]
+disabled:hover:border-[#D7D7D7]
 `;
 
 const CHECKABLE_WRAPPER_CLASS = `
@@ -132,7 +135,7 @@ h-5
 shrink-0
 border
 border-[#D7D7D7]
-text-[#B88E2F]
+bg-white
 accent-[#B88E2F]
 cursor-pointer
 outline-none
@@ -160,6 +163,7 @@ pl-1
 `;
 
 const SENSITIVE_TYPES = new Set(["password"]);
+const NON_TEXTUAL_TYPES = new Set(["select", "checkbox", "radio", "file"]);
 
 
 function escapeHtml(value) {
@@ -196,7 +200,6 @@ function buildCommonAttributes({
     step,
     inputMode,
 }) {
-    const NON_TEXTUAL_TYPES = new Set(["select", "checkbox", "radio", "file"]);
     const isTextual = !NON_TEXTUAL_TYPES.has(type);
 
     const requiredAttr = required ? "required" : "";
@@ -265,12 +268,17 @@ function renderInput({ commonAttributes, type, value, placeholder, sensitive }) 
 }
 
 
-function renderTextarea({ commonAttributes, value, placeholder }) {
+function renderTextarea({ commonAttributes, value, placeholder, sensitive }) {
+    const isSensitive = sensitive ?? false;
+    const renderedValue = isSensitive ? "" : escapeHtml(value);
+    const hydrateAttr = isSensitive ? `data-hydrate-value="true"` : "";
+
     return `
         <textarea
             ${commonAttributes}
             placeholder="${escapeHtml(placeholder)}"
-            class="${trimClassList(TEXTAREA_CLASS)}">${escapeHtml(value)}</textarea>
+            ${hydrateAttr}
+            class="${trimClassList(TEXTAREA_CLASS)}">${renderedValue}</textarea>
     `;
 }
 
@@ -287,7 +295,8 @@ function renderSelectOption(option, currentValue) {
 }
 
 
-function renderSelect({ commonAttributes, value, options }) {
+function renderSelect({ commonAttributes, value, options, placeholder }) {
+    const placeholderText = placeholder || "Select...";
     const placeholderSelected = value ? "" : "selected";
 
     return `
@@ -298,7 +307,7 @@ function renderSelect({ commonAttributes, value, options }) {
                 class="${trimClassList(SELECT_CLASS)}">
 
                 <option value="" disabled ${placeholderSelected}>
-                    Select...
+                    ${escapeHtml(placeholderText)}
                 </option>
 
                 ${options.map(option => renderSelectOption(option, value)).join("")}
@@ -356,7 +365,7 @@ function renderLabel({ id, label, required, className = LABEL_CLASS }) {
 
             ${escapeHtml(label)}
 
-            ${required ? `<span class="text-red-500">*</span>` : ""}
+            ${required ? `<span class="text-red-500" aria-hidden="true">*</span>` : ""}
 
         </label>
     `;
@@ -414,13 +423,15 @@ export function BillingField({
     });
 
     if (type === "checkbox" || type === "radio") {
+        const effectiveValue = value || (type === "radio" ? id : "on");
+
         return `
 
             <div
                 class="${trimClassList(CHECKABLE_WRAPPER_CLASS)}"
                 data-field="${escapeHtml(name)}">
 
-                ${renderCheckable({ commonAttributes, type, value, checked })}
+                ${renderCheckable({ commonAttributes, type, value: effectiveValue, checked })}
 
                 ${renderLabel({ id, label, required, className: CHECKABLE_LABEL_CLASS })}
 
@@ -434,11 +445,11 @@ export function BillingField({
     let field = "";
 
     if (type === "textarea") {
-        field = renderTextarea({ commonAttributes, value, placeholder });
+        field = renderTextarea({ commonAttributes, value, placeholder, sensitive });
     }
 
     else if (type === "select") {
-        field = renderSelect({ commonAttributes, value, options });
+        field = renderSelect({ commonAttributes, value, options, placeholder });
     }
 
     else if (type === "file") {
@@ -476,8 +487,8 @@ export function setFieldError(root, fieldId, message) {
     }
 
     if (errorEl) {
-        errorEl.textContent = message;
         errorEl.classList.remove("hidden");
+        errorEl.textContent = message;
     }
 }
 
