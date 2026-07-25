@@ -9,6 +9,7 @@ sticky
 top-28
 `;
 
+const TITLE_ID = "checkout-sidebar-title";
 
 function trimClassList(classList) {
     return classList
@@ -24,24 +25,33 @@ export function CheckoutSidebar({
     checkoutDisabled = false,
 } = {}) {
 
-    return `
+    const orderSummary = OrderSummary({
+        items,
+        subtotal,
+        total,
+    });
 
-         <aside
+    const paymentSection = PaymentSection({
+        checkoutDisabled,
+    });
+
+    return `
+        <aside
             class="${trimClassList(WRAPPER_CLASS)}"
-            aria-labelledby="checkout-sidebar-title">
+            aria-labelledby="${TITLE_ID}">
 
             <h2
-                id="checkout-sidebar-title"
+                id="${TITLE_ID}"
                 class="sr-only">
 
                 Checkout Summary
 
             </h2>
 
-            ${OrderSummary({ items, subtotal, total })}
-            ${PaymentSection({ checkoutDisabled })}
+            ${orderSummary}
+
+            ${paymentSection}
+
         </aside>
-
-    `
-
-} //CheckoutSidebar.js as component
+    `;
+}

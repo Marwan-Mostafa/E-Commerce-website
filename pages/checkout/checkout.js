@@ -1,232 +1,162 @@
-    import { renderNavbar } from "../../components/Navbar.js";
-    import { renderFooter } from "../../components/Footer.js";
-    import { renderFeaturesSection } from "../../components/FeaturesSection.js";
-    import { setupWishlistBadge } from "../../modules/navbar/wishlistBadge.js";
-    import { BillingForm } from "../../components/checkout/BillingForm.js";
-    import { CheckoutSidebar } from "../../components/checkout/CheckoutSidebar.js";
-    import { EmptyCart } from "../../components/cart/EmptyCart.js";
+import { renderNavbar } from "../../components/Navbar.js";
+import { renderFooter } from "../../components/Footer.js";
+import { renderFeaturesSection } from "../../components/FeaturesSection.js";
 
-    import {
-        getCart,
-        getSubtotal,
-        getTotal,
-        formatCurrency,
-        removeFromCart,
-        subscribe,
-    } from "../../state/cartState.js";
+import { setupWishlistBadge } from "../../modules/navbar/wishlistBadge.js";
 
+import { BillingForm } from "../../components/checkout/BillingForm.js";
+import { CheckoutSidebar } from "../../components/checkout/CheckoutSidebar.js";
+import { initCheckout } from "../../components/checkout/Checkoutcontroller.js";
 
-    const navbarRoot = document.getElementById("navbar-root");
-    const footerRoot = document.getElementById("footer-root");
-    const featuresRoot = document.getElementById("featuresSection");
+import { EmptyCart } from "../../components/cart/EmptyCart.js";
 
-    const billingRoot = document.getElementById("billing-form-root");
+import {
+    getCart,
+    getSubtotal,
+    getTotal,
+    formatCurrency,
+    removeFromCart,
+    subscribe,
+} from "../../state/cartState.js";
 
-    const sidebarRoot = document.getElementById("checkout-sidebar-root");
+const navbarRoot = document.getElementById("navbar-root");
+const footerRoot = document.getElementById("footer-root");
+const featuresRoot = document.getElementById("featuresSection");
 
-    const checkoutContentRoot = document.getElementById("checkout-content");
-    const emptyStateRoot = document.getElementById("checkout-empty-state");
+const billingRoot = document.getElementById("billing-form-root");
+const sidebarRoot = document.getElementById("checkout-sidebar-root");
 
+const checkoutContentRoot = document.getElementById("checkout-content");
+const emptyStateRoot = document.getElementById("checkout-empty-state");
 
-    function renderLayout() {
+function renderLayout() {
+    navbarRoot.innerHTML = renderNavbar("checkout");
 
-        navbarRoot.innerHTML = renderNavbar("checkout");
-        footerRoot.innerHTML = renderFooter();
-        featuresRoot.innerHTML = renderFeaturesSection();
-        setupWishlistBadge();
+    footerRoot.innerHTML = renderFooter();
 
+    featuresRoot.innerHTML = renderFeaturesSection();
+
+    setupWishlistBadge();
+}
+
+function renderBillingForm() {
+    if (!billingRoot) {
+        return;
     }
 
+    billingRoot.innerHTML = BillingForm();
+}
 
-    function renderBillingForm() {
-
-        if (!billingRoot) return;
-        billingRoot.innerHTML = BillingForm();
-
+function renderSidebar(items) {
+    if (!sidebarRoot) {
+        return;
     }
 
+    const summaryItems = items.map((item) => ({
+        ...item,
+        formattedSubtotal: formatCurrency(
+            item.price * item.quantity
+        ),
+    }));
 
-    function renderSidebar(items) {
+    sidebarRoot.innerHTML = CheckoutSidebar({
+        items: summaryItems,
+        subtotal: formatCurrency(getSubtotal()),
+        total: formatCurrency(getTotal()),
+        checkoutDisabled: !items.length,
+    });
+}
 
-        if (!sidebarRoot) return;
-
-        const summaryItems = items.map(item => ({
-            ...item,
-            formattedSubtotal: formatCurrency(
-                item.price * item.quantity
-            ),
-        }));
-
-        sidebarRoot.innerHTML = CheckoutSidebar({
-
-            items: summaryItems,
-
-            subtotal: formatCurrency(getSubtotal()),
-
-            total: formatCurrency(getTotal()),
-
-            checkoutDisabled: !items.length,
-
-        });
-
-    }
-
-
-    function renderEmptyState(items) {
-        if (!checkoutContentRoot || !emptyStateRoot) {
-            console.warn(
-                "[checkout] Missing #checkout-content or #checkout-empty-state root(s)."
-            );
-            return;
-        }
-
-        const isEmpty = items.length === 0
-        checkoutContentRoot.classList.toggle("hidden", isEmpty);
-        emptyStateRoot.classList.toggle("hidden", !isEmpty);
-        emptyStateRoot.innerHTML = isEmpty
-            ? EmptyCart()
-            : "";
-
-    }
-
-
-    function renderPage() {
-
-        const items = getCart();
-        renderEmptyState(items);
-        if (!items.length) return;
-        renderBillingForm();
-        renderSidebar(items);
-
-    }
-
-
-    function handlePaymentChange(event) {
-
-        const radio = event.target.closest("input[name='paymentMethod']");
-
-        if (!radio) return;
-
-        const description = document.getElementById("payment-description");
-
-        if (!description) return;
-        description.textContent = radio.dataset.description ?? "";
-
-    }
-
-
-    function validateForm(form) {
-
-        const fields = form.querySelectorAll(
-            "input:not([type='radio']), select, textarea"
+function renderEmptyState(items) {
+    if (!checkoutContentRoot || !emptyStateRoot) {
+        console.warn(
+            "[checkout] Missing checkout container elements."
         );
-
-        let isValid = true;
-
-        fields.forEach(field => {
-
-            const error = field
-                .closest("div")
-                ?.querySelector(".field-error");
-
-            field.classList.remove(
-                "border-red-500",
-                "focus:border-red-500"
-            );
-
-            if (error) {
-
-                error.classList.add("hidden");
-
-                error.textContent = "";
-
-            }
-
-            if (!field.checkValidity()) {
-
-                isValid = false;
-
-                field.classList.add(
-                    "border-red-500",
-                    "focus:border-red-500"
-                );
-
-                if (error) {
-
-                    error.textContent =
-                        field.validationMessage;
-
-                    error.classList.remove("hidden");
-
-                }
-
-            }
-
-        });
-
-        return isValid;
-
+        return;
     }
 
+    const isEmpty = items.length === 0;
 
+    checkoutContentRoot.classList.toggle("hidden", isEmpty);
 
-    function handleSubmit(event) {
+    emptyStateRoot.classList.toggle("hidden", !isEmpty);
 
-        event.preventDefault();
+    emptyStateRoot.innerHTML = isEmpty
+        ? EmptyCart()
+        : "";
+}
 
-        const form = event.currentTarget;
+function renderPage() {
+    const items = getCart();
 
-        if (!validateForm(form)) return;
+    renderEmptyState(items);
 
-        const currentItems = getCart();
-
-        if (!currentItems.length) return;
-
-        console.log("Order Created");
-        currentItems.forEach(item => removeFromCart(item.id));
-
-        form.reset();
-        window.scrollTo({ top: 0, behavior: "smooth" });
-
-        alert("Order placed successfully.");
-        renderPage();
-
+    if (!items.length) {
+        return;
     }
 
-    function bindEvents() {
+    renderBillingForm();
 
-        document.addEventListener(
+    renderSidebar(items);
 
-            "change",
+    initCheckout({
+        formContainer: billingRoot,
+        sidebarRoot,
+        onPlaceOrder: placeOrder,
+    });
+}
 
-            handlePaymentChange
+async function placeOrder({
+    billing,
+    paymentMethod,
+    formElement,
+}) {
+    const currentItems = getCart();
 
-        );
-
-
-
-        document.addEventListener(
-
-            "submit",
-
-            (event) => {
-                if (event.target.id !== "checkout-form")
-                    return;
-                handleSubmit(event);
-            }
-        );
+    if (!currentItems.length) {
+        return;
     }
 
+    const order = {
+        billing,
+        paymentMethod,
+        items: currentItems,
+        subtotal: getSubtotal(),
+        total: getTotal(),
+        createdAt: new Date().toISOString(),
+    };
 
-    function subscribeToCartUpdates() {
-        subscribe(renderPage);
-    }
+    console.log("Order Created:", order);
 
-    function bootstrap() {
-        renderLayout();
-        renderPage();
-        bindEvents();
-        subscribeToCartUpdates();
-    }
+    formElement.reset();
 
-    bootstrap();
+    currentItems.forEach((item) => {
+        removeFromCart(item.id);
+    });
+
+    window.scrollTo({
+        top: 0,
+        behavior: "smooth",
+    });
+
+    alert("Order placed successfully.");
+}
+
+function bindEvents() {
+}
+
+function subscribeToCartUpdates() {
+    subscribe(renderPage);
+}
+
+function bootstrap() {
+    renderLayout();
+
+    renderPage();
+
+    bindEvents();
+
+    subscribeToCartUpdates();
+}
+
+bootstrap();

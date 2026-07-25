@@ -64,8 +64,7 @@ divide-y
 divide-[#F3F3F3]
 `;
 
-
-const SUMMARY_ROWS = [
+const SUMMARY_ROWS = Object.freeze([
     {
         id: "checkout-subtotal",
         label: "Subtotal",
@@ -80,8 +79,7 @@ const SUMMARY_ROWS = [
         labelClass: "font-semibold",
         valueClass: TOTAL_VALUE_CLASS,
     },
-];
-
+]);
 
 function escapeHtml(value) {
     return String(value ?? "")
@@ -92,7 +90,6 @@ function escapeHtml(value) {
         .replace(/'/g, "&#39;");
 }
 
-
 function trimClassList(classList) {
     return classList
         .split(/\s+/)
@@ -100,10 +97,13 @@ function trimClassList(classList) {
         .join(" ");
 }
 
-
-
 function renderItemQuantity(quantity) {
-    if (quantity === undefined || quantity === null || quantity === "") {
+
+    if (
+        quantity === undefined ||
+        quantity === null ||
+        quantity === ""
+    ) {
         return "";
     }
 
@@ -114,61 +114,94 @@ function renderItemQuantity(quantity) {
     `;
 }
 
-
 function renderItem(item) {
 
+    const {
+        id,
+        name,
+        quantity,
+        formattedSubtotal,
+    } = item;
+
     return `
-        <li class="${trimClassList(ITEM_CLASS)}" data-product-id="${escapeHtml(item.id)}">
+        <li
+            class="${trimClassList(ITEM_CLASS)}"
+            data-product-id="${escapeHtml(id)}">
 
             <div class="${trimClassList(ITEM_NAME_WRAPPER_CLASS)}">
+
                 <p class="text-[#3A3A3A] break-words">
-                    ${escapeHtml(item.name)}
-                    ${renderItemQuantity(item.quantity)}
+
+                    ${escapeHtml(name)}
+                    ${renderItemQuantity(quantity)}
+
                 </p>
 
             </div>
 
             <span class="whitespace-nowrap">
-                ${escapeHtml(item.formattedSubtotal ?? "")}
+
+                ${escapeHtml(formattedSubtotal ?? "")}
+
             </span>
+
         </li>
-    `
+    `;
 }
 
-
 function renderItemsList(items) {
-    if (!items.length) {
+
+    if (items.length === 0) {
         return `
             <li class="${trimClassList(EMPTY_CLASS)}">
+
                 Your cart is empty.
+
             </li>
         `;
     }
 
-    return items.map(renderItem).join("");
+    return items
+        .map(renderItem)
+        .join("");
+
 }
 
-
 function renderSummaryRow(row, values) {
-    const rawValue = values[row.valueKey] ?? "";
+
+    const value = values[row.valueKey] ?? "";
 
     return `
         <div class="${trimClassList(TOTAL_ROW_CLASS)}">
+
             <span class="${trimClassList(row.labelClass ?? "")}">
+
                 ${escapeHtml(row.label)}
+
             </span>
 
-            <span id="${escapeHtml(row.id)}" class="${trimClassList(row.valueClass ?? "")}">
-                ${escapeHtml(rawValue)}
+            <span
+                id="${escapeHtml(row.id)}"
+                class="${trimClassList(row.valueClass ?? "")}">
+
+                ${escapeHtml(value)}
+
             </span>
+
         </div>
     `;
 }
 
+export function OrderSummary({
+    items = [],
+    subtotal = "",
+    total = "",
+} = {}) {
 
-export function OrderSummary({ items = [], subtotal = "", total = "" } = {}) {
-
-    const summaryValues = { subtotal, total };
+    const summaryValues = {
+        subtotal,
+        total,
+    };
 
     return `
 
@@ -184,7 +217,8 @@ export function OrderSummary({ items = [], subtotal = "", total = "" } = {}) {
 
             </h2>
 
-            <header class="${trimClassList(HEADER_CLASS)}">
+            <header
+                class="${trimClassList(HEADER_CLASS)}">
 
                 <span>
 
@@ -200,14 +234,20 @@ export function OrderSummary({ items = [], subtotal = "", total = "" } = {}) {
 
             </header>
 
-            <ul id="checkout-order-items" aria-live="polite" class="${trimClassList(LIST_CLASS)}">
+            <ul
+                id="checkout-order-items"
+                class="${trimClassList(LIST_CLASS)}"
+                aria-live="polite">
 
                 ${renderItemsList(items)}
 
             </ul>
 
-            ${SUMMARY_ROWS.map(row => renderSummaryRow(row, summaryValues)).join("")}
+            ${SUMMARY_ROWS
+            .map((row) => renderSummaryRow(row, summaryValues))
+            .join("")}
 
         </section>
-    `
-} //OrderSummary.js as component
+
+    `;
+}

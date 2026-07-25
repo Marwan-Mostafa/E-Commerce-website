@@ -94,6 +94,17 @@ cursor-pointer
 
 const GROUP_NAME = "paymentMethod";
 
+const BUTTON_STATES = {
+    IDLE: "idle",
+    PROCESSING: "processing",
+    SUCCESS: "success",
+};
+
+const BUTTON_LABELS = {
+    PROCESSING: "Placing Order...",
+    SUCCESS: "Order Placed",
+};
+
 const BANK_DESCRIPTION = `
 Make your payment directly into our bank account.
 Please use your Order ID as the payment reference.
@@ -113,6 +124,11 @@ throughout this website, to manage access to your account,
 and for other purposes described in our privacy policy.
 `;
 
+function normalizeWhitespace(text) {
+    return String(text ?? "")
+        .replace(/\s+/g, " ")
+        .trim();
+}
 
 const PAYMENT_OPTIONS = [
     {
@@ -120,22 +136,25 @@ const PAYMENT_OPTIONS = [
         value: "bank",
         label: "Direct Bank Transfer",
         checked: true,
-        description: BANK_DESCRIPTION,
+        description: normalizeWhitespace(BANK_DESCRIPTION),
     },
     {
         id: "cod",
         value: "cod",
         label: "Cash On Delivery",
-        description: COD_DESCRIPTION,
+        description: normalizeWhitespace(COD_DESCRIPTION),
     },
 ];
 
-const DEFAULT_PAYMENT_OPTION = getDefaultChecked(PAYMENT_OPTIONS, {
-    groupLabel: GROUP_NAME,
-});
+const DEFAULT_PAYMENT_OPTION = getDefaultChecked(
+    PAYMENT_OPTIONS,
+    {
+        groupLabel: GROUP_NAME,
+    }
+);
 
-const DEFAULT_DESCRIPTION = DEFAULT_PAYMENT_OPTION?.description ?? "";
-
+const DEFAULT_DESCRIPTION =
+    DEFAULT_PAYMENT_OPTION?.description ?? "";
 
 function escapeHtml(value) {
     return String(value ?? "")
@@ -146,7 +165,6 @@ function escapeHtml(value) {
         .replace(/'/g, "&#39;");
 }
 
-
 function trimClassList(classList) {
     return classList
         .split(/\s+/)
@@ -154,20 +172,16 @@ function trimClassList(classList) {
         .join(" ");
 }
 
-
-function normalizeWhitespace(text) {
-    return String(text ?? "").replace(/\s+/g, " ").trim();
-}
-
-
 function withPrefix(option, prefix) {
     if (!prefix) {
         return option;
     }
 
-    return { ...option, id: `${prefix}${option.id}` };
+    return {
+        ...option,
+        id: `${prefix}${option.id}`,
+    };
 }
-
 
 function PaymentOption({
     id,
@@ -182,7 +196,7 @@ function PaymentOption({
 }) {
 
     return `
-        <label for="${escapeHtml(id)}" class="${trimClassList(PAYMENT_ROW_CLASS)}">
+        <label class="${trimClassList(PAYMENT_ROW_CLASS)}">
 
             <input
                 id="${escapeHtml(id)}"
@@ -192,12 +206,11 @@ function PaymentOption({
                 form="${escapeHtml(formId)}"
                 required
                 ${checked ? "checked" : ""}
-                data-description="${escapeHtml(normalizeWhitespace(description))}"
+                data-description="${escapeHtml(description)}"
                 aria-describedby="${escapeHtml(descriptionId)} ${escapeHtml(errorId)}"
                 aria-required="true"
                 aria-invalid="false"
-                class="${trimClassList(RADIO_CLASS)}"
-                autocomplete="off">
+                class="${trimClassList(RADIO_CLASS)}">
 
             <span class="${trimClassList(LABEL_CLASS)}">
                 ${escapeHtml(label)}
@@ -208,60 +221,73 @@ function PaymentOption({
 
 }
 
-
 export function PaymentSection({
     instanceId,
     checkoutDisabled = false,
 } = {}) {
 
     const prefix = instanceId ? `${instanceId}-` : "";
+
     const formId = getFormId(instanceId);
+
     const groupName = `${prefix}${GROUP_NAME}`;
+
+    const titleId = `${prefix}payment-title`;
+
     const descriptionId = `${prefix}payment-description`;
+
+    const errorId = `${groupName}-error`;
+
     const buttonId = `${prefix}place-order-btn`;
 
-    const options = PAYMENT_OPTIONS.map((option) => withPrefix(option, prefix));
+    const paymentOptions = PAYMENT_OPTIONS
+        .map((option) =>
+            PaymentOption({
+                ...withPrefix(option, prefix),
+                groupName,
+                formId,
+                descriptionId,
+                errorId,
+            })
+        )
+        .join("");
 
     return `
 
         <section
             class="${trimClassList(WRAPPER_CLASS)}"
-            aria-labelledby="payment-title"
+            aria-labelledby="${escapeHtml(titleId)}"
             data-payment-section>
 
             <fieldset
                 class="${trimClassList(FIELDSET_CLASS)}"
                 data-group-name="${escapeHtml(groupName)}">
 
-        <legend
-            id="payment-title"
-            class="sr-only">
+                <legend
+                    id="${escapeHtml(titleId)}"
+                    class="sr-only">
 
-            Payment Method
+                    Payment Method
 
-        </legend>
+                </legend>
 
-        ${options.map((option) => PaymentOption({
-        ...option,
-        groupName,
-        formId,
-        descriptionId,
-        errorId: `${groupName}-error`,
-    })).join("")}
+                ${paymentOptions}
 
-    </fieldset>
+            </fieldset>
 
             <p
                 id="${escapeHtml(descriptionId)}"
-                aria-live="polite"
+                class="${trimClassList(DESCRIPTION_CLASS)}"
                 data-payment-description
-                class="${trimClassList(DESCRIPTION_CLASS)}">
+                aria-live="polite">
 
                 ${escapeHtml(DEFAULT_DESCRIPTION)}
 
             </p>
 
-            ${renderRadioGroupError({ name: groupName, className: ERROR_CLASS })}
+            ${renderRadioGroupError({
+        name: groupName,
+    })}
 
             <p class="${trimClassList(PRIVACY_CLASS)}">
 
@@ -284,47 +310,75 @@ export function PaymentSection({
 
         </section>
 
-    `
+    `;
 
 }
 
 function getRenderedGroupName(root) {
-    const fieldset = root.querySelector("fieldset[data-group-name]");
-    return fieldset?.dataset.groupName ?? null;
+    return root
+        ?.querySelector("fieldset[data-group-name]")
+        ?.dataset.groupName ?? null;
 }
 
-
 export function initPaymentSection(root) {
+
     if (!root) {
         return;
     }
 
     const section = root.querySelector("[data-payment-section]");
+
     if (!section || section.dataset.paymentSectionInit) {
         return;
     }
+
     section.dataset.paymentSectionInit = "true";
 
     const groupName = getRenderedGroupName(section);
+
     if (!groupName) {
         return;
     }
 
-    const descriptionEl = section.querySelector("[data-payment-description]");
-    const radios = section.querySelectorAll(`input[name="${CSS.escape(groupName)}"]`);
+    const descriptionElement = section.querySelector(
+        "[data-payment-description]"
+    );
+
+    const radios = section.querySelectorAll(
+        `input[name="${CSS.escape(groupName)}"]`
+    );
+
+    const updateDescription = (radio) => {
+        if (!descriptionElement || !radio) {
+            return;
+        }
+
+        descriptionElement.textContent =
+            radio.dataset.description ?? "";
+    };
+
+    const checkedRadio = [...radios].find((radio) => radio.checked);
+
+    updateDescription(checkedRadio);
 
     radios.forEach((radio) => {
+
         radio.addEventListener("change", () => {
-            if (descriptionEl) {
-                descriptionEl.textContent = radio.dataset.description ?? "";
-            }
+
+            updateDescription(radio);
+
             clearGroupError(root, groupName);
+
         });
+
     });
+
 }
 
 export function validatePaymentMethod(root) {
+
     const groupName = getRenderedGroupName(root);
+
     if (!groupName) {
         return null;
     }
@@ -332,32 +386,57 @@ export function validatePaymentMethod(root) {
     const value = getGroupValue(root, groupName);
 
     if (!value) {
-        setGroupError(root, groupName, "Please select a payment method.");
+
+        setGroupError(
+            root,
+            groupName,
+            "Please select a payment method."
+        );
+
         return null;
+
     }
 
     clearGroupError(root, groupName);
+
     return value;
+
 }
 
 export function setPlaceOrderState(root, state) {
-    const button = root.querySelector("[data-place-order-btn]");
+
+    const button = root.querySelector(
+        "[data-place-order-btn]"
+    );
+
     if (!button) {
         return;
     }
 
     if (!button.dataset.defaultLabel) {
-        button.dataset.defaultLabel = button.textContent.trim();
+        button.dataset.defaultLabel =
+            button.textContent.trim();
     }
 
-    if (state === "processing") {
-        button.disabled = true;
-        button.textContent = "Placing Order…";
-    } else if (state === "success") {
-        button.disabled = true;
-        button.textContent = "Order Placed";
-    } else {
-        button.disabled = false;
-        button.textContent = button.dataset.defaultLabel;
+    switch (state) {
+
+        case BUTTON_STATES.PROCESSING:
+            button.disabled = true;
+            button.textContent =
+                BUTTON_LABELS.PROCESSING;
+            break;
+
+        case BUTTON_STATES.SUCCESS:
+            button.disabled = true;
+            button.textContent =
+                BUTTON_LABELS.SUCCESS;
+            break;
+
+        default:
+            button.disabled = false;
+            button.textContent =
+                button.dataset.defaultLabel;
+
     }
+
 }
