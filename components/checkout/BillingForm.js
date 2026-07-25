@@ -1,4 +1,8 @@
-import { BillingField, setFieldError, clearFieldError } from "./BillingField.js";
+import {
+    BillingField,
+    FIELD_SELECTOR,
+    reportFieldValidity,
+} from "./BillingField.js";
 
 const FORM_ID = "checkout-form";
 
@@ -51,6 +55,10 @@ const BILLING_FIELDS = [
                 label: "First Name",
                 required: true,
                 autocomplete: "given-name",
+                pattern: "^[A-Za-z ]+$",
+                minLength: 2,
+                maxLength: 40,
+                placeholder: "Enter your first name",
             },
             {
                 id: "lastName",
@@ -58,6 +66,10 @@ const BILLING_FIELDS = [
                 label: "Last Name",
                 required: true,
                 autocomplete: "family-name",
+                pattern: "^[A-Za-z ]+$",
+                minLength: 2,
+                maxLength: 40,
+                placeholder: "Enter your last name",
             },
         ],
     },
@@ -67,6 +79,8 @@ const BILLING_FIELDS = [
             name: "company",
             label: "Company Name (Optional)",
             autocomplete: "organization",
+            maxLength: 100,
+            placeholder: "Company name",
         },
     },
     {
@@ -87,6 +101,9 @@ const BILLING_FIELDS = [
             label: "Street Address",
             required: true,
             autocomplete: "street-address",
+            minLength: 5,
+            maxLength: 120,
+            placeholder: "Enter your street address",
         },
     },
     {
@@ -97,6 +114,10 @@ const BILLING_FIELDS = [
                 label: "Town / City",
                 required: true,
                 autocomplete: "address-level2",
+                minLength: 2,
+                maxLength: 40,
+                pattern: "^[A-Za-z ]+$",
+                placeholder: "Town / City",
             },
             {
                 id: "province",
@@ -104,6 +125,10 @@ const BILLING_FIELDS = [
                 label: "Province",
                 required: true,
                 autocomplete: "address-level1",
+                minLength: 2,
+                maxLength: 40,
+                pattern: "^[A-Za-z ]+$",
+                placeholder: "Province",
             },
         ],
     },
@@ -115,37 +140,47 @@ const BILLING_FIELDS = [
             required: true,
             autocomplete: "postal-code",
             inputMode: "numeric",
+            pattern: "^\\d+$",
+            minLength: 4,
+            maxLength: 10,
+            placeholder: "ZIP Code",
         },
     },
     {
         field: {
             id: "phone",
             name: "phone",
-            label: "Phone",
             type: "tel",
+            label: "Phone",
             required: true,
             autocomplete: "tel",
-            inputMode: "tel",
+            inputMode: "numeric",
+            pattern: "^\\+?[0-9 ]{8,15}$",
+            minLength: 8,
+            maxLength: 15,
+            placeholder: "Phone Number",
         },
     },
     {
         field: {
             id: "email",
             name: "email",
-            label: "Email Address",
             type: "email",
+            label: "Email Address",
             required: true,
             autocomplete: "email",
+            maxLength: 100,
+            placeholder: "Email Address",
         },
     },
     {
         field: {
             id: "notes",
             name: "notes",
-            label: "Order Notes (Optional)",
             type: "textarea",
-            placeholder:
-                "Notes about your order, e.g. special notes for delivery.",
+            label: "Order Notes (Optional)",
+            maxLength: 500,
+            placeholder: "Notes about your order, e.g. special notes for delivery.",
         },
     },
 ];
@@ -196,9 +231,14 @@ function renderFormItem(item) {
     return item.row ? renderFieldRow(item.row) : renderField(item.field);
 }
 
+export function getFormId(instanceId) {
+    const prefix = instanceId ? `${instanceId}-` : "";
+    return `${prefix}${FORM_ID}`;
+}
+
 export function BillingForm({ instanceId } = {}) {
     const prefix = instanceId ? `${instanceId}-` : "";
-    const formId = `${prefix}${FORM_ID}`;
+    const formId = getFormId(instanceId);
     const titleId = `${formId}-title`;
 
     const items = BILLING_FIELDS.map((item) => prefixItem(item, prefix));
@@ -225,6 +265,18 @@ export function BillingForm({ instanceId } = {}) {
 
 }
 
+function focusInvalidControl(formElement, control) {
+    if (control.type === "radio") {
+        const groupError = formElement.querySelector(`#${CSS.escape(control.name)}-error`);
+        if (groupError) {
+            groupError.scrollIntoView({ block: "center", behavior: "smooth" });
+            return;
+        }
+    }
+
+    control.focus();
+}
+
 export function initBillingForm(formElement, { onValidSubmit } = {}) {
     if (!formElement) {
         return;
@@ -235,16 +287,10 @@ export function initBillingForm(formElement, { onValidSubmit } = {}) {
     }
     formElement.dataset.billingFormInit = "true";
 
-    const controls = formElement.querySelectorAll(
-        "input[data-field], select[data-field], textarea[data-field]"
-    );
+    const controls = formElement.querySelectorAll(FIELD_SELECTOR);
 
     controls.forEach((control) => {
-        const revalidate = () => {
-            if (control.id && control.checkValidity()) {
-                clearFieldError(formElement, control.id);
-            }
-        };
+        const revalidate = () => reportFieldValidity(formElement, control);
 
         control.addEventListener("input", revalidate);
         control.addEventListener("change", revalidate);
@@ -254,29 +300,28 @@ export function initBillingForm(formElement, { onValidSubmit } = {}) {
         event.preventDefault();
 
         let firstInvalid = null;
+        const checkedGroups = new Set();
 
         controls.forEach((control) => {
-            const fieldId = control.id;
-
-            if (!fieldId) {
-                return;
+            if (control.type === "radio") {
+                if (checkedGroups.has(control.name)) {
+                    return;
+                }
+                checkedGroups.add(control.name);
             }
 
-            if (control.checkValidity()) {
-                clearFieldError(formElement, fieldId);
-            } else {
-                setFieldError(formElement, fieldId, control.validationMessage);
-                firstInvalid = firstInvalid ?? control;
+            const isValid = reportFieldValidity(formElement, control);
+
+            if (!isValid && !firstInvalid) {
+                firstInvalid = control;
             }
         });
 
         if (firstInvalid) {
-            firstInvalid.focus();
+            focusInvalidControl(formElement, firstInvalid);
             return;
         }
 
         onValidSubmit?.(new FormData(formElement));
     });
 }
-
-export { FORM_ID };

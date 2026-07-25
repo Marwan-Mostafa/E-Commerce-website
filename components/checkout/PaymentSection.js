@@ -1,3 +1,12 @@
+import { getFormId } from "./BillingForm.js";
+import {
+    renderRadioGroupError,
+    getDefaultChecked,
+    getGroupValue,
+    setGroupError,
+    clearGroupError,
+} from "./BillingField.js";
+
 const WRAPPER_CLASS = `
 mt-10
 border-t
@@ -52,6 +61,14 @@ text-[#9F9F9F]
 leading-7
 `;
 
+const ERROR_CLASS = `
+hidden
+ml-[34px]
+text-[13px]
+font-medium
+text-red-500
+`;
+
 const BUTTON_CLASS = `
 block
 w-full
@@ -74,6 +91,8 @@ disabled:pointer-events-none
 disabled:opacity-50
 cursor-pointer
 `;
+
+const GROUP_NAME = "paymentMethod";
 
 const BANK_DESCRIPTION = `
 Make your payment directly into our bank account.
@@ -111,22 +130,9 @@ const PAYMENT_OPTIONS = [
     },
 ];
 
-
-function getDefaultOption(options) {
-    const checkedOptions = options.filter((option) => option.checked);
-
-    if (checkedOptions.length !== 1) {
-        console.warn(
-            `[PaymentSection] Expected exactly one default (checked) payment option, found ${checkedOptions.length}.`,
-            options
-        );
-    }
-
-    return checkedOptions[0] ?? options[0];
-}
-
-const DEFAULT_PAYMENT_OPTION = getDefaultOption(PAYMENT_OPTIONS);
-
+const DEFAULT_PAYMENT_OPTION = getDefaultChecked(PAYMENT_OPTIONS, {
+    groupLabel: GROUP_NAME,
+});
 
 const DEFAULT_DESCRIPTION = DEFAULT_PAYMENT_OPTION?.description ?? "";
 
@@ -154,12 +160,25 @@ function normalizeWhitespace(text) {
 }
 
 
+function withPrefix(option, prefix) {
+    if (!prefix) {
+        return option;
+    }
+
+    return { ...option, id: `${prefix}${option.id}` };
+}
+
+
 function PaymentOption({
     id,
     value,
     label,
     checked = false,
     description = "",
+    groupName,
+    formId,
+    descriptionId,
+    errorId,
 }) {
 
     return `
@@ -168,11 +187,15 @@ function PaymentOption({
             <input
                 id="${escapeHtml(id)}"
                 type="radio"
-                name="paymentMethod"
+                name="${escapeHtml(groupName)}"
                 value="${escapeHtml(value)}"
+                form="${escapeHtml(formId)}"
+                required
                 ${checked ? "checked" : ""}
                 data-description="${escapeHtml(normalizeWhitespace(description))}"
-                aria-describedby="payment-description"
+                aria-describedby="${escapeHtml(descriptionId)} ${escapeHtml(errorId)}"
+                aria-required="true"
+                aria-invalid="false"
                 class="${trimClassList(RADIO_CLASS)}"
                 autocomplete="off">
 
@@ -187,17 +210,28 @@ function PaymentOption({
 
 
 export function PaymentSection({
+    instanceId,
     checkoutDisabled = false,
 } = {}) {
+
+    const prefix = instanceId ? `${instanceId}-` : "";
+    const formId = getFormId(instanceId);
+    const groupName = `${prefix}${GROUP_NAME}`;
+    const descriptionId = `${prefix}payment-description`;
+    const buttonId = `${prefix}place-order-btn`;
+
+    const options = PAYMENT_OPTIONS.map((option) => withPrefix(option, prefix));
 
     return `
 
         <section
             class="${trimClassList(WRAPPER_CLASS)}"
-            aria-labelledby="payment-title">
+            aria-labelledby="payment-title"
+            data-payment-section>
 
             <fieldset
-                class="${trimClassList(FIELDSET_CLASS)}">
+                class="${trimClassList(FIELDSET_CLASS)}"
+                data-group-name="${escapeHtml(groupName)}">
 
         <legend
             id="payment-title"
@@ -207,18 +241,27 @@ export function PaymentSection({
 
         </legend>
 
-        ${PAYMENT_OPTIONS.map(PaymentOption).join("")}
+        ${options.map((option) => PaymentOption({
+        ...option,
+        groupName,
+        formId,
+        descriptionId,
+        errorId: `${groupName}-error`,
+    })).join("")}
 
     </fieldset>
 
             <p
-                id="payment-description"
+                id="${escapeHtml(descriptionId)}"
                 aria-live="polite"
+                data-payment-description
                 class="${trimClassList(DESCRIPTION_CLASS)}">
 
                 ${escapeHtml(DEFAULT_DESCRIPTION)}
 
             </p>
+
+            ${renderRadioGroupError({ name: groupName, className: ERROR_CLASS })}
 
             <p class="${trimClassList(PRIVACY_CLASS)}">
 
@@ -227,10 +270,11 @@ export function PaymentSection({
             </p>
 
             <button
-                id="place-order-btn"
-                form="checkout-form"
+                id="${escapeHtml(buttonId)}"
+                form="${escapeHtml(formId)}"
                 type="submit"
                 aria-label="Place Order"
+                data-place-order-btn
                 ${checkoutDisabled ? "disabled" : ""}
                 class="${trimClassList(BUTTON_CLASS)}">
 
@@ -242,4 +286,78 @@ export function PaymentSection({
 
     `
 
+}
+
+function getRenderedGroupName(root) {
+    const fieldset = root.querySelector("fieldset[data-group-name]");
+    return fieldset?.dataset.groupName ?? null;
+}
+
+
+export function initPaymentSection(root) {
+    if (!root) {
+        return;
+    }
+
+    const section = root.querySelector("[data-payment-section]");
+    if (!section || section.dataset.paymentSectionInit) {
+        return;
+    }
+    section.dataset.paymentSectionInit = "true";
+
+    const groupName = getRenderedGroupName(section);
+    if (!groupName) {
+        return;
+    }
+
+    const descriptionEl = section.querySelector("[data-payment-description]");
+    const radios = section.querySelectorAll(`input[name="${CSS.escape(groupName)}"]`);
+
+    radios.forEach((radio) => {
+        radio.addEventListener("change", () => {
+            if (descriptionEl) {
+                descriptionEl.textContent = radio.dataset.description ?? "";
+            }
+            clearGroupError(root, groupName);
+        });
+    });
+}
+
+export function validatePaymentMethod(root) {
+    const groupName = getRenderedGroupName(root);
+    if (!groupName) {
+        return null;
+    }
+
+    const value = getGroupValue(root, groupName);
+
+    if (!value) {
+        setGroupError(root, groupName, "Please select a payment method.");
+        return null;
+    }
+
+    clearGroupError(root, groupName);
+    return value;
+}
+
+export function setPlaceOrderState(root, state) {
+    const button = root.querySelector("[data-place-order-btn]");
+    if (!button) {
+        return;
+    }
+
+    if (!button.dataset.defaultLabel) {
+        button.dataset.defaultLabel = button.textContent.trim();
+    }
+
+    if (state === "processing") {
+        button.disabled = true;
+        button.textContent = "Placing Order…";
+    } else if (state === "success") {
+        button.disabled = true;
+        button.textContent = "Order Placed";
+    } else {
+        button.disabled = false;
+        button.textContent = button.dataset.defaultLabel;
+    }
 }

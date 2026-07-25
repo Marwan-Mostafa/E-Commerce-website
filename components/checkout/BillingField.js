@@ -165,6 +165,8 @@ pl-1
 const SENSITIVE_TYPES = new Set(["password"]);
 const NON_TEXTUAL_TYPES = new Set(["select", "checkbox", "radio", "file"]);
 
+export const FIELD_SELECTOR = "input[data-field], select[data-field], textarea[data-field]";
+
 
 function escapeHtml(value) {
     return String(value ?? "")
@@ -199,8 +201,10 @@ function buildCommonAttributes({
     max,
     step,
     inputMode,
+    describedBy,
 }) {
     const isTextual = !NON_TEXTUAL_TYPES.has(type);
+    const supportsPatternAndRange = isTextual && type !== "textarea";
 
     const requiredAttr = required ? "required" : "";
     const disabledAttr = disabled ? "disabled" : "";
@@ -208,7 +212,7 @@ function buildCommonAttributes({
     const autocompleteAttr = autocomplete
         ? `autocomplete="${escapeHtml(autocomplete)}"`
         : "";
-    const patternAttr = (isTextual && pattern)
+    const patternAttr = (supportsPatternAndRange && pattern)
         ? `pattern="${escapeHtml(pattern)}"`
         : "";
     const minLengthAttr = (isTextual && minLength !== undefined)
@@ -217,12 +221,20 @@ function buildCommonAttributes({
     const maxLengthAttr = (isTextual && maxLength !== undefined)
         ? `maxlength="${escapeHtml(maxLength)}"`
         : "";
-    const minAttr = (isTextual && min !== undefined) ? `min="${escapeHtml(min)}"` : "";
-    const maxAttr = (isTextual && max !== undefined) ? `max="${escapeHtml(max)}"` : "";
-    const stepAttr = (isTextual && step !== undefined) ? `step="${escapeHtml(step)}"` : "";
+    const minAttr = (supportsPatternAndRange && min !== undefined)
+        ? `min="${escapeHtml(min)}"`
+        : "";
+    const maxAttr = (supportsPatternAndRange && max !== undefined)
+        ? `max="${escapeHtml(max)}"`
+        : "";
+    const stepAttr = (supportsPatternAndRange && step !== undefined)
+        ? `step="${escapeHtml(step)}"`
+        : "";
     const inputModeAttr = (isTextual && inputMode)
         ? `inputmode="${escapeHtml(inputMode)}"`
         : "";
+
+    const describedByValue = describedBy || `${id}-error`;
 
     return `
         id="${escapeHtml(id)}"
@@ -246,7 +258,7 @@ function buildCommonAttributes({
         aria-invalid="false"
         aria-required="${required}"
         aria-disabled="${disabled}"
-        aria-describedby="${escapeHtml(id)}-error"
+        aria-describedby="${escapeHtml(describedByValue)}"
     `;
 }
 
@@ -382,6 +394,16 @@ function renderErrorMessage({ id }) {
     `;
 }
 
+export function renderRadioGroupError({ name }) {
+    return `
+        <p
+            id="${escapeHtml(name)}-error"
+            class="field-error ${trimClassList(ERROR_CLASS)}"
+            aria-live="polite">
+        </p>
+    `;
+}
+
 export function BillingField({
     id,
     name,
@@ -405,6 +427,40 @@ export function BillingField({
     inputMode,
 }) {
 
+    if (type === "checkbox" || type === "radio") {
+        const isGroupedRadio = type === "radio";
+        const describedBy = isGroupedRadio ? `${name}-error` : undefined;
+
+        const commonAttributes = buildCommonAttributes({
+            id,
+            name,
+            type,
+            required,
+            autocomplete,
+            disabled,
+            readOnly,
+            describedBy,
+        });
+
+        const effectiveValue = value || (type === "radio" ? id : "on");
+
+        return `
+
+            <div
+                class="${trimClassList(CHECKABLE_WRAPPER_CLASS)}"
+                data-field="${escapeHtml(name)}">
+
+                ${renderCheckable({ commonAttributes, type, value: effectiveValue, checked })}
+
+                ${renderLabel({ id, label, required, className: CHECKABLE_LABEL_CLASS })}
+
+                ${isGroupedRadio ? "" : renderErrorMessage({ id })}
+
+            </div>
+
+        `;
+    }
+
     const commonAttributes = buildCommonAttributes({
         id,
         name,
@@ -421,26 +477,6 @@ export function BillingField({
         step,
         inputMode,
     });
-
-    if (type === "checkbox" || type === "radio") {
-        const effectiveValue = value || (type === "radio" ? id : "on");
-
-        return `
-
-            <div
-                class="${trimClassList(CHECKABLE_WRAPPER_CLASS)}"
-                data-field="${escapeHtml(name)}">
-
-                ${renderCheckable({ commonAttributes, type, value: effectiveValue, checked })}
-
-                ${renderLabel({ id, label, required, className: CHECKABLE_LABEL_CLASS })}
-
-                ${renderErrorMessage({ id })}
-
-            </div>
-
-        `;
-    }
 
     let field = "";
 
@@ -492,6 +528,7 @@ export function setFieldError(root, fieldId, message) {
     }
 }
 
+
 export function clearFieldError(root, fieldId) {
     const safeId = CSS.escape(fieldId);
     const control = root.querySelector(`#${safeId}`);
@@ -505,6 +542,75 @@ export function clearFieldError(root, fieldId) {
         errorEl.textContent = "";
         errorEl.classList.add("hidden");
     }
+}
+
+export function setGroupError(root, groupName, message) {
+    const safeName = CSS.escape(groupName);
+    const controls = root.querySelectorAll(`[name="${safeName}"]`);
+    const errorEl = root.querySelector(`#${safeName}-error`);
+
+    controls.forEach((control) => control.setAttribute("aria-invalid", "true"));
+
+    if (errorEl) {
+        errorEl.classList.remove("hidden");
+        errorEl.textContent = message;
+    }
+}
+
+export function clearGroupError(root, groupName) {
+    const safeName = CSS.escape(groupName);
+    const controls = root.querySelectorAll(`[name="${safeName}"]`);
+    const errorEl = root.querySelector(`#${safeName}-error`);
+
+    controls.forEach((control) => control.setAttribute("aria-invalid", "false"));
+
+    if (errorEl) {
+        errorEl.textContent = "";
+        errorEl.classList.add("hidden");
+    }
+}
+
+export function reportFieldValidity(root, control) {
+    const isValid = control.checkValidity();
+    const isGroupedRadio = control.type === "radio";
+
+    if (isGroupedRadio) {
+        if (isValid) {
+            clearGroupError(root, control.name);
+        } else {
+            setGroupError(root, control.name, control.validationMessage);
+        }
+    } else {
+        if (!control.id) {
+            return isValid;
+        }
+        if (isValid) {
+            clearFieldError(root, control.id);
+        } else {
+            setFieldError(root, control.id, control.validationMessage);
+        }
+    }
+
+    return isValid;
+}
+
+export function getDefaultChecked(options, { groupLabel = "radio group" } = {}) {
+    const checkedOptions = options.filter((option) => option.checked);
+
+    if (checkedOptions.length !== 1) {
+        console.warn(
+            `[BillingField] Expected exactly one default (checked) option in "${groupLabel}", found ${checkedOptions.length}.`,
+            options
+        );
+    }
+
+    return checkedOptions[0] ?? options[0];
+}
+
+export function getGroupValue(root, groupName) {
+    const safeName = CSS.escape(groupName);
+    const checked = root.querySelector(`input[name="${safeName}"]:checked`);
+    return checked ? checked.value : null;
 }
 
 export function hydrateSensitiveField(root, fieldId, value) {

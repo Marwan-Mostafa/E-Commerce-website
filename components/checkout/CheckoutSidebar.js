@@ -38,18 +38,10 @@ export function CheckoutSidebar({
 
             </h2>
 
-            ${OrderSummary({
-
-        items,
-
-        subtotal,
-
-        total,
-
-    })}
+            ${OrderSummary({ items, subtotal, total })}
             ${PaymentSection({ checkoutDisabled })}
         </aside>
 
     `
 
-}
+} //CheckoutSidebar.js as component

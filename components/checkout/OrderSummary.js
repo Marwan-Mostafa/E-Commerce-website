@@ -210,4 +210,4 @@ export function OrderSummary({ items = [], subtotal = "", total = "" } = {}) {
 
         </section>
     `
-}
+} //OrderSummary.js as component
