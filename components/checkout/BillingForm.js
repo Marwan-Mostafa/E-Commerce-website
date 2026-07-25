@@ -1,4 +1,6 @@
-import { BillingField } from "./BillingField.js";
+import { BillingField, setFieldError, clearFieldError } from "./BillingField.js";
+
+const FORM_ID = "checkout-form";
 
 const FORM_CLASS = `
 flex
@@ -15,7 +17,6 @@ const TITLE_CLASS = `
 text-[36px]
 font-bold
 text-[#3A3A3A]
-mb-2
 `;
 
 const TWO_COLUMNS_CLASS = `
@@ -40,7 +41,6 @@ const COUNTRY_OPTIONS = [
     { value: "Saudi Arabia", label: "Saudi Arabia" },
     { value: "United Arab Emirates", label: "United Arab Emirates" },
 ];
-
 
 const BILLING_FIELDS = [
     {
@@ -114,6 +114,7 @@ const BILLING_FIELDS = [
             label: "ZIP Code",
             required: true,
             autocomplete: "postal-code",
+            inputMode: "numeric",
         },
     },
     {
@@ -124,6 +125,7 @@ const BILLING_FIELDS = [
             type: "tel",
             required: true,
             autocomplete: "tel",
+            inputMode: "tel",
         },
     },
     {
@@ -149,6 +151,33 @@ const BILLING_FIELDS = [
 ];
 
 
+function withPrefix(field, prefix) {
+    if (!prefix) {
+        return field;
+    }
+
+    return {
+        ...field,
+        id: `${prefix}${field.id}`,
+        name: `${prefix}${field.name}`,
+    };
+}
+
+function prefixItem(item, prefix) {
+    if (item.row) {
+        return { row: item.row.map((field) => withPrefix(field, prefix)) };
+    }
+
+    if (item.field) {
+        return { field: withPrefix(item.field, prefix) };
+    }
+
+    throw new Error(
+        "BillingForm: each BILLING_FIELDS entry must have a `row` or `field` key."
+    );
+}
+
+
 function renderField(field) {
     return BillingField(field);
 }
@@ -167,22 +196,26 @@ function renderFormItem(item) {
     return item.row ? renderFieldRow(item.row) : renderField(item.field);
 }
 
-export function BillingForm() {
+export function BillingForm({ instanceId } = {}) {
+    const prefix = instanceId ? `${instanceId}-` : "";
+    const formId = `${prefix}${FORM_ID}`;
+    const titleId = `${formId}-title`;
+
+    const items = BILLING_FIELDS.map((item) => prefixItem(item, prefix));
 
     return `
 
     <form
-    id="checkout-form"
+    id="${formId}"
     class="${trimClassList(FORM_CLASS)}"
-    autocomplete="on"
     novalidate>
 
-    <section aria-labelledby="billing-details-title" class="${trimClassList(SECTION_CLASS)}">
-        <h2 id="billing-details-title" class="${trimClassList(TITLE_CLASS)}">
+    <section aria-labelledby="${titleId}" class="${trimClassList(SECTION_CLASS)}">
+        <h2 id="${titleId}" class="${trimClassList(TITLE_CLASS)}">
             Billing Details
         </h2>
 
-        ${BILLING_FIELDS.map(renderFormItem).join("")}
+        ${items.map(renderFormItem).join("")}
 
     </section>
 
@@ -191,3 +224,59 @@ export function BillingForm() {
 `
 
 }
+
+export function initBillingForm(formElement, { onValidSubmit } = {}) {
+    if (!formElement) {
+        return;
+    }
+
+    if (formElement.dataset.billingFormInit) {
+        return;
+    }
+    formElement.dataset.billingFormInit = "true";
+
+    const controls = formElement.querySelectorAll(
+        "input[data-field], select[data-field], textarea[data-field]"
+    );
+
+    controls.forEach((control) => {
+        const revalidate = () => {
+            if (control.id && control.checkValidity()) {
+                clearFieldError(formElement, control.id);
+            }
+        };
+
+        control.addEventListener("input", revalidate);
+        control.addEventListener("change", revalidate);
+    });
+
+    formElement.addEventListener("submit", (event) => {
+        event.preventDefault();
+
+        let firstInvalid = null;
+
+        controls.forEach((control) => {
+            const fieldId = control.id;
+
+            if (!fieldId) {
+                return;
+            }
+
+            if (control.checkValidity()) {
+                clearFieldError(formElement, fieldId);
+            } else {
+                setFieldError(formElement, fieldId, control.validationMessage);
+                firstInvalid = firstInvalid ?? control;
+            }
+        });
+
+        if (firstInvalid) {
+            firstInvalid.focus();
+            return;
+        }
+
+        onValidSubmit?.(new FormData(formElement));
+    });
+}
+
+export { FORM_ID };
