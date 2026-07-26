@@ -29,6 +29,15 @@ const sidebarRoot = document.getElementById("checkout-sidebar-root");
 const checkoutContentRoot = document.getElementById("checkout-content");
 const emptyStateRoot = document.getElementById("checkout-empty-state");
 
+function buildSummaryItems(items) {
+    return items.map((item) => ({
+        ...item,
+        formattedSubtotal: formatCurrency(
+            item.price * item.quantity
+        ),
+    }));
+}
+
 function renderLayout() {
     navbarRoot.innerHTML = renderNavbar("checkout");
 
@@ -52,19 +61,14 @@ function renderSidebar(items) {
         return;
     }
 
-    const summaryItems = items.map((item) => ({
-        ...item,
-        formattedSubtotal: formatCurrency(
-            item.price * item.quantity
-        ),
-    }));
-
-    sidebarRoot.innerHTML = CheckoutSidebar({
-        items: summaryItems,
+    const sidebarData = {
+        items: buildSummaryItems(items),
         subtotal: formatCurrency(getSubtotal()),
         total: formatCurrency(getTotal()),
-        checkoutDisabled: !items.length,
-    });
+        checkoutDisabled: items.length === 0,
+    };
+
+    sidebarRoot.innerHTML = CheckoutSidebar(sidebarData);
 }
 
 function renderEmptyState(items) {
@@ -77,9 +81,15 @@ function renderEmptyState(items) {
 
     const isEmpty = items.length === 0;
 
-    checkoutContentRoot.classList.toggle("hidden", isEmpty);
+    checkoutContentRoot.classList.toggle(
+        "hidden",
+        isEmpty
+    );
 
-    emptyStateRoot.classList.toggle("hidden", !isEmpty);
+    emptyStateRoot.classList.toggle(
+        "hidden",
+        !isEmpty
+    );
 
     emptyStateRoot.innerHTML = isEmpty
         ? EmptyCart()
@@ -87,17 +97,17 @@ function renderEmptyState(items) {
 }
 
 function renderPage() {
-    const items = getCart();
+    const cartItems = getCart();
 
-    renderEmptyState(items);
+    renderEmptyState(cartItems);
 
-    if (!items.length) {
+    if (cartItems.length === 0) {
         return;
     }
 
     renderBillingForm();
 
-    renderSidebar(items);
+    renderSidebar(cartItems);
 
     initCheckout({
         formContainer: billingRoot,
@@ -106,6 +116,10 @@ function renderPage() {
     });
 }
 
+/**
+ * Creates an order from the current cart
+ * then clears the checkout state.
+ */
 async function placeOrder({
     billing,
     paymentMethod,
@@ -113,7 +127,7 @@ async function placeOrder({
 }) {
     const currentItems = getCart();
 
-    if (!currentItems.length) {
+    if (currentItems.length === 0) {
         return;
     }
 
@@ -128,11 +142,11 @@ async function placeOrder({
 
     console.log("Order Created:", order);
 
-    formElement.reset();
-
     currentItems.forEach((item) => {
         removeFromCart(item.id);
     });
+
+    formElement.reset();
 
     window.scrollTo({
         top: 0,
@@ -142,9 +156,6 @@ async function placeOrder({
     alert("Order placed successfully.");
 }
 
-function bindEvents() {
-}
-
 function subscribeToCartUpdates() {
     subscribe(renderPage);
 }
@@ -152,11 +163,9 @@ function subscribeToCartUpdates() {
 function bootstrap() {
     renderLayout();
 
-    renderPage();
-
-    bindEvents();
-
     subscribeToCartUpdates();
+
+    renderPage();
 }
 
 bootstrap();
