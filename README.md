@@ -145,7 +145,7 @@ Furniro
 Clone the repository
 
 ```bash
-git clone https://github.com/your-username/Furniro.git
+git clone https://github.com/Marwan-Mostafa/marwan-mostafa.github.io.git
 ```
 
 Go to the project
