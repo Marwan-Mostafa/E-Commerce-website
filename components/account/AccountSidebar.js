@@ -27,7 +27,7 @@ items-center
 gap-4
 
 rounded-xl
-
+cursor-pointer
 px-4
 py-4
 
